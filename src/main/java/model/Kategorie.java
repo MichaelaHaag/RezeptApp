@@ -5,31 +5,31 @@ import util.IPersistable;
 import java.util.UUID;
 
 /* Kategorie Klasse: Definiert eine Kategorie eines Rezeptes */
-public class Category implements IPersistable {
-    private final UUID categoryID;
+public class Kategorie implements IPersistable {
+    private final UUID kategorieId;
     private String name;
     private String tag;
-    private String description;
+    private String beschreibung;
 
-    public Category(String name, String tag, String description) {
-        this.categoryID = UUID.randomUUID();
+    public Kategorie(String name, String tag, String beschreibung) {
+        this.kategorieId = UUID.randomUUID();
         this.name = name;
         this.tag = tag;
-        this.description = description;
+        this.beschreibung = beschreibung;
     }
 
-    public Category(UUID categoryID, String name, String tag,String description) {
-        this.categoryID = categoryID;
+    public Kategorie(UUID kategorieId, String name, String tag, String beschreibung) {
+        this.kategorieId = kategorieId;
         this.name = name;
         this.tag = tag;
-        this.description = description;
+        this.beschreibung = beschreibung;
     }
 
     public enum CSVPositions {
-        CATEGORYID,
+        KATEGORIEID,
         NAME,
         TAG,
-        DESCRIPTION
+        BESCHREIBUNG
     }
     public String toString() {
         return this.name;
@@ -37,21 +37,21 @@ public class Category implements IPersistable {
 
     @Override
     public Object getUUID() {
-        return categoryID;
+        return kategorieId;
     }
 
     @Override
     public String[] getCSVHeader() {
-        return new String[]{"CategoryID","Name","Tag","Description"};
+        return new String[]{"KategorieID","Name","Tag","Beschreibung"};
     }
 
     @Override
     public String[] getCSVData() {
-        String[] data = new String[Category.CSVPositions.values().length];
-        data[CSVPositions.CATEGORYID.ordinal()] = String.valueOf(this.categoryID);
+        String[] data = new String[Kategorie.CSVPositions.values().length];
+        data[CSVPositions.KATEGORIEID.ordinal()] = String.valueOf(this.kategorieId);
         data[CSVPositions.NAME.ordinal()] = String.valueOf(this.name);
         data[CSVPositions.TAG.ordinal()] = String.valueOf(this.tag);
-        data[Category.CSVPositions.DESCRIPTION.ordinal()] = String.valueOf(this.description);
+        data[Kategorie.CSVPositions.BESCHREIBUNG.ordinal()] = String.valueOf(this.beschreibung);
         return data;
     }
 
@@ -72,10 +72,10 @@ public class Category implements IPersistable {
     }
 
     public String getDescription() {
-        return description;
+        return beschreibung;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String beschreibung) {
+        this.beschreibung = beschreibung;
     }
 }

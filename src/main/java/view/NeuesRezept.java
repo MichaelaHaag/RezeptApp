@@ -30,7 +30,7 @@ public class NeuesRezept {
         pnlOben.add(textfeldTitle);
 
         JLabel labelTags = new JLabel("Tags: ");
-        List<Category> kategorien = controller.entityManager.findAll(Category.class);
+        List<Kategorie> kategorien = controller.entityManager.findAll(Kategorie.class);
         JPanel pnlCheckboxen = new JPanel(new FlowLayout());
         Checkbox[] checkboxen = new Checkbox[kategorien.size()];
         for(int i=0; i<kategorien.size(); i++){
@@ -45,8 +45,8 @@ public class NeuesRezept {
 
         pnlMitte.add(pnlOben, BorderLayout.NORTH);
 
-        List<Unit> einheiten = controller.entityManager.findAll(Unit.class);
-        Unit[] arrayEinheiten = einheiten.toArray(new Unit[0]);
+        List<Einheit> einheiten = controller.entityManager.findAll(Einheit.class);
+        Einheit[] arrayEinheiten = einheiten.toArray(new Einheit[0]);
         String [] stringEinheiten = new String[arrayEinheiten.length];
         for(int i=0; i<arrayEinheiten.length; i++){
             stringEinheiten[i] = arrayEinheiten[i].getName();
@@ -105,7 +105,7 @@ public class NeuesRezept {
         JPanel pnlUnten = new JPanel(new GridLayout(2,2));
         JPanel pnlRadioButton = new JPanel(new FlowLayout());
         JLabel labelSchwierigkeitsgrad = new JLabel("Schwierigkeitsgrad: ");
-        String[] schwierigkeiten = Difficulty.getAllDifficulties();
+        String[] schwierigkeiten = Schwierigkeit.getAlleSchwierigkeiten();
         ButtonGroup gruppe = new ButtonGroup();
         JRadioButton[] radiobuttons = new JRadioButton[schwierigkeiten.length];
         for(int i=0; i<schwierigkeiten.length; i++){
@@ -141,15 +141,15 @@ public class NeuesRezept {
             UUID rezeptID = UUID.randomUUID();
             String titel = textfeldTitle.getText();
             String beschreibung = textAreaBeschreibung.getText();
-            ArrayList<Category> rezeptKategorien = new ArrayList<>();
-            ArrayList<Ingredient> rezeptEinheiten = new ArrayList<>();
-            Difficulty schwierigkeit = null;
+            ArrayList<Kategorie> rezeptKategorien = new ArrayList<>();
+            ArrayList<Zutat> rezeptEinheiten = new ArrayList<>();
+            Schwierigkeit schwierigkeit = null;
 
-            List<Category> alleKategorien = controller.entityManager.findAll(Category.class);
+            List<Kategorie> alleKategorien = controller.entityManager.findAll(Kategorie.class);
             for (int i = 0; i < alleKategorien.size(); i++) {
                 if(checkboxen[i].getState()){
                     System.out.println( checkboxen[i].getLabel());
-                    for (Category c : alleKategorien){
+                    for (Kategorie c : alleKategorien){
                         if (c.getTag().equals(checkboxen[i].getLabel())){
                             rezeptKategorien.add(c);
                         }
@@ -159,9 +159,9 @@ public class NeuesRezept {
 
             for (JRadioButton radiobutton : radiobuttons){
                 if (radiobutton.isSelected()){
-                    for(Difficulty difficultyEnum : Difficulty.values()){
-                        if(difficultyEnum.getName().equals(radiobutton.getText())){
-                            schwierigkeit = difficultyEnum;
+                    for(Schwierigkeit enumSchwierigkeit : Schwierigkeit.values()){
+                        if(enumSchwierigkeit.getName().equals(radiobutton.getText())){
+                            schwierigkeit = enumSchwierigkeit;
                         }
                     }
                     System.out.println(radiobutton.getText());
@@ -176,15 +176,15 @@ public class NeuesRezept {
                     String einheitText = (String) tabele.getModel().getValueAt(i, 1);
                     String name = (String) tabele.getModel().getValueAt(i, 2);
 
-                    Unit ausgewählteEinheit = null;
-                    List<Unit> alleEinheiten = controller.entityManager.findAll(Unit.class);
-                    for (Unit unit1 : alleEinheiten) {
-                        if (unit1.getName().equals(einheitText)) {
-                            ausgewählteEinheit = unit1;
+                    Einheit ausgewählteEinheit = null;
+                    List<Einheit> alleEinheiten = controller.entityManager.findAll(Einheit.class);
+                    for (Einheit einheit1 : alleEinheiten) {
+                        if (einheit1.getName().equals(einheitText)) {
+                            ausgewählteEinheit = einheit1;
                         }
                     }
 
-                    Ingredient zutat = new Ingredient(rezeptID, menge, ausgewählteEinheit, name);
+                    Zutat zutat = new Zutat(rezeptID, menge, ausgewählteEinheit, name);
                     rezeptEinheiten.add(zutat);
 
                     try {
@@ -198,7 +198,7 @@ public class NeuesRezept {
                 if (pfad != null){
                     String[] aufgeteilterPfad = pfad.split("(?=src)");
                     String stringPfad = aufgeteilterPfad[1].replace("\\", "/");
-                    Picture bildElement = new Picture(rezeptID,stringPfad);
+                    Bilder bildElement = new Bilder(rezeptID,stringPfad);
 
                     //Bild und Rezept im EntityManager speichern
                     try {
@@ -215,7 +215,7 @@ public class NeuesRezept {
                     }
 
                     //Bild in der CVS Datei speichern
-                    List<Picture> alleBilder = controller.entityManager.findAll(Picture.class);
+                    List<Bilder> alleBilder = controller.entityManager.findAll(Bilder.class);
                     controller.saveCSVData(controller.csvFilePath + "Picture.csv", alleBilder);
 
                 }else{
@@ -228,7 +228,7 @@ public class NeuesRezept {
                 }
 
                 //Zutaten und Rezept in CSV Speichern
-                List<Ingredient> alleZutaten = controller.entityManager.findAll(Ingredient.class);
+                List<Zutat> alleZutaten = controller.entityManager.findAll(Zutat.class);
                 controller.saveCSVData(controller.csvFilePath + "Ingredient.csv", alleZutaten);
                 List<Recipe> alleRezepte = controller.entityManager.findAll(Recipe.class);
                 controller.saveCSVData(controller.csvFilePath + "Recipe.csv", alleRezepte);

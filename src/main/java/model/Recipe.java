@@ -10,39 +10,39 @@ import java.util.UUID;
 public class Recipe implements IPersistable {
     private final UUID recipeID;
     private String title;
-    private ArrayList<Category> categories;
-    private ArrayList<Ingredient> ingredients;
+    private ArrayList<Kategorie> categories;
+    private ArrayList<Zutat> ingredients;
     private String description;
-    private Difficulty difficulty;
-    private Picture picture;
+    private Schwierigkeit schwierigkeit;
+    private Bilder bilder;
 
-    public Recipe(String title, ArrayList<Category> categories, ArrayList<Ingredient> ingredients, String description, Difficulty difficulty, Picture picture) {
+    public Recipe(String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit, Bilder bilder) {
         this.recipeID = UUID.randomUUID();
         this.title = title;
         this.categories = categories;
         this.ingredients = ingredients;
         this.description = description;
-        this.difficulty = difficulty;
-        this.picture = picture;
+        this.schwierigkeit = schwierigkeit;
+        this.bilder = bilder;
     }
 
-    public Recipe(UUID recipeID, String title, ArrayList<Category> categories, ArrayList<Ingredient> ingredients, String description, Difficulty difficulty) {
+    public Recipe(UUID recipeID, String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit) {
         this.recipeID = recipeID;
         this.title = title;
         this.categories = categories;
         this.ingredients = ingredients;
         this.description = description;
-        this.difficulty = difficulty;
+        this.schwierigkeit = schwierigkeit;
     }
 
-    public Recipe(UUID recipeID, String title, ArrayList<Category> categories, ArrayList<Ingredient> ingredients, String description, Difficulty difficulty, Picture picture) {
+    public Recipe(UUID recipeID, String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit, Bilder bilder) {
         this.recipeID = recipeID;
         this.title = title;
         this.categories = categories;
         this.ingredients = ingredients;
         this.description = description;
-        this.difficulty = difficulty;
-        this.picture = picture;
+        this.schwierigkeit = schwierigkeit;
+        this.bilder = bilder;
     }
 
     public Recipe() {
@@ -70,17 +70,17 @@ public class Recipe implements IPersistable {
         String[] data = new String[CSVPositions.values().length];
         data[CSVPositions.RECIPEID.ordinal()] = String.valueOf(this.recipeID);
         data[CSVPositions.TITLE.ordinal()] = String.valueOf(this.title);
-        data[CSVPositions.DIFFICULTY.ordinal()] = String.valueOf(this.difficulty.getDifficultyID());
+        data[CSVPositions.DIFFICULTY.ordinal()] = String.valueOf(this.schwierigkeit.getDifficultyID());
         data[CSVPositions.DESCRIPTION.ordinal()] = String.valueOf(this.description);
         return data;
     }
 
     public List<String[]> getCategoriesCSV() {
         List<String[]> csvData = new ArrayList<>();
-        for (Category category : this.getCategories()) {
+        for (Kategorie kategorie : this.getCategories()) {
             String[] data = new String[2];
             data[0] = String.valueOf(this.recipeID);
-            data[1] = String.valueOf(category.getUUID());
+            data[1] = String.valueOf(kategorie.getUUID());
             csvData.add(data);
 
         }
@@ -95,19 +95,19 @@ public class Recipe implements IPersistable {
         this.title = title;
     }
 
-    public ArrayList<Category> getCategories() {
+    public ArrayList<Kategorie> getCategories() {
         return categories;
     }
 
-    public void setLabels(ArrayList<Category> labels) {
+    public void setLabels(ArrayList<Kategorie> labels) {
         this.categories = labels;
     }
 
-    public ArrayList<Ingredient> getIngredients() {
+    public ArrayList<Zutat> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
+    public void setIngredients(ArrayList<Zutat> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -119,19 +119,19 @@ public class Recipe implements IPersistable {
         this.description = description;
     }
 
-    public Difficulty getDifficulty() {
-        return difficulty;
+    public Schwierigkeit getDifficulty() {
+        return schwierigkeit;
     }
 
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
+    public void setDifficulty(Schwierigkeit schwierigkeit) {
+        this.schwierigkeit = schwierigkeit;
     }
 
-    public Picture getPicture() {
-        return picture;
+    public Bilder getPicture() {
+        return bilder;
     }
 
-    public void setPicture(Picture picture) {
-        this.picture = picture;
+    public void setPicture(Bilder bilder) {
+        this.bilder = bilder;
     }
 }

@@ -1,6 +1,6 @@
 package view;
 
-import model.Category;
+import model.Kategorie;
 import model.Recipe;
 
 import javax.swing.*;
@@ -80,7 +80,7 @@ public class ListenÜbersicht {
                 e.printStackTrace();
             }
         } else{
-            Category eingegbeneKategorie = controller.entityManager.find(Category.class, id);
+            Kategorie eingegbeneKategorie = controller.entityManager.find(Kategorie.class, id);
             try {
                 String[][] recipes = controller.findRecipeOfCategory(eingegbeneKategorie);
                 Recipe rezept = new Recipe();

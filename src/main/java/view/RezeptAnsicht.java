@@ -1,6 +1,6 @@
 package view;
 
-import model.Ingredient;
+import model.Zutat;
 import model.Recipe;
 
 import javax.swing.*;
@@ -73,8 +73,8 @@ public class RezeptAnsicht {
         pnlTitel.add(lblSchwierigkeit);
         pnlKopfzeile.add(pnlTitel, BorderLayout.WEST);
         if(ausgewähltesRezept.getPicture() != null){
-            System.out.print(ausgewähltesRezept.getPicture().getPath());
-            ImageIcon bild = new ImageIcon(ausgewähltesRezept.getPicture().getPath());
+            System.out.print(ausgewähltesRezept.getPicture().getPfad());
+            ImageIcon bild = new ImageIcon(ausgewähltesRezept.getPicture().getPfad());
             Image image = bild.getImage();
             Image transfImgage = image.getScaledInstance(150, 150,  Image.SCALE_FAST);
             bild = new ImageIcon(transfImgage);
@@ -83,14 +83,14 @@ public class RezeptAnsicht {
         }
         pnlRezeptAnsicht2.add(pnlKopfzeile);
         pnlRezeptAnsicht2.add(lblZutaten);
-        ArrayList<Ingredient> zutaten = ausgewähltesRezept.getIngredients();
+        ArrayList<Zutat> zutaten = ausgewähltesRezept.getIngredients();
 
         JPanel pnlZutaten = new JPanel(new GridLayout(zutaten.size(),1));
-        for (Ingredient ingredient : zutaten) {
-            JLabel lblMenge = new JLabel(String.valueOf(ingredient.getAmount()));
+        for (Zutat ingredient : zutaten) {
+            JLabel lblMenge = new JLabel(String.valueOf(ingredient.getMenge()));
             pnlZutaten.add(lblMenge);
 
-            JLabel lblEinheit = new JLabel(String.valueOf(ingredient.getUnit().getName()));
+            JLabel lblEinheit = new JLabel(String.valueOf(ingredient.getEinheit().getName()));
             pnlZutaten.add(lblEinheit);
             JLabel lblZutat = new JLabel(String.valueOf(ingredient.getName()));
             pnlZutaten.add(lblZutat);

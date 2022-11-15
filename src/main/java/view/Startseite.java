@@ -1,6 +1,6 @@
 package view;
 
-import model.Category;
+import model.Kategorie;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +48,7 @@ public class Startseite extends JFrame implements ActionListener {
     //Methode, um die Kachlen der einzelnen Kategorien zu erstellen
     private void initUI() {
         JPanel pnlStartseite2 = new JPanel(new FlowLayout(20, 20, 20));
-        List<Category> alleKategorien = controller.entityManager.findAll(Category.class);
+        List<Kategorie> alleKategorien = controller.entityManager.findAll(Kategorie.class);
         JButton[] buttons = new JButton[alleKategorien.size()+1];
         buttons[0] = new JButton("Alle Rezepte");
         buttons[0].setName("00000000-0000-0000-0000-000000000000");
@@ -57,7 +57,7 @@ public class Startseite extends JFrame implements ActionListener {
         buttons[0].setToolTipText("Alle Katgorie");
         pnlStartseite2.add(buttons[0]);
         buttons[0].addActionListener(this);
-        Category[] kategorieArray = alleKategorien.toArray(new Category[0]);
+        Kategorie[] kategorieArray = alleKategorien.toArray(new Kategorie[0]);
         String [] kategorien = new String[kategorieArray.length];
         for(int i=0; i<kategorieArray.length; i++){
             kategorien[i] = kategorieArray[i].getName();

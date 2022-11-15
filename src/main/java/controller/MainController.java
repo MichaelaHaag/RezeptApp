@@ -32,12 +32,12 @@ public class MainController {
         List<String[]> csvData = csvReader.readData();
         csvData.forEach(csvLine -> {
             try {
-                UUID categoryID = UUID.fromString(csvLine[ Category.CSVPositions.CATEGORYID.ordinal() ]);
-                String name = csvLine[ Category.CSVPositions.NAME.ordinal() ];
-                String tag = csvLine[ Category.CSVPositions.TAG.ordinal() ];
-                String description = csvLine[ Category.CSVPositions.DESCRIPTION.ordinal() ];
+                UUID categoryID = UUID.fromString(csvLine[ Kategorie.CSVPositions.KATEGORIEID.ordinal() ]);
+                String name = csvLine[ Kategorie.CSVPositions.NAME.ordinal() ];
+                String tag = csvLine[ Kategorie.CSVPositions.TAG.ordinal() ];
+                String description = csvLine[ Kategorie.CSVPositions.BESCHREIBUNG.ordinal() ];
 
-                element = new Category(categoryID, name, tag, description);
+                element = new Kategorie(categoryID, name, tag, description);
                 entityManager.persist( element );
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -49,11 +49,11 @@ public class MainController {
         csvData = csvReader.readData();
         csvData.forEach(csvLine -> {
             try {
-                UUID unitID = UUID.fromString(csvLine[ Unit.CSVPositions.UNITID.ordinal() ]);
-                String name = csvLine[ Unit.CSVPositions.NAME.ordinal() ];
-                String description = csvLine[ Unit.CSVPositions.DESCRIPTION.ordinal() ];
+                UUID unitID = UUID.fromString(csvLine[ Einheit.CSVPositionen.EINEHEITID.ordinal() ]);
+                String name = csvLine[ Einheit.CSVPositionen.NAME.ordinal() ];
+                String description = csvLine[ Einheit.CSVPositionen.BESCHREIBUNG.ordinal() ];
 
-                element = new Unit(unitID, name, description);
+                element = new Einheit(unitID, name, description);
                 entityManager.persist( element );
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -65,15 +65,15 @@ public class MainController {
         csvData = csvReader.readData();
         csvData.forEach(csvLine -> {
             try {
-                UUID ingredientID = UUID.fromString(csvLine[ Ingredient.CSVPositions.INGREDIENTID.ordinal() ]);
-                UUID ingredientRecipeID = UUID.fromString(csvLine[ Ingredient.CSVPositions.RECIPEID.ordinal() ]);
-                long amount = Long.parseLong( csvLine[ Ingredient.CSVPositions.AMOUNT.ordinal() ]);
-                UUID ingredientUnitID = UUID.fromString(csvLine[ Ingredient.CSVPositions.UNIT.ordinal() ]);
-                String name = csvLine[ Ingredient.CSVPositions.NAME.ordinal() ];
+                UUID ingredientID = UUID.fromString(csvLine[ Zutat.CSVPositions.ZUATATID.ordinal() ]);
+                UUID ingredientRecipeID = UUID.fromString(csvLine[ Zutat.CSVPositions.REZEPTID.ordinal() ]);
+                long amount = Long.parseLong( csvLine[ Zutat.CSVPositions.MENGE.ordinal() ]);
+                UUID ingredientUnitID = UUID.fromString(csvLine[ Zutat.CSVPositions.EINHEIT.ordinal() ]);
+                String name = csvLine[ Zutat.CSVPositions.NAME.ordinal() ];
 
-                Unit unit = entityManager.find(Unit.class, ingredientUnitID);
+                Einheit einheit = entityManager.find(Einheit.class, ingredientUnitID);
 
-                element = new Ingredient(ingredientID, ingredientRecipeID, amount, unit, name);
+                element = new Zutat(ingredientID, ingredientRecipeID, amount, einheit, name);
                 entityManager.persist( element );
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -85,11 +85,11 @@ public class MainController {
         csvData = csvReader.readData();
         csvData.forEach(csvLine -> {
             try {
-                UUID pictureID = UUID.fromString(csvLine[ Picture.CSVPositions.PICTUREID.ordinal() ]);
-                UUID recipeID = UUID.fromString(csvLine[ Picture.CSVPositions.RECIPEID.ordinal() ]);
-                String path = csvLine[ Picture.CSVPositions.PATH.ordinal() ];
+                UUID pictureID = UUID.fromString(csvLine[ Bilder.CSVPositions.BILDID.ordinal() ]);
+                UUID recipeID = UUID.fromString(csvLine[ Bilder.CSVPositions.REZEPTID.ordinal() ]);
+                String path = csvLine[ Bilder.CSVPositions.PFAD.ordinal() ];
 
-                element = new Picture(pictureID, recipeID, path);
+                element = new Bilder(pictureID, recipeID, path);
                 entityManager.persist( element );
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -108,32 +108,32 @@ public class MainController {
                 String title = csvLine[ Recipe.CSVPositions.TITLE.ordinal() ];
                 int difficultyInt = Integer.parseInt(csvLine[ Recipe.CSVPositions.DIFFICULTY.ordinal() ]);
                 String description = csvLine[ Recipe.CSVPositions.DESCRIPTION.ordinal() ];
-                Picture recipePicture = null;
-                ArrayList<Ingredient> ingredients = new ArrayList<>();
-                ArrayList<Category> categories = new ArrayList<>();
-                Difficulty difficulty = null;
+                Bilder rezeptBilder = null;
+                ArrayList<Zutat> ingredients = new ArrayList<>();
+                ArrayList<Kategorie> categories = new ArrayList<>();
+                Schwierigkeit schwierigkeit = null;
 
-                List<Picture> picturesList = entityManager.findAll(Picture.class);
-                for (Picture picture : picturesList){
-                    if (picture.getRecipeID().equals(recipeID)){
-                        recipePicture = picture;
+                List<Bilder> picturesList = entityManager.findAll(Bilder.class);
+                for (Bilder bilder : picturesList){
+                    if (bilder.getRezeptID().equals(recipeID)){
+                        rezeptBilder = bilder;
                     }
                 }
 
-                List<Ingredient> ingredientsList = entityManager.findAll(Ingredient.class);
-                for (Ingredient ingredient : ingredientsList){
-                    if (ingredient.getRecipeID().equals(recipeID)){
+                List<Zutat> ingredientsList = entityManager.findAll(Zutat.class);
+                for (Zutat ingredient : ingredientsList){
+                    if (ingredient.getRezeptID().equals(recipeID)){
                         ingredients.add(ingredient);
                     }
                 }
 
-                List<Category> categoriesList = entityManager.findAll(Category.class);
+                List<Kategorie> categoriesList = entityManager.findAll(Kategorie.class);
                 csvDataCategoryOfRecipe.forEach(csvLineCategory -> {
                     try {
                         if (UUID.fromString(csvLineCategory[0]).equals(recipeID)){
-                            for (Category category : categoriesList){
-                                if (category.getUUID().equals(UUID.fromString(csvLineCategory[1]))){
-                                    categories.add(category);
+                            for (Kategorie kategorie : categoriesList){
+                                if (kategorie.getUUID().equals(UUID.fromString(csvLineCategory[1]))){
+                                    categories.add(kategorie);
                                 }
                             }
                         }
@@ -142,13 +142,13 @@ public class MainController {
                     }
                 });
 
-                for(Difficulty difficultyEnum : Difficulty.values()){
-                    if(difficultyEnum.getDifficultyID() == difficultyInt){
-                        difficulty = difficultyEnum;
+                for(Schwierigkeit enumSchwierigkeitEnum : Schwierigkeit.values()){
+                    if(enumSchwierigkeitEnum.getDifficultyID() == difficultyInt){
+                        schwierigkeit = enumSchwierigkeitEnum;
                     }
                 }
 
-                element = new Recipe(recipeID, title, categories, ingredients, description, difficulty, recipePicture );
+                element = new Recipe(recipeID, title, categories, ingredients, description, schwierigkeit, rezeptBilder);
                 entityManager.persist( element );
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -189,14 +189,14 @@ public class MainController {
     }
 
     // Methode um die zugehörigen Kategorien zu einem Rezept zu finden
-    public String[][] findRecipeOfCategory(Category inputCategory){
+    public String[][] findRecipeOfCategory(Kategorie eingabeKategorie){
         List<Recipe> allRecipies = entityManager.findAll(Recipe.class);
         List<String[]> selectedRecpies = new ArrayList<>();
 
         for (Recipe recipe: allRecipies){
-            ArrayList<Category> categoriesOfRecipe = recipe.getCategories();
-            for (Category categoryOfRecipe : categoriesOfRecipe){
-                if (categoryOfRecipe.equals(inputCategory)){
+            ArrayList<Kategorie> categoriesOfRecipe = recipe.getCategories();
+            for (Kategorie rezeptKategorie : categoriesOfRecipe){
+                if (rezeptKategorie.equals(eingabeKategorie)){
                     selectedRecpies.add(recipe.getCSVData());
                 }
             }

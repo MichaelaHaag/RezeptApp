@@ -1,7 +1,7 @@
 package app;
 
 import controller.MainController;
-import view.Homepage;
+import view.Startseite;
 
 /* Main Klasse: Startet die Home Page und den Controller */
 public class RezeptApp {
@@ -12,8 +12,8 @@ public class RezeptApp {
         controller = new MainController();
         controller.init();
 
-        Homepage homepage = new Homepage();
-        homepage.setVisible(true);
-        homepage.setBounds(300,70,900,650);
+        Startseite startseite = new Startseite();
+        startseite.setVisible(true);
+        startseite.setBounds(300,70,900,650);
     }
 }

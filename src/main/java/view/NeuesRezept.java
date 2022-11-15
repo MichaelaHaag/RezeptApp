@@ -207,7 +207,7 @@ public class NeuesRezept {
                         e.printStackTrace();
                     }
 
-                    Recipe recipeElement = new Recipe(rezeptID, titel, rezeptKategorien, rezeptEinheiten, beschreibung, schwierigkeit, bildElement );
+                    Rezept recipeElement = new Rezept(rezeptID, titel, rezeptKategorien, rezeptEinheiten, beschreibung, schwierigkeit, bildElement );
                     try {
                         controller.entityManager.persist( recipeElement );
                     } catch (Exception e) {
@@ -216,10 +216,10 @@ public class NeuesRezept {
 
                     //Bild in der CVS Datei speichern
                     List<Bilder> alleBilder = controller.entityManager.findAll(Bilder.class);
-                    controller.saveCSVData(controller.csvFilePath + "Picture.csv", alleBilder);
+                    controller.speichereCSVDaten(controller.csvBilderPfad + "Bild.csv", alleBilder);
 
                 }else{
-                    Recipe rezeptElement = new Recipe(rezeptID, titel, rezeptKategorien, rezeptEinheiten, beschreibung, schwierigkeit);
+                    Rezept rezeptElement = new Rezept(rezeptID, titel, rezeptKategorien, rezeptEinheiten, beschreibung, schwierigkeit);
                     try {
                         controller.entityManager.persist( rezeptElement );
                     } catch (Exception e) {
@@ -229,9 +229,9 @@ public class NeuesRezept {
 
                 //Zutaten und Rezept in CSV Speichern
                 List<Zutat> alleZutaten = controller.entityManager.findAll(Zutat.class);
-                controller.saveCSVData(controller.csvFilePath + "Ingredient.csv", alleZutaten);
-                List<Recipe> alleRezepte = controller.entityManager.findAll(Recipe.class);
-                controller.saveCSVData(controller.csvFilePath + "Recipe.csv", alleRezepte);
+                controller.speichereCSVDaten(controller.csvBilderPfad + "Zutaten.csv", alleZutaten);
+                List<Rezept> alleRezepte = controller.entityManager.findAll(Rezept.class);
+                controller.speichereCSVDaten(controller.csvBilderPfad + "Rezept.csv", alleRezepte);
 
                 frame.dispose();
             }else{

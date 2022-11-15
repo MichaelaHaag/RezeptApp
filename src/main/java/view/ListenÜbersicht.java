@@ -1,7 +1,7 @@
 package view;
 
 import model.Kategorie;
-import model.Recipe;
+import model.Rezept;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,8 +59,8 @@ public class ListenÜbersicht {
         UUID idAlleRezepte = UUID.fromString(name);
         if(id.equals(idAlleRezepte)){
             try {
-                String[][] alleRezepte = controller.findAllRecipies();
-                Recipe rezept = new Recipe();
+                String[][] alleRezepte = controller.findeAlleRezepte();
+                Rezept rezept = new Rezept();
                 String[] spaltenNamen = rezept.getCSVHeader();
 
                 // Initiaisierung der Tabele
@@ -82,8 +82,8 @@ public class ListenÜbersicht {
         } else{
             Kategorie eingegbeneKategorie = controller.entityManager.find(Kategorie.class, id);
             try {
-                String[][] recipes = controller.findRecipeOfCategory(eingegbeneKategorie);
-                Recipe rezept = new Recipe();
+                String[][] recipes = controller.findeRezeptKategorien(eingegbeneKategorie);
+                Rezept rezept = new Rezept();
                 String[] spaltenNamen = rezept.getCSVHeader();
 
                 // Initializing the JTable

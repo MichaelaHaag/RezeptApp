@@ -1,7 +1,7 @@
 package view;
 
 import model.Zutat;
-import model.Recipe;
+import model.Rezept;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,7 +59,7 @@ public class RezeptAnsicht {
     }
     //Methode, die die Rezept Details auf den Frame einfügt
     private void initUI(UUID id) {
-        Recipe ausgewähltesRezept = controller.entityManager.find(Recipe.class, id);
+        Rezept ausgewähltesRezept = controller.entityManager.find(Rezept.class, id);
         JPanel pnlRezeptAnsicht2 = new JPanel(new GridLayout(5,1));
         JPanel pnlKopfzeile = new JPanel(new BorderLayout());
         JPanel pnlTitel = new JPanel(new GridLayout(2,1));

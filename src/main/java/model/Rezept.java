@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 /* Rezept Klasse: Definiert ein Rezept */
-public class Recipe implements IPersistable {
+public class Rezept implements IPersistable {
     private final UUID recipeID;
     private String title;
     private ArrayList<Kategorie> categories;
@@ -16,7 +16,7 @@ public class Recipe implements IPersistable {
     private Schwierigkeit schwierigkeit;
     private Bilder bilder;
 
-    public Recipe(String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit, Bilder bilder) {
+    public Rezept(String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit, Bilder bilder) {
         this.recipeID = UUID.randomUUID();
         this.title = title;
         this.categories = categories;
@@ -26,7 +26,7 @@ public class Recipe implements IPersistable {
         this.bilder = bilder;
     }
 
-    public Recipe(UUID recipeID, String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit) {
+    public Rezept(UUID recipeID, String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit) {
         this.recipeID = recipeID;
         this.title = title;
         this.categories = categories;
@@ -35,7 +35,7 @@ public class Recipe implements IPersistable {
         this.schwierigkeit = schwierigkeit;
     }
 
-    public Recipe(UUID recipeID, String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit, Bilder bilder) {
+    public Rezept(UUID recipeID, String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit, Bilder bilder) {
         this.recipeID = recipeID;
         this.title = title;
         this.categories = categories;
@@ -45,7 +45,7 @@ public class Recipe implements IPersistable {
         this.bilder = bilder;
     }
 
-    public Recipe() {
+    public Rezept() {
         this.recipeID = UUID.randomUUID();
     }
 

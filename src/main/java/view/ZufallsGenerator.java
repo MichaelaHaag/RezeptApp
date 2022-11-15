@@ -1,6 +1,6 @@
 package view;
 
-import model.Recipe;
+import model.Rezept;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,7 @@ public class ZufallsGenerator {
     public ZufallsGenerator() {
         System.out.println("Der Randomizer wird gestartet");
         UUID id = zufälligeUUID();
-        Recipe zufälligesRezept = controller.entityManager.find(Recipe.class, id);
+        Rezept zufälligesRezept = controller.entityManager.find(Rezept.class, id);
         JLabel labelVorschlag = new JLabel(zufälligesRezept.getTitle());
         labelVorschlag.setFont(new Font("Calibri", Font.PLAIN, 30));
         JLabel labelKategorie = new JLabel("Kategorie: ");
@@ -52,10 +52,10 @@ public class ZufallsGenerator {
 
     //Erzeugt aus den vorhandenen UUIDs eine zufällige UUID
     public UUID zufälligeUUID (){
-        List<Recipe> listeAlleRezepte = controller.entityManager.findAll(Recipe.class);
+        List<Rezept> listeAlleRezepte = controller.entityManager.findAll(Rezept.class);
         Random randomGenerator=new Random();
         int zufallszahl = randomGenerator.nextInt(listeAlleRezepte.size());
-        Recipe zufallsRezept = listeAlleRezepte.get(zufallszahl);
+        Rezept zufallsRezept = listeAlleRezepte.get(zufallszahl);
         return zufallsRezept.getUUID();
     }
 }

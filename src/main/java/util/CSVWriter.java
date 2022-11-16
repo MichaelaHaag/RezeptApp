@@ -32,7 +32,7 @@ public class CSVWriter {
         return csvFile;
     }
 
-    public final void writeDataToFile(	List<Object[]> data, String[] header) throws IOException, IllegalArgumentException {
+    public final void schreibeDaten(List<Object[]> data, String[] header) throws IOException, IllegalArgumentException {
         char delimiter = ';';
         char commentChar = '#';
         String encodingName = "UTF-8";

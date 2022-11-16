@@ -59,22 +59,22 @@ public class RezeptAnsicht {
     }
     //Methode, die die Rezept Details auf den Frame einfügt
     private void initUI(UUID id) {
-        Rezept ausgewähltesRezept = controller.entityManager.find(Rezept.class, id);
+        Rezept ausgewähltesRezept = controller.entityManager.finde(Rezept.class, id);
         JPanel pnlRezeptAnsicht2 = new JPanel(new GridLayout(5,1));
         JPanel pnlKopfzeile = new JPanel(new BorderLayout());
         JPanel pnlTitel = new JPanel(new GridLayout(2,1));
-        JLabel lblTitel = new JLabel(ausgewähltesRezept.getTitle());
+        JLabel lblTitel = new JLabel(ausgewähltesRezept.bekommeTitel());
         lblTitel.setFont(new Font("Calibri", Font.PLAIN, 30));
         JLabel lblZutaten = new JLabel("Zustaten:");
         lblZutaten.setFont(new Font("Calibri", Font.PLAIN, 20));
-        JLabel lblSchwierigkeit = new JLabel("Schwierigkeitsgrad:             "+ ausgewähltesRezept.getDifficulty());
+        JLabel lblSchwierigkeit = new JLabel("Schwierigkeitsgrad:             "+ ausgewähltesRezept.bekommeSchwierigkeitsgrad());
         lblSchwierigkeit.setFont(new Font("Calibri", Font.PLAIN, 15));
         pnlTitel.add(lblTitel);
         pnlTitel.add(lblSchwierigkeit);
         pnlKopfzeile.add(pnlTitel, BorderLayout.WEST);
-        if(ausgewähltesRezept.getPicture() != null){
-            System.out.print(ausgewähltesRezept.getPicture().getPfad());
-            ImageIcon bild = new ImageIcon(ausgewähltesRezept.getPicture().getPfad());
+        if(ausgewähltesRezept.bekommeBild() != null){
+            System.out.print(ausgewähltesRezept.bekommeBild().bekommePfad());
+            ImageIcon bild = new ImageIcon(ausgewähltesRezept.bekommeBild().bekommePfad());
             Image image = bild.getImage();
             Image transfImgage = image.getScaledInstance(150, 150,  Image.SCALE_FAST);
             bild = new ImageIcon(transfImgage);
@@ -83,21 +83,21 @@ public class RezeptAnsicht {
         }
         pnlRezeptAnsicht2.add(pnlKopfzeile);
         pnlRezeptAnsicht2.add(lblZutaten);
-        ArrayList<Zutat> zutaten = ausgewähltesRezept.getIngredients();
+        ArrayList<Zutat> zutaten = ausgewähltesRezept.bekommeZutaten();
 
         JPanel pnlZutaten = new JPanel(new GridLayout(zutaten.size(),1));
-        for (Zutat ingredient : zutaten) {
-            JLabel lblMenge = new JLabel(String.valueOf(ingredient.getMenge()));
+        for (Zutat zutat : zutaten) {
+            JLabel lblMenge = new JLabel(String.valueOf(zutat.bekommeMenge()));
             pnlZutaten.add(lblMenge);
 
-            JLabel lblEinheit = new JLabel(String.valueOf(ingredient.getEinheit().getName()));
+            JLabel lblEinheit = new JLabel(String.valueOf(zutat.bekommeEinheit().bekommeName()));
             pnlZutaten.add(lblEinheit);
-            JLabel lblZutat = new JLabel(String.valueOf(ingredient.getName()));
+            JLabel lblZutat = new JLabel(String.valueOf(zutat.bekommeName()));
             pnlZutaten.add(lblZutat);
         }
         JLabel lblBeschreibung = new JLabel("Beschreibung");
         lblBeschreibung.setFont(new Font("Calibri", Font.PLAIN, 20));
-        JTextField textfeldBeschreibung = new JTextField(ausgewähltesRezept.getDescription());
+        JTextField textfeldBeschreibung = new JTextField(ausgewähltesRezept.bekommeBeschreibung());
 
         pnlRezeptAnsicht2.add(pnlZutaten);
         pnlRezeptAnsicht2.add(lblBeschreibung);

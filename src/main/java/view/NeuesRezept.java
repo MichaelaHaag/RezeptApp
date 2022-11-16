@@ -24,17 +24,17 @@ public class NeuesRezept {
         JPanel pnlMitte = new JPanel(new BorderLayout());
         JPanel pnlOben = new JPanel(new GridLayout(2,2));
         System.out.println("Das Panel für ein neues Rezept wird gestartet");
-        JLabel labelTitle = new JLabel("Titel: ");
-        JTextField textfeldTitle = new JTextField();
-        pnlOben.add(labelTitle);
-        pnlOben.add(textfeldTitle);
+        JLabel labelTitel = new JLabel("Titel: ");
+        JTextField textfeldTitel = new JTextField();
+        pnlOben.add(labelTitel);
+        pnlOben.add(textfeldTitel);
 
         JLabel labelTags = new JLabel("Tags: ");
-        List<Kategorie> kategorien = controller.entityManager.findAll(Kategorie.class);
+        List<Kategorie> kategorien = controller.entityManager.findeAlle(Kategorie.class);
         JPanel pnlCheckboxen = new JPanel(new FlowLayout());
         Checkbox[] checkboxen = new Checkbox[kategorien.size()];
         for(int i=0; i<kategorien.size(); i++){
-            Checkbox checkboxKategorie = new Checkbox(kategorien.get(i).getTag());
+            Checkbox checkboxKategorie = new Checkbox(kategorien.get(i).bekommeKurzformName());
             checkboxen[i]= checkboxKategorie;
             pnlCheckboxen.add(checkboxKategorie);
         }
@@ -45,20 +45,20 @@ public class NeuesRezept {
 
         pnlMitte.add(pnlOben, BorderLayout.NORTH);
 
-        List<Einheit> einheiten = controller.entityManager.findAll(Einheit.class);
+        List<Einheit> einheiten = controller.entityManager.findeAlle(Einheit.class);
         Einheit[] arrayEinheiten = einheiten.toArray(new Einheit[0]);
         String [] stringEinheiten = new String[arrayEinheiten.length];
         for(int i=0; i<arrayEinheiten.length; i++){
-            stringEinheiten[i] = arrayEinheiten[i].getName();
+            stringEinheiten[i] = arrayEinheiten[i].bekommeName();
         }
-        JComboBox<String> einheit = new JComboBox<>(stringEinheiten);
+        JComboBox<String> comboBoxEinheit = new JComboBox<>(stringEinheiten);
 
         JLabel labelZutaten = new JLabel("Zutaten: ");
 
         JPanel pnlZutaten = new JPanel(new BorderLayout());
 
         DefaultTableModel model = new DefaultTableModel();
-        JTable tabele = new JTable(model);
+        JTable tabelle = new JTable(model);
 
         model.addColumn("Menge");
         model.addColumn("Einheit");
@@ -67,23 +67,23 @@ public class NeuesRezept {
 
         model.addRow(new Object[]{"","l", "", "-"});
 
-        TableColumn unitColumn = tabele.getColumnModel().getColumn(1);
-        unitColumn.setCellEditor(new DefaultCellEditor(einheit));
-        tabele.getColumn("Löschen").setCellRenderer(new ButtonRenderer());
-        tabele.getColumn("Löschen").setCellEditor(new ButtonEditor(new JCheckBox()));
+        TableColumn einheitSpalte = tabelle.getColumnModel().getColumn(1);
+        einheitSpalte.setCellEditor(new DefaultCellEditor(comboBoxEinheit));
+        tabelle.getColumn("Löschen").setCellRenderer(new ButtonRenderer());
+        tabelle.getColumn("Löschen").setCellEditor(new ButtonEditor(new JCheckBox()));
         button.addActionListener(ae -> {
             System.out.print("Button geklickt");
-            if(tabele.getSelectedRow() != -1) {
+            if(tabelle.getSelectedRow() != -1) {
                 // entferne die ausgeählte Zeile aus dem Model
-                model.removeRow(tabele.getSelectedRow());
+                model.removeRow(tabelle.getSelectedRow());
                 JOptionPane.showMessageDialog(null, "Die ausgewühlte Zeile würde erfolgreich gelöscht!");
             }
         });
-        tabele.setMaximumSize(new Dimension(100,50));
-        pnlZutaten.add(new JScrollPane(tabele), BorderLayout.CENTER);
+        tabelle.setMaximumSize(new Dimension(100,50));
+        pnlZutaten.add(new JScrollPane(tabelle), BorderLayout.CENTER);
         JButton buttonNeueZutat = new JButton("Zutat hinzufügen");
         buttonNeueZutat.addActionListener(ae -> {
-            DefaultTableModel modelAusgangswerte = (DefaultTableModel) tabele.getModel();
+            DefaultTableModel modelAusgangswerte = (DefaultTableModel) tabelle.getModel();
             modelAusgangswerte.addRow(new Object[]{"", "l", "", "-"});
         });
 
@@ -105,12 +105,12 @@ public class NeuesRezept {
         JPanel pnlUnten = new JPanel(new GridLayout(2,2));
         JPanel pnlRadioButton = new JPanel(new FlowLayout());
         JLabel labelSchwierigkeitsgrad = new JLabel("Schwierigkeitsgrad: ");
-        String[] schwierigkeiten = Schwierigkeit.getAlleSchwierigkeiten();
+        String[] alleSchwierigkeitsgrade = Schwierigkeit.bekommeAlleSchwierigkeiten();
         ButtonGroup gruppe = new ButtonGroup();
-        JRadioButton[] radiobuttons = new JRadioButton[schwierigkeiten.length];
-        for(int i=0; i<schwierigkeiten.length; i++){
-            JRadioButton radioDiffi = new JRadioButton(schwierigkeiten[i]);
-            radiobuttons[i]= radioDiffi;
+        JRadioButton[] radiobuttons = new JRadioButton[alleSchwierigkeitsgrade.length];
+        for(int i=0; i<alleSchwierigkeitsgrade.length; i++){
+            JRadioButton radioButtonSchwierigkeiten = new JRadioButton(alleSchwierigkeitsgrade[i]);
+            radiobuttons[i]= radioButtonSchwierigkeiten;
             gruppe.add(radiobuttons[i]);
             pnlRadioButton.add(radiobuttons[i]);
         }
@@ -122,7 +122,7 @@ public class NeuesRezept {
         final String[] bildPfad = new String[1];
         buttonDokument.addActionListener(ae -> {
             FileChooser chooser = new FileChooser();
-            bildPfad[0] = chooser.chooseFile();
+            bildPfad[0] = chooser.dateiAuswahl();
         });
         pnlUnten.add(labelDokument);
         pnlUnten.add(buttonDokument);
@@ -133,25 +133,25 @@ public class NeuesRezept {
         buttonAbbrechen.addActionListener(ae -> frame.dispose());
         JButton buttonSpeichern = new JButton("Speichern");
         buttonSpeichern.addActionListener(ae -> {
-            boolean tabeleBearbeitet= false;
-            if(tabele.getCellEditor() != null){
-                tabele.getCellEditor().stopCellEditing();
-                tabeleBearbeitet = true;
+            boolean tabelleBearbeitet = false;
+            if(tabelle.getCellEditor() != null){
+                tabelle.getCellEditor().stopCellEditing();
+                tabelleBearbeitet = true;
             }
             UUID rezeptID = UUID.randomUUID();
-            String titel = textfeldTitle.getText();
+            String titel = textfeldTitel.getText();
             String beschreibung = textAreaBeschreibung.getText();
             ArrayList<Kategorie> rezeptKategorien = new ArrayList<>();
             ArrayList<Zutat> rezeptEinheiten = new ArrayList<>();
             Schwierigkeit schwierigkeit = null;
 
-            List<Kategorie> alleKategorien = controller.entityManager.findAll(Kategorie.class);
+            List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
             for (int i = 0; i < alleKategorien.size(); i++) {
                 if(checkboxen[i].getState()){
                     System.out.println( checkboxen[i].getLabel());
-                    for (Kategorie c : alleKategorien){
-                        if (c.getTag().equals(checkboxen[i].getLabel())){
-                            rezeptKategorien.add(c);
+                    for (Kategorie kategorie : alleKategorien){
+                        if (kategorie.bekommeKurzformName().equals(checkboxen[i].getLabel())){
+                            rezeptKategorien.add(kategorie);
                         }
                     }
                 }
@@ -160,7 +160,7 @@ public class NeuesRezept {
             for (JRadioButton radiobutton : radiobuttons){
                 if (radiobutton.isSelected()){
                     for(Schwierigkeit enumSchwierigkeit : Schwierigkeit.values()){
-                        if(enumSchwierigkeit.getName().equals(radiobutton.getText())){
+                        if(enumSchwierigkeit.bekomeName().equals(radiobutton.getText())){
                             schwierigkeit = enumSchwierigkeit;
                         }
                     }
@@ -168,19 +168,19 @@ public class NeuesRezept {
                 }
             }
 
-            if(!titel.equals("") && !beschreibung.equals("") && tabeleBearbeitet && !rezeptKategorien.isEmpty() && schwierigkeit != null){
+            if(!titel.equals("") && !beschreibung.equals("") && tabelleBearbeitet && !rezeptKategorien.isEmpty() && schwierigkeit != null){
 
-                for (int i = 0; i < tabele.getRowCount(); i++) {
-                    String mengeText = (String) tabele.getModel().getValueAt(i, 0);
+                for (int i = 0; i < tabelle.getRowCount(); i++) {
+                    String mengeText = (String) tabelle.getModel().getValueAt(i, 0);
                     long menge = Long.parseLong(mengeText);
-                    String einheitText = (String) tabele.getModel().getValueAt(i, 1);
-                    String name = (String) tabele.getModel().getValueAt(i, 2);
+                    String einheitText = (String) tabelle.getModel().getValueAt(i, 1);
+                    String name = (String) tabelle.getModel().getValueAt(i, 2);
 
                     Einheit ausgewählteEinheit = null;
-                    List<Einheit> alleEinheiten = controller.entityManager.findAll(Einheit.class);
-                    for (Einheit einheit1 : alleEinheiten) {
-                        if (einheit1.getName().equals(einheitText)) {
-                            ausgewählteEinheit = einheit1;
+                    List<Einheit> alleEinheiten = controller.entityManager.findeAlle(Einheit.class);
+                    for (Einheit einheit : alleEinheiten) {
+                        if (einheit.bekommeName().equals(einheitText)) {
+                            ausgewählteEinheit = einheit;
                         }
                     }
 
@@ -188,7 +188,7 @@ public class NeuesRezept {
                     rezeptEinheiten.add(zutat);
 
                     try {
-                        controller.entityManager.persist(zutat);
+                        controller.entityManager.speichere(zutat);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -198,39 +198,39 @@ public class NeuesRezept {
                 if (pfad != null){
                     String[] aufgeteilterPfad = pfad.split("(?=src)");
                     String stringPfad = aufgeteilterPfad[1].replace("\\", "/");
-                    Bilder bildElement = new Bilder(rezeptID,stringPfad);
+                    Bild bildElement = new Bild(rezeptID,stringPfad);
 
                     //Bild und Rezept im EntityManager speichern
                     try {
-                        controller.entityManager.persist( bildElement );
+                        controller.entityManager.speichere( bildElement );
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    Rezept recipeElement = new Rezept(rezeptID, titel, rezeptKategorien, rezeptEinheiten, beschreibung, schwierigkeit, bildElement );
+                    Rezept rezeptElement = new Rezept(rezeptID, titel, rezeptKategorien, rezeptEinheiten, beschreibung, schwierigkeit, bildElement );
                     try {
-                        controller.entityManager.persist( recipeElement );
+                        controller.entityManager.speichere( rezeptElement );
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                     //Bild in der CVS Datei speichern
-                    List<Bilder> alleBilder = controller.entityManager.findAll(Bilder.class);
+                    List<Bild> alleBilder = controller.entityManager.findeAlle(Bild.class);
                     controller.speichereCSVDaten(controller.csvBilderPfad + "Bild.csv", alleBilder);
 
                 }else{
                     Rezept rezeptElement = new Rezept(rezeptID, titel, rezeptKategorien, rezeptEinheiten, beschreibung, schwierigkeit);
                     try {
-                        controller.entityManager.persist( rezeptElement );
+                        controller.entityManager.speichere( rezeptElement );
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
 
                 //Zutaten und Rezept in CSV Speichern
-                List<Zutat> alleZutaten = controller.entityManager.findAll(Zutat.class);
+                List<Zutat> alleZutaten = controller.entityManager.findeAlle(Zutat.class);
                 controller.speichereCSVDaten(controller.csvBilderPfad + "Zutaten.csv", alleZutaten);
-                List<Rezept> alleRezepte = controller.entityManager.findAll(Rezept.class);
+                List<Rezept> alleRezepte = controller.entityManager.findeAlle(Rezept.class);
                 controller.speichereCSVDaten(controller.csvBilderPfad + "Rezept.csv", alleRezepte);
 
                 frame.dispose();
@@ -251,6 +251,7 @@ public class NeuesRezept {
         frame.setBounds(400,100,600,700);
     }
 
+    //TODO Umbenennen
     static class ButtonRenderer extends JButton implements TableCellRenderer
     {
         public ButtonRenderer() {

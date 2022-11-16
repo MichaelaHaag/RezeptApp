@@ -61,44 +61,44 @@ public class ListenÜbersicht {
             try {
                 String[][] alleRezepte = controller.findeAlleRezepte();
                 Rezept rezept = new Rezept();
-                String[] spaltenNamen = rezept.getCSVHeader();
+                String[] spaltenNamen = rezept.bekommeCSVKopf();
 
                 // Initiaisierung der Tabele
-                JTable tabele = new JTable(alleRezepte, spaltenNamen);
-                tabele.setRowHeight(30);
-                tabele.addMouseListener(new java.awt.event.MouseAdapter() {
+                JTable tabelle = new JTable(alleRezepte, spaltenNamen);
+                tabelle.setRowHeight(30);
+                tabelle.addMouseListener(new java.awt.event.MouseAdapter() {
                                            public void mouseClicked(java.awt.event.MouseEvent e) {
-                                               int spalte = tabele.rowAtPoint(e.getPoint());
+                                               int spalte = tabelle.rowAtPoint(e.getPoint());
                                                int zeile = 0;
-                                               UUID id = UUID.fromString(tabele.getValueAt(spalte, zeile).toString());
+                                               UUID id = UUID.fromString(tabelle.getValueAt(spalte, zeile).toString());
                                                new RezeptAnsicht(id, frame);
                                            }
                                        }
                 );
-                pnlListenÜbersicht.add(new JScrollPane(tabele), BorderLayout.CENTER);
+                pnlListenÜbersicht.add(new JScrollPane(tabelle), BorderLayout.CENTER);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else{
-            Kategorie eingegbeneKategorie = controller.entityManager.find(Kategorie.class, id);
+            Kategorie eingegbeneKategorie = controller.entityManager.finde(Kategorie.class, id);
             try {
-                String[][] recipes = controller.findeRezeptKategorien(eingegbeneKategorie);
+                String[][] rezepte = controller.findeRezepteZuKategorie(eingegbeneKategorie);
                 Rezept rezept = new Rezept();
-                String[] spaltenNamen = rezept.getCSVHeader();
+                String[] spaltenNamen = rezept.bekommeCSVKopf();
 
                 // Initializing the JTable
-                JTable tabele = new JTable(recipes, spaltenNamen);
-                tabele.setRowHeight(30);
-                tabele.addMouseListener(new java.awt.event.MouseAdapter() {
+                JTable tabelle = new JTable(rezepte, spaltenNamen);
+                tabelle.setRowHeight(30);
+                tabelle.addMouseListener(new java.awt.event.MouseAdapter() {
                                            public void mouseClicked(java.awt.event.MouseEvent e) {
-                                               int spalte = tabele.rowAtPoint(e.getPoint());
+                                               int spalte = tabelle.rowAtPoint(e.getPoint());
                                                int zeile = 0;
-                                               UUID id = UUID.fromString(tabele.getValueAt(spalte, zeile).toString());
+                                               UUID id = UUID.fromString(tabelle.getValueAt(spalte, zeile).toString());
                                                new RezeptAnsicht(id, frame);
                                            }
                                        }
                 );
-                pnlListenÜbersicht.add(new JScrollPane(tabele), BorderLayout.CENTER);
+                pnlListenÜbersicht.add(new JScrollPane(tabelle), BorderLayout.CENTER);
             } catch (Exception e) {
                 e.printStackTrace();
             }

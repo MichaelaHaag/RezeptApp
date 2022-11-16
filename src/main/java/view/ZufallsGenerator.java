@@ -18,15 +18,15 @@ public class ZufallsGenerator {
 
     public ZufallsGenerator() {
         System.out.println("Der Randomizer wird gestartet");
-        UUID id = zufälligeUUID();
-        Rezept zufälligesRezept = controller.entityManager.find(Rezept.class, id);
-        JLabel labelVorschlag = new JLabel(zufälligesRezept.getTitle());
+        UUID zufälligeRezeptID = zufälligeRezeptUUID();
+        Rezept zufälligesRezept = controller.entityManager.finde(Rezept.class, zufälligeRezeptID);
+        JLabel labelVorschlag = new JLabel(zufälligesRezept.bekommeTitel());
         labelVorschlag.setFont(new Font("Calibri", Font.PLAIN, 30));
         JLabel labelKategorie = new JLabel("Kategorie: ");
-        JLabel labelZufallsrezeptKategorie = new JLabel(zufälligesRezept.getCategories().toString());
+        JLabel labelZufallsrezeptKategorie = new JLabel(zufälligesRezept.bekommeKategorien().toString());
         JButton buttonRezeptÖffnen = new JButton("Rezept öffnen");
         buttonRezeptÖffnen.addActionListener(ae -> {
-            new RezeptAnsicht(id, null);
+            new RezeptAnsicht(zufälligeRezeptID, null);
             frame.dispose();
         });
         JButton buttonNeuesZufallsRezept = new JButton("Neues Zufallsrezept");
@@ -51,11 +51,11 @@ public class ZufallsGenerator {
     }
 
     //Erzeugt aus den vorhandenen UUIDs eine zufällige UUID
-    public UUID zufälligeUUID (){
-        List<Rezept> listeAlleRezepte = controller.entityManager.findAll(Rezept.class);
-        Random randomGenerator=new Random();
-        int zufallszahl = randomGenerator.nextInt(listeAlleRezepte.size());
+    public UUID zufälligeRezeptUUID(){
+        List<Rezept> listeAlleRezepte = controller.entityManager.findeAlle(Rezept.class);
+        Random zufallsGenerator =new Random();
+        int zufallszahl = zufallsGenerator.nextInt(listeAlleRezepte.size());
         Rezept zufallsRezept = listeAlleRezepte.get(zufallszahl);
-        return zufallsRezept.getUUID();
+        return zufallsRezept.bekommeUUID();
     }
 }

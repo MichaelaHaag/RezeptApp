@@ -7,26 +7,26 @@ public enum Schwierigkeit {
     Normal(2, "Normal"),
     Schwer(3, "Schwer");
 
-    private final int schwierigkeitID;
+    private final int schwierigkeitsgradID;
     private final String name;
 
-    Schwierigkeit(int schwierigkeitID, String name) {
-        this.schwierigkeitID = schwierigkeitID;
+    Schwierigkeit(int schwierigkeitsgradID, String name) {
+        this.schwierigkeitsgradID = schwierigkeitsgradID;
         this.name = name;
     }
 
-    public int getDifficultyID() {
-        return schwierigkeitID;
+    public int bekommeSchwierigkeitsgradID() {
+        return schwierigkeitsgradID;
     }
 
-    public String getName() {
+    public String bekomeName() {
         return name;
     }
 
-    public static String[] getAlleSchwierigkeiten(){
+    public static String[] bekommeAlleSchwierigkeiten(){
         String[] schwierigkeiten = new String[Schwierigkeit.values().length];
         for (int i = 0; i < Schwierigkeit.values().length; i++ ){
-            schwierigkeiten[i] = Schwierigkeit.values()[i].getName();
+            schwierigkeiten[i] = Schwierigkeit.values()[i].bekomeName();
         }
         return schwierigkeiten;
     }

@@ -1,11 +1,11 @@
 package model;
 
-import util.IPersistable;
+import util.IPersistierbar;
 
 import java.util.UUID;
 
 /* Zutat Klasse: Definiert eine Zutat eines Rezeptes */
-public class Zutat implements IPersistable {
+public class Zutat implements IPersistierbar {
     private final UUID zutatID;
     private UUID rezeptID;
     private long menge;
@@ -28,63 +28,47 @@ public class Zutat implements IPersistable {
         this.name = name;
     }
 
-    public enum CSVPositions {
+    public enum CSVPosition {
         ZUATATID,
         REZEPTID,
         MENGE,
-        EINHEIT,
+        EINHEITID,
         NAME
     }
 
-    public UUID getUUID() {
+    public UUID bekommeUUID() {
         return zutatID;
     }
 
     @Override
-    public String[] getCSVHeader() {
+    public String[] bekommeCSVKopf() {
         return new String[]{"ZutatID","RezeptID","Menge","EinheitID","Name"};
     }
 
     @Override
-    public String[] getCSVData() {
-        String[] data = new String[Zutat.CSVPositions.values().length];
-        data[CSVPositions.ZUATATID.ordinal()] = String.valueOf(this.zutatID);
-        data[CSVPositions.REZEPTID.ordinal()] = String.valueOf(this.rezeptID);
-        data[CSVPositions.MENGE.ordinal()] = String.valueOf(this.menge);
-        data[CSVPositions.EINHEIT.ordinal()] = String.valueOf(this.einheit.getUUID());
-        data[CSVPositions.NAME.ordinal()] = String.valueOf(this.name);
-        return data;
+    public String[] bekommeCSVDaten() {
+        String[] daten = new String[CSVPosition.values().length];
+        daten[CSVPosition.ZUATATID.ordinal()] = String.valueOf(this.zutatID);
+        daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(this.rezeptID);
+        daten[CSVPosition.MENGE.ordinal()] = String.valueOf(this.menge);
+        daten[CSVPosition.EINHEITID.ordinal()] = String.valueOf(this.einheit.bekommeUUID());
+        daten[CSVPosition.NAME.ordinal()] = String.valueOf(this.name);
+        return daten;
     }
 
-    public UUID getRezeptID() {
+    public UUID bekommeRezeptID() {
         return rezeptID;
     }
 
-    public void setRecipeID(UUID recipeID) {
-        this.rezeptID = recipeID;
-    }
-
-    public long getMenge() {
+    public long bekommeMenge() {
         return menge;
     }
 
-    public void setAmount(long amount) {
-        this.menge = amount;
-    }
-
-    public Einheit getEinheit() {
+    public Einheit bekommeEinheit() {
         return einheit;
     }
 
-    public void setEinheit(Einheit einheit) {
-        this.einheit = einheit;
-    }
-
-    public String getName() {
+    public String bekommeName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

@@ -1,137 +1,113 @@
 package model;
 
-import util.IPersistable;
+import util.IPersistierbar;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 /* Rezept Klasse: Definiert ein Rezept */
-public class Rezept implements IPersistable {
-    private final UUID recipeID;
-    private String title;
-    private ArrayList<Kategorie> categories;
-    private ArrayList<Zutat> ingredients;
-    private String description;
-    private Schwierigkeit schwierigkeit;
-    private Bilder bilder;
+public class Rezept implements IPersistierbar {
+    private final UUID rezeptID;
+    private String titel;
+    private ArrayList<Kategorie> kategorien;
+    private ArrayList<Zutat> zutaten;
+    private String beschreibung;
+    private Schwierigkeit schwierigkeitsgrad;
+    private Bild bild;
 
-    public Rezept(String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit, Bilder bilder) {
-        this.recipeID = UUID.randomUUID();
-        this.title = title;
-        this.categories = categories;
-        this.ingredients = ingredients;
-        this.description = description;
-        this.schwierigkeit = schwierigkeit;
-        this.bilder = bilder;
+    public Rezept(String titel, ArrayList<Kategorie> kategorien, ArrayList<Zutat> zutaten, String beschreibung, Schwierigkeit schwierigkeitsgrad, Bild bild) {
+        this.rezeptID = UUID.randomUUID();
+        this.titel = titel;
+        this.kategorien = kategorien;
+        this.zutaten = zutaten;
+        this.beschreibung = beschreibung;
+        this.schwierigkeitsgrad = schwierigkeitsgrad;
+        this.bild = bild;
     }
 
-    public Rezept(UUID recipeID, String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit) {
-        this.recipeID = recipeID;
-        this.title = title;
-        this.categories = categories;
-        this.ingredients = ingredients;
-        this.description = description;
-        this.schwierigkeit = schwierigkeit;
+    public Rezept(UUID rezeptID, String titel, ArrayList<Kategorie> kategorien, ArrayList<Zutat> zutaten, String beschreibung, Schwierigkeit schwierigkeitsgrad) {
+        this.rezeptID = rezeptID;
+        this.titel = titel;
+        this.kategorien = kategorien;
+        this.zutaten = zutaten;
+        this.beschreibung = beschreibung;
+        this.schwierigkeitsgrad = schwierigkeitsgrad;
     }
 
-    public Rezept(UUID recipeID, String title, ArrayList<Kategorie> categories, ArrayList<Zutat> ingredients, String description, Schwierigkeit schwierigkeit, Bilder bilder) {
-        this.recipeID = recipeID;
-        this.title = title;
-        this.categories = categories;
-        this.ingredients = ingredients;
-        this.description = description;
-        this.schwierigkeit = schwierigkeit;
-        this.bilder = bilder;
+    public Rezept(UUID rezeptID, String titel, ArrayList<Kategorie> kategorien, ArrayList<Zutat> zutaten, String beschreibung, Schwierigkeit schwierigkeitsgrad, Bild bild) {
+        this.rezeptID = rezeptID;
+        this.titel = titel;
+        this.kategorien = kategorien;
+        this.zutaten = zutaten;
+        this.beschreibung = beschreibung;
+        this.schwierigkeitsgrad = schwierigkeitsgrad;
+        this.bild = bild;
     }
 
     public Rezept() {
-        this.recipeID = UUID.randomUUID();
+        this.rezeptID = UUID.randomUUID();
     }
 
-    public enum CSVPositions {
-        RECIPEID,
-        TITLE,
-        DIFFICULTY,
-        DESCRIPTION
+    public enum CSVPosition {
+        REZEPTID,
+        TITEL,
+        SCHWIERIGKEITSGRAD,
+        BESCHREIBUNG
     }
 
-    public UUID getUUID() {
-        return recipeID;
-    }
-
-    @Override
-    public String[] getCSVHeader() {
-        return new String[]{"RecipeID","Title","Difficulty","Description"};
+    public UUID bekommeUUID() {
+        return rezeptID;
     }
 
     @Override
-    public String[] getCSVData() {
-        String[] data = new String[CSVPositions.values().length];
-        data[CSVPositions.RECIPEID.ordinal()] = String.valueOf(this.recipeID);
-        data[CSVPositions.TITLE.ordinal()] = String.valueOf(this.title);
-        data[CSVPositions.DIFFICULTY.ordinal()] = String.valueOf(this.schwierigkeit.getDifficultyID());
-        data[CSVPositions.DESCRIPTION.ordinal()] = String.valueOf(this.description);
-        return data;
+    public String[] bekommeCSVKopf() {
+        return new String[]{"RezeptID","Titel","Schwierigkeitsgrad","Beschreibung"};
     }
 
-    public List<String[]> getCategoriesCSV() {
-        List<String[]> csvData = new ArrayList<>();
-        for (Kategorie kategorie : this.getCategories()) {
-            String[] data = new String[2];
-            data[0] = String.valueOf(this.recipeID);
-            data[1] = String.valueOf(kategorie.getUUID());
-            csvData.add(data);
+    @Override
+    public String[] bekommeCSVDaten() {
+        String[] daten = new String[CSVPosition.values().length];
+        daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(this.rezeptID);
+        daten[CSVPosition.TITEL.ordinal()] = String.valueOf(this.titel);
+        daten[CSVPosition.SCHWIERIGKEITSGRAD.ordinal()] = String.valueOf(this.schwierigkeitsgrad.bekommeSchwierigkeitsgradID());
+        daten[CSVPosition.BESCHREIBUNG.ordinal()] = String.valueOf(this.beschreibung);
+        return daten;
+    }
+
+    public List<String[]> bekommeKategorienCSV() {
+        List<String[]> csvDaten = new ArrayList<>();
+        for (Kategorie kategorie : this.bekommeKategorien()) {
+            String[] daten = new String[2];
+            daten[0] = String.valueOf(this.rezeptID);
+            daten[1] = String.valueOf(kategorie.bekommeUUID());
+            csvDaten.add(daten);
 
         }
-       return csvData;
+       return csvDaten;
     }
 
-    public String getTitle() {
-        return title;
+    public String bekommeTitel() {
+        return titel;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public ArrayList<Kategorie> bekommeKategorien() {
+        return kategorien;
     }
 
-    public ArrayList<Kategorie> getCategories() {
-        return categories;
+    public ArrayList<Zutat> bekommeZutaten() {
+        return zutaten;
     }
 
-    public void setLabels(ArrayList<Kategorie> labels) {
-        this.categories = labels;
+    public String bekommeBeschreibung() {
+        return beschreibung;
     }
 
-    public ArrayList<Zutat> getIngredients() {
-        return ingredients;
+    public Schwierigkeit bekommeSchwierigkeitsgrad() {
+        return schwierigkeitsgrad;
     }
 
-    public void setIngredients(ArrayList<Zutat> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Schwierigkeit getDifficulty() {
-        return schwierigkeit;
-    }
-
-    public void setDifficulty(Schwierigkeit schwierigkeit) {
-        this.schwierigkeit = schwierigkeit;
-    }
-
-    public Bilder getPicture() {
-        return bilder;
-    }
-
-    public void setPicture(Bilder bilder) {
-        this.bilder = bilder;
+    public Bild bekommeBild() {
+        return bild;
     }
 }

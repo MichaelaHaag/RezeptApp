@@ -21,7 +21,7 @@ public class CSVReader {
         return csvFile;
     }
 
-    public final List<String[]> readData()
+    public final List<String[]> leseDaten()
             throws IOException {
         int expectedColumns = 0;
         String encoding =  "UTF-8";

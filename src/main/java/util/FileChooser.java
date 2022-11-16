@@ -7,7 +7,7 @@ import java.io.File;
 /* File Chooser Klasse: Ist zuständig für die Auswahl von Pfaden für Bilder */
 public class FileChooser extends Component {
 
-    public String chooseFile(){
+    public String dateiAuswahl(){
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //set Look and Feel to Windows
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {

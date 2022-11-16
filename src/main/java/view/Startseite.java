@@ -48,28 +48,28 @@ public class Startseite extends JFrame implements ActionListener {
     //Methode, um die Kachlen der einzelnen Kategorien zu erstellen
     private void initUI() {
         JPanel pnlStartseite2 = new JPanel(new FlowLayout(20, 20, 20));
-        List<Kategorie> alleKategorien = controller.entityManager.findAll(Kategorie.class);
-        JButton[] buttons = new JButton[alleKategorien.size()+1];
-        buttons[0] = new JButton("Alle Rezepte");
-        buttons[0].setName("00000000-0000-0000-0000-000000000000");
-        buttons[0].setVisible(true);
-        buttons[0].setPreferredSize(new Dimension(150, 125));
-        buttons[0].setToolTipText("Alle Katgorie");
-        pnlStartseite2.add(buttons[0]);
-        buttons[0].addActionListener(this);
+        List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
+        JButton[] knöpfe = new JButton[alleKategorien.size()+1];
+        knöpfe[0] = new JButton("Alle Rezepte");
+        knöpfe[0].setName("00000000-0000-0000-0000-000000000000");
+        knöpfe[0].setVisible(true);
+        knöpfe[0].setPreferredSize(new Dimension(150, 125));
+        knöpfe[0].setToolTipText("Alle Katgorie");
+        pnlStartseite2.add(knöpfe[0]);
+        knöpfe[0].addActionListener(this);
         Kategorie[] kategorieArray = alleKategorien.toArray(new Kategorie[0]);
         String [] kategorien = new String[kategorieArray.length];
         for(int i=0; i<kategorieArray.length; i++){
-            kategorien[i] = kategorieArray[i].getName();
+            kategorien[i] = kategorieArray[i].bekommeName();
         }
         for (int i = 0; i < kategorien.length; i++) {
-            buttons[i+1] = new JButton(kategorien[i]);
-            buttons[i+1].setName(kategorieArray[i].getUUID().toString());
-            buttons[i+1].setVisible(true);
-            buttons[i+1].setPreferredSize(new Dimension(150, 125));
-            buttons[i+1].setToolTipText(kategorien[i]);
-            pnlStartseite2.add(buttons[i+1]);
-            buttons[i+1].addActionListener(this);
+            knöpfe[i+1] = new JButton(kategorien[i]);
+            knöpfe[i+1].setName(kategorieArray[i].bekommeUUID().toString());
+            knöpfe[i+1].setVisible(true);
+            knöpfe[i+1].setPreferredSize(new Dimension(150, 125));
+            knöpfe[i+1].setToolTipText(kategorien[i]);
+            pnlStartseite2.add(knöpfe[i+1]);
+            knöpfe[i+1].addActionListener(this);
         }
         Color farbeGrau = new Color(0xFCFCFC);
         pnlStartseite.setBackground(farbeGrau);

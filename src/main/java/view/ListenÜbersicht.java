@@ -47,14 +47,14 @@ public class ListenÜbersicht {
         pnlFusszeile.add(buttonStartseite);
         pnlFusszeile.add(buttonNeuesRezept);
         pnlListenÜbersicht.add(pnlFusszeile, BorderLayout.SOUTH);
-        initUI(id);
+        initBenutzeroberfläche(id);
         frame.add( pnlListenÜbersicht );
         frame.setVisible(true);
         frame.setBounds(300,70,900,650);
     }
 
     //Diese Methode erzeugt eine Liste, mit allen Rezepten zu einer UUID
-    private void initUI(UUID id) {
+    private void initBenutzeroberfläche(UUID id) {
         String name = "00000000-0000-0000-0000-000000000000";
         UUID idAlleRezepte = UUID.fromString(name);
         if(id.equals(idAlleRezepte)){

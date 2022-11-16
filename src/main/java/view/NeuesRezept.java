@@ -251,15 +251,15 @@ public class NeuesRezept {
         frame.setBounds(400,100,600,700);
     }
 
-    //TODO Umbenennen
+
     static class ButtonRenderer extends JButton implements TableCellRenderer
     {
         public ButtonRenderer() {
             setOpaque(true);
         }
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus, int row, int column) {
-            setText((value == null) ? "-" : value.toString());
+        public Component getTableCellRendererComponent(JTable tabele, Object wert,
+                                                       boolean istAusgewählt, boolean hatFokus, int zeile, int spalte) {
+            setText((wert == null) ? "-" : wert.toString());
             return this;
         }
     }
@@ -272,10 +272,10 @@ public class NeuesRezept {
         {
             super(checkBox);
         }
-        public Component getTableCellEditorComponent(JTable table, Object value,
-                                                     boolean isSelected, int row, int column)
+        public Component getTableCellEditorComponent(JTable tabele, Object wert,
+                                                     boolean istAusgewählt, int zeile, int spalte)
         {
-            label = (value == null) ? "-" : value.toString();
+            label = (wert == null) ? "-" : wert.toString();
             button.setText(label);
             return button;
         }

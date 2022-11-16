@@ -52,13 +52,13 @@ public class RezeptAnsicht {
         pnlFusszeile.add(buttonStartseite);
         pnlFusszeile.add(buttonNeuesRezept);
         pnlRezeptAnsicht.add(pnlFusszeile, BorderLayout.SOUTH);
-        initUI(id);
+        initBenutzeroberfläche(id);
         frame.add( pnlRezeptAnsicht );
         frame.setVisible(true);
         frame.setBounds(300,70,900,650);
     }
     //Methode, die die Rezept Details auf den Frame einfügt
-    private void initUI(UUID id) {
+    private void initBenutzeroberfläche(UUID id) {
         Rezept ausgewähltesRezept = controller.entityManager.finde(Rezept.class, id);
         JPanel pnlRezeptAnsicht2 = new JPanel(new GridLayout(5,1));
         JPanel pnlKopfzeile = new JPanel(new BorderLayout());

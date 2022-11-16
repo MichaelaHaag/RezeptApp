@@ -26,7 +26,7 @@ public class Startseite extends JFrame implements ActionListener {
         JLabel labelLogo = new JLabel(logo);
         pnlKopfzeile.add(labelLogo);
         pnlStartseite.add(pnlKopfzeile, BorderLayout.NORTH);
-        initUI();
+        initBenutzeroberfläche();
         JPanel fusszeile = new JPanel(new GridLayout());
         Color farbeGrün = new Color(0x00AAAA);
         fusszeile.setBackground(farbeGrün);
@@ -46,7 +46,7 @@ public class Startseite extends JFrame implements ActionListener {
     }
 
     //Methode, um die Kachlen der einzelnen Kategorien zu erstellen
-    private void initUI() {
+    private void initBenutzeroberfläche() {
         JPanel pnlStartseite2 = new JPanel(new FlowLayout(20, 20, 20));
         List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
         JButton[] knöpfe = new JButton[alleKategorien.size()+1];

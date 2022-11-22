@@ -1,0 +1,14 @@
+\chapter{Domain Driven Design}
+In diesem Kapitel wird die Ubiquitous Language unseres Projektes analysiert. Außerdem werden die Entities \& Value Objects basierend auf der entwickelten Software modelliert und abschließend die verwendeten Repositories und Aggregates analysiert und erklärt.
+\section{Ubiquitous Language}
+\subsection{Sprache}
+Ubiquitous Language  bedeutet, eine Sprache und die Begriffe so zu wählen, dass die Domänenexperten und die Entwickler minimalen übersetzungs Aufwand haben.  Aufgrund von einer deutschen Domäne und Anwendung haben wir deutsche Domänen Begriffe verwendet.
+Die Dateinamen und Ordner der Javaklassen wurden so gewählt, dass sie den Domänenexperten und den nicht Entwicklern, mit kurzen und aussagekräftigen Worten über die Funktionalität aufschluss geben. !!! Folgendes wurde von Merlin inspiriert (umgeschrieben) übernommen und sollte hier erwähnt werden, wenn wir es gemacht haben: Handelt es sich um eine Enität oder ein Value Objekt, werden diese entsprechend benannt.
+Da sich Ubiquitous Language  auf das gesamte Projekt bezieht, wurden auch die Tests in der Domain Sprache geschrieben und sollen für alle Leser verständlich sein. Der Test XXX, repräsentiert sehr gut die verwendete Ubiquitous Language. !!!
+\subsection{Begriffsdefinition}
+Die Anwendungsdomäne befasst sich mit der Verwaltung von Rezepten. Daher ist der erste zentrale Begriff der Domäne das \textbf{Rezept}. Ein Rezept setzt sich aus einer Menge von \textbf{Zutaten}, einer Menge von Rezept \textbf{Kategorien}, einer \textbf{Schwierigkeit} und optional einem \textbf{Bild} zusammen. Eine \textbf{Zutat} enthält Informationen, in welcher \textbf{Menge} die Zutat in das Rezept gehört, sowie die dazugehörende \textbf{Einheit}. 
+Ein weiterer wichtiger Begriff in der Domäne sind die Rezept \textbf{Kategorien}. Sie enthalten einen Namen, eine Beschreibung und zusätzlich noch eine Kurzform des Namens, für eine schönere Visualisierung in der Benutzeroberfläche.
+Die \textbf{Schwierigkeit} eines Rezeptes kann in der Domäne \textbf{einfach}, \textbf{mittel} oder \textbf{schwer} sein. Das \textbf{Bild} enthält neben dem zugehörigen Rezept noch den \textbf{Pfad}, an dem ein Bild gespeichert ist.
+\subsection{Entities \& Value Objects}
+\subsection{Repositories}
+\subsection{Aggregates}

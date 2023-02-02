@@ -21,14 +21,14 @@ public class Zutat implements IPersistierbar {
     public Zutat(UUID zutatID, UUID rezeptID, Menge menge, String name) {
         this.zutatID = zutatID;
         this.rezeptID = rezeptID;
+        this.menge = menge;
         this.name = name;
     }
 
     public enum CSVPosition {
         ZUATATID,
         REZEPTID,
-        MENGE,
-        EINHEITID,
+        MENGEID,
         NAME
     }
 
@@ -38,7 +38,7 @@ public class Zutat implements IPersistierbar {
 
     @Override
     public String[] bekommeCSVKopf() {
-        return new String[]{"ZutatID","RezeptID","Menge","EinheitID","Name"};
+        return new String[]{"ZutatID","RezeptID","Menge","Name"};
     }
 
     @Override
@@ -46,7 +46,7 @@ public class Zutat implements IPersistierbar {
         String[] daten = new String[CSVPosition.values().length];
         daten[CSVPosition.ZUATATID.ordinal()] = String.valueOf(this.zutatID);
         daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(this.rezeptID);
-        daten[CSVPosition.MENGE.ordinal()] = String.valueOf(this.menge);
+        daten[CSVPosition.MENGEID.ordinal()] = String.valueOf(this.menge.bekommeUUID());
         daten[CSVPosition.NAME.ordinal()] = String.valueOf(this.name);
         return daten;
     }

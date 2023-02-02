@@ -45,22 +45,29 @@ public class MainController {
         });
         csvDaten.clear();
 
-/*        csvReader = new CSVReader(csvBilderPfad + "Einheit.csv");
+        csvReader = new CSVReader(csvBilderPfad + "Menge.csv");
         csvDaten = csvReader.leseDaten();
         csvDaten.forEach(csvZeile -> {
             try {
-                UUID einheitID = UUID.fromString(csvZeile[ EinheitAlt.CSVPosition.EINEHEITID.ordinal() ]);
-                String name = csvZeile[ EinheitAlt.CSVPosition.NAME.ordinal() ];
-                String beschreibung = csvZeile[ EinheitAlt.CSVPosition.BESCHREIBUNG.ordinal() ];
+                UUID mengeID = UUID.fromString(csvZeile[ Menge.CSVPosition.MENGEID.ordinal() ]);
+                long menge = Long.parseLong(csvZeile[ Menge.CSVPosition.MENGE.ordinal() ]);
+                String einheitName = csvZeile[ Menge.CSVPosition.EINHEIT.ordinal() ];
+                Einheit einheit = null;
 
-                element = new EinheitAlt(einheitID, name, beschreibung);
+                for(Einheit enumEinheit : Einheit.values()){
+                    if(enumEinheit.bekommeName().equals(einheitName)){
+                        einheit = enumEinheit;
+                    }
+                }
+
+                element = new Menge(mengeID, menge, einheit);
                 entityManager.speichere( element );
 
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
         });
-        csvDaten.clear();*/
+        csvDaten.clear();
 
         csvReader = new CSVReader(csvBilderPfad + "Zutaten.csv");
         csvDaten = csvReader.leseDaten();
@@ -68,13 +75,19 @@ public class MainController {
             try {
                 UUID zutatenID = UUID.fromString(csvZeile[ Zutat.CSVPosition.ZUATATID.ordinal() ]);
                 UUID zutatenRezeptID = UUID.fromString(csvZeile[ Zutat.CSVPosition.REZEPTID.ordinal() ]);
-
-                UUID zutatenEinheitID = UUID.fromString(csvZeile[ Zutat.CSVPosition.EINHEITID.ordinal() ]);
+                UUID mengeID = UUID.fromString(csvZeile[ Zutat.CSVPosition.MENGEID.ordinal() ]);
                 String name = csvZeile[ Zutat.CSVPosition.NAME.ordinal() ];
-                //TODO: Hier muss die Menge ordentlich gelesen Menge-Einheit
-                //Menge menge = Long.parseLong( csvZeile[ Zutat.CSVPosition.MENGE.ordinal() ]);
 
-               // element = new Zutat(zutatenID, zutatenRezeptID, menge, einheit, name);
+                Menge menge = null;
+                List<Menge> mengenListe = entityManager.findeAlle(Menge.class);
+                for (Menge mengeListObject : mengenListe){
+                    if (mengeListObject.bekommeUUID().equals(mengeID)){
+                        menge = mengeListObject;
+                    }
+                }
+                //TODO: Hier muss die Menge ordentlich gelesen Menge-Einheit
+
+                element = new Zutat(zutatenID, zutatenRezeptID, menge, name);
                 entityManager.speichere( element );
             } catch (Exception e1) {
                 e1.printStackTrace();

@@ -1,8 +1,2 @@
-#ZutatenID;RezeptID;Menge;EinheitID;Name
-7bfa1241-ccc2-4796-98c6-36657ce37f2c;f858cd3e-7777-4e60-8437-3956a905bc2e;2;dcad4e20-afcd-41b5-b971-6a2d65c94b3b;Brötchen
-18ada553-3480-438f-b17b-7c2c00defe1c;f858cd3e-7777-4e60-8437-3956a905bc2e;2;dcad4e20-afcd-41b5-b971-6a2d65c94b3b;Saure Gurken
-d6b3ffaa-1e4d-4c5a-bded-26e1389a33bd;b5592ed6-1fa0-4364-b1de-7f1f34d60f64;1;2c9be044-47a1-4a47-b79a-5b0c27635dab;Stückige Tomaten
-6a8ea0ae-ee50-4a0a-b797-d6108ba9abf9;b5592ed6-1fa0-4364-b1de-7f1f34d60f64;500;661c7e3c-ac4d-4b9b-a4ba-2fb2e0dac4d3;Hackfleisch
-433ad5f3-d340-4d24-b6d9-f748d4311d7f;b5592ed6-1fa0-4364-b1de-7f1f34d60f64;500;661c7e3c-ac4d-4b9b-a4ba-2fb2e0dac4d3;Spaghetti
-bd51225a-cc8a-4534-9e57-f5c951520c8d;f858cd3e-7777-4e60-8437-3956a905bc2e;2;dcad4e20-afcd-41b5-b971-6a2d65c94b3b;Würstchen
-91cc04ef-c323-486f-ac2e-8a3b7c52b3df;b5592ed6-1fa0-4364-b1de-7f1f34d60f64;1;56eb6887-ff64-446d-af80-d991c09e60d2;Salz
+#ZutatID;RezeptID;Menge;EinheitID;Name
+3afb18fe-d354-4bda-a970-be11e14b2a4e;ece61344-6509-447b-b5ab-6d8c2c8ce86b;model.Menge@287d1b39;;Zucker

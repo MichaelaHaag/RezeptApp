@@ -15,28 +15,35 @@ import java.util.UUID;
 import static app.RezeptApp.controller;
 
 /* Die KLasse erzeugt einen Frame, indem man ein neues Rezept hinzufügen kann*/
-public class NeuesRezept {
+public class RezeptBearbeiten {
     JFrame frame = new JFrame();
     JPanel pnlNeuesRezept = new JPanel(new BorderLayout());
     JButton button = new JButton();
 
-    public NeuesRezept()  {
+    public RezeptBearbeiten(Rezept rezept)  {
         JPanel pnlMitte = new JPanel(new BorderLayout());
         JPanel pnlOben = new JPanel(new GridLayout(2,2));
         System.out.println("Das Panel für ein neues Rezept wird gestartet");
         JLabel labelTitel = new JLabel("Titel: ");
         JTextField textfeldTitel = new JTextField();
+        textfeldTitel.setText(rezept.bekommeTitel());
         pnlOben.add(labelTitel);
         pnlOben.add(textfeldTitel);
 
         JLabel labelTags = new JLabel("Tags: ");
         List<Kategorie> kategorien = controller.entityManager.findeAlle(Kategorie.class);
+        List<Kategorie> kategorienAusgewählt = rezept.bekommeKategorien();
         JPanel pnlCheckboxen = new JPanel(new FlowLayout());
         Checkbox[] checkboxen = new Checkbox[kategorien.size()];
         for(int i=0; i<kategorien.size(); i++){
             Checkbox checkboxKategorie = new Checkbox(kategorien.get(i).bekommeKurzformName());
             checkboxen[i]= checkboxKategorie;
             pnlCheckboxen.add(checkboxKategorie);
+            for(int j=0; j<kategorienAusgewählt.size(); j++){
+                if(kategorien.get(i)==kategorienAusgewählt.get(j)){
+                    checkboxKategorie.setState(true);
+                }
+            }
         }
 
         pnlOben.add(labelTags);
@@ -45,11 +52,12 @@ public class NeuesRezept {
 
         pnlMitte.add(pnlOben, BorderLayout.NORTH);
 
-        Einheit[] alleEinheiten = Einheit.values();
+        Einheit [] alleEinheiten = Einheit.values();
         String [] stringEinheiten = new String[alleEinheiten.length];
         for(int i=0; i<alleEinheiten.length; i++){
             stringEinheiten[i] = alleEinheiten[i].bekommeName();
         }
+
         JComboBox<String> comboBoxEinheit = new JComboBox<>(stringEinheiten);
 
         JLabel labelZutaten = new JLabel("Zutaten: ");
@@ -64,7 +72,12 @@ public class NeuesRezept {
         model.addColumn("Zutat");
         model.addColumn("Löschen");
 
-        model.addRow(new Object[]{"","l", "", "-"});
+        List<Zutat> zutaten = rezept.bekommeZutaten();
+        Zutat[] arrayZuaten = zutaten.toArray(new Zutat[0]);
+        for(int i=0; i<arrayZuaten.length; i++){
+            model.addRow(new Object[]{"","l", "", "-"});
+        }
+
 
         TableColumn einheitSpalte = tabelle.getColumnModel().getColumn(1);
         einheitSpalte.setCellEditor(new DefaultCellEditor(comboBoxEinheit));
@@ -177,8 +190,8 @@ public class NeuesRezept {
                     String name = (String) tabelle.getModel().getValueAt(i, 2);
 
                     Einheit ausgewählteEinheit = null;
-                    Einheit[] alleEinheit = Einheit.values();
-                    for (Einheit einheit : alleEinheit) {
+                    Einheit[] einheiten = Einheit.values();
+                    for (Einheit einheit : einheiten) {
                         if (einheit.bekommeName().equals(einheitText)) {
                             ausgewählteEinheit = einheit;
                         }
@@ -285,3 +298,4 @@ public class NeuesRezept {
         }
     }
 }
+

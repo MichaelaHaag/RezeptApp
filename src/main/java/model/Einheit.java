@@ -1,52 +1,41 @@
 package model;
 
-import util.IPersistierbar;
+public enum Einheit {
 
-import java.util.UUID;
+    Kilogramm("kg", "Kilogramm"),
+    Gramm("g", "Gramm"),
+    Milliliter("ml", "Milliliter"),
+    Liter("l", "Liter"),
+    Esslöffel("EL", "Esslöffel"),
+    Teelöffel("TL", "Teelöffel"),
+    Stück("Stück", "Stück"),
+    Packung("Pck", "Packung"),
+    Priese("Priese", "Priese"),
+    Glas("Glas", "Glas"),
+    Dose("Dose", "Dose");
 
-/* Einheit Klasse: Definiert eine Einheit einer Zutat */
-public class Einheit implements IPersistierbar {
-    private final UUID einheitID;
-    private String name;
-    private String beschreibung;
+    private final String name;
+    private final String beschreibung;
 
-    public Einheit(String name, String beschreibung) {
-        this.einheitID = UUID.randomUUID();
+    Einheit(String name, String beschreibung) {
+        if (name.isEmpty()||beschreibung.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Name oder Beschreibung dürfen nicht leer gelassen werden!");
+        }
         this.name = name;
         this.beschreibung = beschreibung;
-    }
-
-    public Einheit(UUID einheitID, String name, String beschreibung) {
-        this.einheitID = einheitID;
-        this.name = name;
-        this.beschreibung = beschreibung;
-    }
-
-    public enum CSVPosition {
-        EINEHEITID,
-        NAME,
-        BESCHREIBUNG
-    }
-
-    public UUID bekommeUUID() {
-        return einheitID;
-    }
-
-    @Override
-    public String[] bekommeCSVKopf() {
-        return new String[]{"EinheitID","Name","Beschreibung"};
-    }
-
-    @Override
-    public String[] bekommeCSVDaten() {
-        String[] daten = new String[CSVPosition.values().length];
-        daten[CSVPosition.EINEHEITID.ordinal()] = String.valueOf(this.einheitID);
-        daten[CSVPosition.NAME.ordinal()] = String.valueOf(this.name);
-        daten[CSVPosition.BESCHREIBUNG.ordinal()] = String.valueOf(this.beschreibung);
-        return daten;
     }
 
     public String bekommeName() {
+        return this.name;
+    }
+
+    public String bekommeBeschreibung() {
+        return this.beschreibung;
+    }
+
+    @Override
+    public String toString() {
         return name;
     }
 }

@@ -11,29 +11,26 @@ public enum Schwierigkeit {
     private final String name;
 
     Schwierigkeit(int schwierigkeitsgradID, String name) {
+        if (schwierigkeitsgradID < 0) {
+            throw new IllegalArgumentException(
+                    "Schwierigkeitgrad darf nicht negativ sein " + schwierigkeitsgradID);
+        }
+
         this.schwierigkeitsgradID = schwierigkeitsgradID;
         this.name = name;
     }
 
     public int bekommeSchwierigkeitsgradID() {
-        return schwierigkeitsgradID;
+        return this.schwierigkeitsgradID;
     }
 
     public String bekomeName() {
-        return name;
-    }
-
-    public static String[] bekommeAlleSchwierigkeiten(){
-        String[] schwierigkeiten = new String[Schwierigkeit.values().length];
-        for (int i = 0; i < Schwierigkeit.values().length; i++ ){
-            schwierigkeiten[i] = Schwierigkeit.values()[i].bekomeName();
-        }
-        return schwierigkeiten;
+        return this.name;
     }
 
     @Override
     public String toString() {
-        return name;
+        return this.name;
     }
 
 }

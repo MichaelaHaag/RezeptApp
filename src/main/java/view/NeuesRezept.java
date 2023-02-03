@@ -188,7 +188,6 @@ public class NeuesRezept {
                     rezeptEinheiten.add(zutat);
 
                     try {
-                        controller.entityManager.speichere(menge);
                         controller.entityManager.speichere(zutat);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -228,9 +227,7 @@ public class NeuesRezept {
                     }
                 }
 
-                //Mengen, Zutaten und Rezept in CSV Speichern
-                List<Menge> alleMengen = controller.entityManager.findeAlle(Menge.class);
-                controller.speichereCSVDaten(controller.csvBilderPfad + "Menge.csv", alleMengen);
+                //Zutaten und Rezept in CSV Speichern
                 List<Zutat> alleZutaten = controller.entityManager.findeAlle(Zutat.class);
                 controller.speichereCSVDaten(controller.csvBilderPfad + "Zutaten.csv", alleZutaten);
                 List<Rezept> alleRezepte = controller.entityManager.findeAlle(Rezept.class);

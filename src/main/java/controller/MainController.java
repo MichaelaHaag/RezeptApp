@@ -45,29 +45,6 @@ public class MainController {
         });
         csvDaten.clear();
 
-        csvReader = new CSVReader(csvBilderPfad + "Menge.csv");
-        csvDaten = csvReader.leseDaten();
-        csvDaten.forEach(csvZeile -> {
-            try {
-                UUID mengeID = UUID.fromString(csvZeile[ Menge.CSVPosition.MENGEID.ordinal() ]);
-                long menge = Long.parseLong(csvZeile[ Menge.CSVPosition.MENGE.ordinal() ]);
-                String einheitName = csvZeile[ Menge.CSVPosition.EINHEIT.ordinal() ];
-                Einheit einheit = null;
-
-                for(Einheit enumEinheit : Einheit.values()){
-                    if(enumEinheit.bekommeName().equals(einheitName)){
-                        einheit = enumEinheit;
-                    }
-                }
-
-                element = new Menge(mengeID, menge, einheit);
-                entityManager.speichere( element );
-
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-        csvDaten.clear();
 
         csvReader = new CSVReader(csvBilderPfad + "Zutaten.csv");
         csvDaten = csvReader.leseDaten();
@@ -75,19 +52,22 @@ public class MainController {
             try {
                 UUID zutatenID = UUID.fromString(csvZeile[ Zutat.CSVPosition.ZUATATID.ordinal() ]);
                 UUID zutatenRezeptID = UUID.fromString(csvZeile[ Zutat.CSVPosition.REZEPTID.ordinal() ]);
-                UUID mengeID = UUID.fromString(csvZeile[ Zutat.CSVPosition.MENGEID.ordinal() ]);
-                String name = csvZeile[ Zutat.CSVPosition.NAME.ordinal() ];
+                String mengeString = csvZeile[ Zutat.CSVPosition.MENGE.ordinal() ];
+                String zutatName = csvZeile[ Zutat.CSVPosition.NAME.ordinal() ];
 
-                Menge menge = null;
-                List<Menge> mengenListe = entityManager.findeAlle(Menge.class);
-                for (Menge mengeListObject : mengenListe){
-                    if (mengeListObject.bekommeUUID().equals(mengeID)){
-                        menge = mengeListObject;
+                String[] mengeStringParts = mengeString.split("-");
+                long mengeAnzahl = Long.parseLong( mengeStringParts[0]);
+                String einheitString = mengeStringParts[1];
+
+                Einheit einheit = null;
+                for(Einheit enumEinheit : Einheit.values()){
+                    if(enumEinheit.bekommeName().equals(einheitString)){
+                        einheit = enumEinheit;
                     }
                 }
-                //TODO: Hier muss die Menge ordentlich gelesen Menge-Einheit
+                Menge menge = new Menge(mengeAnzahl, einheit);
 
-                element = new Zutat(zutatenID, zutatenRezeptID, menge, name);
+                element = new Zutat(zutatenID, zutatenRezeptID, menge, zutatName);
                 entityManager.speichere( element );
             } catch (Exception e1) {
                 e1.printStackTrace();

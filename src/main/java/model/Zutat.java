@@ -28,7 +28,7 @@ public class Zutat implements IPersistierbar {
     public enum CSVPosition {
         ZUATATID,
         REZEPTID,
-        MENGEID,
+        MENGE,
         NAME
     }
 
@@ -46,7 +46,7 @@ public class Zutat implements IPersistierbar {
         String[] daten = new String[CSVPosition.values().length];
         daten[CSVPosition.ZUATATID.ordinal()] = String.valueOf(this.zutatID);
         daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(this.rezeptID);
-        daten[CSVPosition.MENGEID.ordinal()] = String.valueOf(this.menge.bekommeUUID());
+        daten[CSVPosition.MENGE.ordinal()] = String.valueOf(this.menge.toString());
         daten[CSVPosition.NAME.ordinal()] = String.valueOf(this.name);
         return daten;
     }

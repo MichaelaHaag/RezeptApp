@@ -1,5 +1,7 @@
 package view;
 
+import controller.FunktionenRezeptBearbeiten;
+import controller.FunktionenStartseite;
 import model.Kategorie;
 
 import javax.swing.*;
@@ -49,39 +51,48 @@ public class Startseite extends JFrame implements ActionListener {
     private void initBenutzeroberfläche() {
         JPanel pnlStartseite2 = new JPanel(new FlowLayout(20, 20, 20));
         List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
-        JButton[] knöpfe = new JButton[alleKategorien.size()+1];
-        knöpfe[0] = new JButton("Alle Rezepte");
+        JButton[] knöpfe = new JButton[alleKategorien.size()+2];
+
+        knöpfe[0] = new JButton("<html>Kategorie<br>hinzufügen</html>");
         knöpfe[0].setName("00000000-0000-0000-0000-000000000000");
         knöpfe[0].setVisible(true);
         knöpfe[0].setPreferredSize(new Dimension(150, 125));
-        knöpfe[0].setToolTipText("Alle Katgorie");
+        knöpfe[0].setToolTipText("Kategorie hinzufügen");
         pnlStartseite2.add(knöpfe[0]);
-        knöpfe[0].addActionListener(this);
+        knöpfe[0].addActionListener(ae -> {
+            String getMessage = JOptionPane.showInputDialog(this, "Name der Kategorie: ");
+            FunktionenStartseite.kategorieHinzufügen(getMessage);
+        });
+
+        knöpfe[1] = new JButton("Alle Rezepte");
+        knöpfe[1].setName("11111111-1111-1111-1111-111111111111");
+        knöpfe[1].setVisible(true);
+        knöpfe[1].setPreferredSize(new Dimension(150, 125));
+        knöpfe[1].setToolTipText("Alle Katgorie");
+        pnlStartseite2.add(knöpfe[1]);
+        knöpfe[1].addActionListener(ae -> {
+            FunktionenStartseite.listenÜbersichtÖffnen(ae);
+        });
         Kategorie[] kategorieArray = alleKategorien.toArray(new Kategorie[0]);
         String [] kategorien = new String[kategorieArray.length];
         for(int i=0; i<kategorieArray.length; i++){
             kategorien[i] = kategorieArray[i].bekommeName();
         }
         for (int i = 0; i < kategorien.length; i++) {
-            knöpfe[i+1] = new JButton(kategorien[i]);
-            knöpfe[i+1].setName(kategorieArray[i].bekommeUUID().toString());
-            knöpfe[i+1].setVisible(true);
-            knöpfe[i+1].setPreferredSize(new Dimension(150, 125));
-            knöpfe[i+1].setToolTipText(kategorien[i]);
-            pnlStartseite2.add(knöpfe[i+1]);
-            knöpfe[i+1].addActionListener(this);
+            knöpfe[i+2] = new JButton(kategorien[i]);
+            knöpfe[i+2].setName(kategorieArray[i].bekommeUUID().toString());
+            knöpfe[i+2].setVisible(true);
+            knöpfe[i+2].setPreferredSize(new Dimension(150, 125));
+            knöpfe[i+2].setToolTipText(kategorien[i]);
+            pnlStartseite2.add(knöpfe[i+2]);
+            knöpfe[i+2].addActionListener(ae -> {
+                FunktionenStartseite.listenÜbersichtÖffnen(ae);
+            });
         }
         Color farbeGrau = new Color(0xFCFCFC);
         pnlStartseite.setBackground(farbeGrau);
         pnlStartseite.add(pnlStartseite2, BorderLayout.CENTER);
     }
-
-    /*Methode für die Funktionalität der Buttons. Wird ein Button geklickt, so öffnet sich die UI der KLasse
-    Listpage (eine Liste mit allen Rezepten der ausgewählten Kategorie */
     public void actionPerformed (ActionEvent ae){
-        JButton angeklickterButton = (JButton)ae.getSource();
-        String name = angeklickterButton.getName();
-        UUID id = UUID.fromString(name);
-        new ListenÜbersicht(id);
     }
 }

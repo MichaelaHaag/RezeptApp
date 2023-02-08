@@ -1,5 +1,6 @@
 package view;
 
+import controller.FunktionenRezeptBearbeiten;
 import model.*;
 import util.FileChooser;
 
@@ -73,11 +74,10 @@ public class RezeptBearbeiten {
         model.addColumn("Löschen");
 
         List<Zutat> zutaten = rezept.bekommeZutaten();
-        Zutat[] arrayZuaten = zutaten.toArray(new Zutat[0]);
-        for(int i=0; i<arrayZuaten.length; i++){
-            model.addRow(new Object[]{"","l", "", "-"});
-        }
 
+        for(Zutat zutat : zutaten){
+            model.addRow(new Object[]{String.valueOf(zutat.bekommeMenge().dieMenge()),zutat.bekommeMenge().dieEinheit().bekommeName(), String.valueOf(zutat.bekommeName()), "-"});
+        }
 
         TableColumn einheitSpalte = tabelle.getColumnModel().getColumn(1);
         einheitSpalte.setCellEditor(new DefaultCellEditor(comboBoxEinheit));
@@ -106,7 +106,7 @@ public class RezeptBearbeiten {
 
         JPanel pnlWesten = new JPanel(new BorderLayout());
         JLabel labelBeschreibung = new JLabel("Beschreibung: ");
-        JTextArea textAreaBeschreibung = new JTextArea("Hier sollte die Beschreibung abc stehen");
+        JTextArea textAreaBeschreibung = new JTextArea(rezept.bekommeBeschreibung());
         textAreaBeschreibung.setLineWrap(true);
         textAreaBeschreibung.setWrapStyleWord(true);
         pnlWesten.add(labelBeschreibung, BorderLayout.NORTH);
@@ -120,8 +120,12 @@ public class RezeptBearbeiten {
         Schwierigkeit[] alleSchwierigkeitsgrade = Schwierigkeit.values();
         ButtonGroup gruppe = new ButtonGroup();
         JRadioButton[] radiobuttons = new JRadioButton[alleSchwierigkeitsgrade.length];
+        Schwierigkeit schwierigkeitRezept = rezept.bekommeSchwierigkeitsgrad();
         for(int i=0; i<alleSchwierigkeitsgrade.length; i++){
             JRadioButton radioButtonSchwierigkeiten = new JRadioButton(alleSchwierigkeitsgrade[i].bekomeName());
+            if(schwierigkeitRezept.equals(alleSchwierigkeitsgrade[i])){
+                radioButtonSchwierigkeiten.setSelected(true);
+            }
             radiobuttons[i]= radioButtonSchwierigkeiten;
             gruppe.add(radiobuttons[i]);
             pnlRadioButton.add(radiobuttons[i]);
@@ -144,112 +148,8 @@ public class RezeptBearbeiten {
         JButton buttonAbbrechen = new JButton("Abbrechen");
         buttonAbbrechen.addActionListener(ae -> frame.dispose());
         JButton buttonSpeichern = new JButton("Speichern");
-        //TODO: Folggendes muss raus!
         buttonSpeichern.addActionListener(ae -> {
-            boolean tabelleBearbeitet = false;
-            if(tabelle.getCellEditor() != null){
-                tabelle.getCellEditor().stopCellEditing();
-                tabelleBearbeitet = true;
-            }
-            UUID rezeptID = UUID.randomUUID();
-            String titel = textfeldTitel.getText();
-            String beschreibung = textAreaBeschreibung.getText();
-            ArrayList<Kategorie> rezeptKategorien = new ArrayList<>();
-            ArrayList<Zutat> rezeptEinheiten = new ArrayList<>();
-            Schwierigkeit schwierigkeit = null;
-
-            List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
-            for (int i = 0; i < alleKategorien.size(); i++) {
-                if(checkboxen[i].getState()){
-                    System.out.println( checkboxen[i].getLabel());
-                    for (Kategorie kategorie : alleKategorien){
-                        if (kategorie.bekommeKurzformName().equals(checkboxen[i].getLabel())){
-                            rezeptKategorien.add(kategorie);
-                        }
-                    }
-                }
-            }
-
-            for (JRadioButton radiobutton : radiobuttons){
-                if (radiobutton.isSelected()){
-                    for(Schwierigkeit enumSchwierigkeit : Schwierigkeit.values()){
-                        if(enumSchwierigkeit.bekomeName().equals(radiobutton.getText())){
-                            schwierigkeit = enumSchwierigkeit;
-                        }
-                    }
-                    System.out.println(radiobutton.getText());
-                }
-            }
-
-            if(!titel.equals("") && !beschreibung.equals("") && tabelleBearbeitet && !rezeptKategorien.isEmpty() && schwierigkeit != null){
-
-                for (int i = 0; i < tabelle.getRowCount(); i++) {
-                    String mengeText = (String) tabelle.getModel().getValueAt(i, 0);
-                    long mengeLong = Long.parseLong(mengeText);
-                    String einheitText = (String) tabelle.getModel().getValueAt(i, 1);
-                    String name = (String) tabelle.getModel().getValueAt(i, 2);
-
-                    Einheit ausgewählteEinheit = null;
-                    Einheit[] einheiten = Einheit.values();
-                    for (Einheit einheit : einheiten) {
-                        if (einheit.bekommeName().equals(einheitText)) {
-                            ausgewählteEinheit = einheit;
-                        }
-                    }
-                    Menge menge = new Menge(mengeLong, ausgewählteEinheit);
-                    Zutat zutat = new Zutat(rezeptID, menge, name);
-                    rezeptEinheiten.add(zutat);
-
-                    try {
-                        controller.entityManager.speichere(zutat);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                String pfad = bildPfad[0];
-                if (pfad != null){
-                    String[] aufgeteilterPfad = pfad.split("(?=src)");
-                    String stringPfad = aufgeteilterPfad[1].replace("\\", "/");
-                    Bild bildElement = new Bild(rezeptID,stringPfad);
-
-                    //Bild und Rezept im EntityManager speichern
-                    try {
-                        controller.entityManager.speichere( bildElement );
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    Rezept rezeptElement = new Rezept(rezeptID, titel, rezeptKategorien, rezeptEinheiten, beschreibung, schwierigkeit, bildElement );
-                    try {
-                        controller.entityManager.speichere( rezeptElement );
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    //Bild in der CVS Datei speichern
-                    List<Bild> alleBilder = controller.entityManager.findeAlle(Bild.class);
-                    controller.speichereCSVDaten(controller.csvBilderPfad + "Bild.csv", alleBilder);
-
-                }else{
-                    Rezept rezeptElement = new Rezept(rezeptID, titel, rezeptKategorien, rezeptEinheiten, beschreibung, schwierigkeit);
-                    try {
-                        controller.entityManager.speichere( rezeptElement );
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                //Zutaten und Rezept in CSV Speichern
-                List<Zutat> alleZutaten = controller.entityManager.findeAlle(Zutat.class);
-                controller.speichereCSVDaten(controller.csvBilderPfad + "Zutaten.csv", alleZutaten);
-                List<Rezept> alleRezepte = controller.entityManager.findeAlle(Rezept.class);
-                controller.speichereCSVDaten(controller.csvBilderPfad + "Rezept.csv", alleRezepte);
-
-                frame.dispose();
-            }else{
-                JOptionPane.showMessageDialog(null, "Bitte füllen Sie alle Felder aus!");
-            }
+            FunktionenRezeptBearbeiten.rezeptBearbeitungSpeichern();
         });
 
         pnlFusszeile.add(buttonAbbrechen);

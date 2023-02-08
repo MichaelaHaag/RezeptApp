@@ -131,7 +131,7 @@ public class NeuesRezept {
         JButton buttonAbbrechen = new JButton("Abbrechen");
         buttonAbbrechen.addActionListener(ae -> frame.dispose());
         JButton buttonSpeichern = new JButton("Speichern");
-        //TODO: Folggendes muss raus!
+        //TODO: Folgendes muss in die FunktionenNeuesrezept Klasse
         buttonSpeichern.addActionListener(ae -> {
             boolean tabelleBearbeitet = false;
             if(tabelle.getCellEditor() != null){

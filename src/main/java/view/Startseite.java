@@ -60,8 +60,12 @@ public class Startseite extends JFrame implements ActionListener {
         knöpfe[0].setToolTipText("Kategorie hinzufügen");
         pnlStartseite2.add(knöpfe[0]);
         knöpfe[0].addActionListener(ae -> {
-            String getMessage = JOptionPane.showInputDialog(this, "Name der Kategorie: ");
-            FunktionenStartseite.kategorieHinzufügen(getMessage);
+            //TODO: Wir brauchen für Kategorie drei Angaben, kannst du die in einem Popup zusammen machen?
+            String kategorieName = JOptionPane.showInputDialog(this, "Name der Kategorie: ");
+            String kategorieTag = JOptionPane.showInputDialog(this, "Kurzform der Kategorie: ");
+            String kategorieBeschreibung = JOptionPane.showInputDialog(this, "Beschreibung der Kategorie: ");
+            FunktionenStartseite.kategorieHinzufügen(kategorieName, kategorieTag, kategorieBeschreibung);
+            //TODO: Startseite neu laden, dass auch die Kategorien neu geladen werden
         });
 
         knöpfe[1] = new JButton("Alle Rezepte");

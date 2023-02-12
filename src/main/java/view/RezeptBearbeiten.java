@@ -1,5 +1,6 @@
 package view;
 
+import controller.FunktionenNeuesRezept;
 import controller.FunktionenRezeptBearbeiten;
 import model.*;
 import util.FileChooser;
@@ -149,7 +150,43 @@ public class RezeptBearbeiten {
         buttonAbbrechen.addActionListener(ae -> frame.dispose());
         JButton buttonSpeichern = new JButton("Speichern");
         buttonSpeichern.addActionListener(ae -> {
-            FunktionenRezeptBearbeiten.rezeptBearbeitungSpeichern();
+
+            String titel = textfeldTitel.getText();
+            String beschreibung = textAreaBeschreibung.getText();
+            String pfadBild = bildPfad[0];
+
+            ArrayList<String> checkedKategorien = new ArrayList<String>();
+            for (int i = 0; i < checkboxen.length; i++) {
+                if(checkboxen[i].getState()){
+                    checkedKategorien.add( checkboxen[i].getLabel());
+                }
+            }
+
+            String ausewaehlteSchwierigkeit = "";
+            for (JRadioButton radiobutton : radiobuttons){
+                if (radiobutton.isSelected()){
+                    ausewaehlteSchwierigkeit = radiobutton.getText();
+                }
+            }
+
+            if(!titel.equals("") && !beschreibung.equals("") && !checkedKategorien.isEmpty() && !ausewaehlteSchwierigkeit.equals("")) {
+                ArrayList<String[]> zutatenListe = new ArrayList<String[]>();
+                for (int i = 0; i < tabelle.getRowCount(); i++) {
+                    String mengeText = (String) tabelle.getModel().getValueAt(i, 0);
+                    String einheitText = (String) tabelle.getModel().getValueAt(i, 1);
+                    String name = (String) tabelle.getModel().getValueAt(i, 2);
+                    String[] zutatEingabe = {mengeText, einheitText, name};
+                    zutatenListe.add(zutatEingabe);
+                }
+
+                FunktionenRezeptBearbeiten.rezeptBearbeitungSpeichern(rezept, titel, beschreibung, checkedKategorien, ausewaehlteSchwierigkeit, pfadBild, zutatenListe);
+
+                frame.dispose();
+
+                //TODO Detail Ansicht Seite des Rezeptes neu laden, sodass die Änderungen angezeigt werden
+            }else{
+                JOptionPane.showMessageDialog(null, "Bitte füllen Sie alle Felder aus!");
+            }
         });
 
         pnlFusszeile.add(buttonAbbrechen);

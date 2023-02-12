@@ -110,4 +110,28 @@ public class Rezept implements IPersistierbar {
     public Bild bekommeBild() {
         return bild;
     }
+
+    public void setzeTitel(String titel) {
+        this.titel = titel;
+    }
+
+    public void setzeKategorien(ArrayList<Kategorie> kategorien) {
+        this.kategorien = kategorien;
+    }
+
+    public void setzeZutaten(ArrayList<Zutat> zutaten) {
+        this.zutaten = zutaten;
+    }
+
+    public void setzeBeschreibung(String beschreibung) {
+        this.beschreibung = beschreibung;
+    }
+
+    public void setzeSchwierigkeitsgrad(Schwierigkeit schwierigkeitsgrad) {
+        this.schwierigkeitsgrad = schwierigkeitsgrad;
+    }
+
+    public void setzeBild(Bild bild) {
+        this.bild = bild;
+    }
 }

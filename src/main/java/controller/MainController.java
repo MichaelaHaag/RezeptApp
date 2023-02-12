@@ -14,7 +14,7 @@ import java.util.UUID;
 /* Main Controller: Beinhaltet alle Funktionalitäten des Backends */
 public class MainController {
 
-    public final String csvBilderPfad = "src\\main\\resources\\CSVFiles\\";
+    public final String csvDateienPfad = "src\\main\\resources\\CSVFiles\\";
     public EntityManager entityManager = new EntityManager();
     private IPersistierbar element = null;
 
@@ -28,7 +28,7 @@ public class MainController {
 
     //Methode zum laden der Daten aus den CSV Dateien und Erstellung von Einträgen im Entitymanager
     private void ladeCSVDaten() throws IOException {
-        CSVReader csvReader = new CSVReader(csvBilderPfad + "Kategorie.csv");
+        CSVReader csvReader = new CSVReader(csvDateienPfad + "Kategorie.csv");
         List<String[]> csvDaten = csvReader.leseDaten();
         csvDaten.forEach(csvZeile -> {
             try {
@@ -46,7 +46,7 @@ public class MainController {
         csvDaten.clear();
 
 
-        csvReader = new CSVReader(csvBilderPfad + "Zutaten.csv");
+        csvReader = new CSVReader(csvDateienPfad + "Zutaten.csv");
         csvDaten = csvReader.leseDaten();
         csvDaten.forEach(csvZeile -> {
             try {
@@ -75,7 +75,7 @@ public class MainController {
         });
         csvDaten.clear();
 
-        csvReader = new CSVReader(csvBilderPfad + "Bild.csv");
+        csvReader = new CSVReader(csvDateienPfad + "Bild.csv");
         csvDaten = csvReader.leseDaten();
         csvDaten.forEach(csvZeile -> {
             try {
@@ -91,10 +91,10 @@ public class MainController {
         });
         csvDaten.clear();
 
-        csvReader = new CSVReader(csvBilderPfad + "RezeptKategorie.csv");
+        csvReader = new CSVReader(csvDateienPfad + "RezeptKategorie.csv");
         List<String[]> csvDatenRezeptKategorie = csvReader.leseDaten();
 
-        csvReader = new CSVReader(csvBilderPfad + "Rezept.csv");
+        csvReader = new CSVReader(csvDateienPfad + "Rezept.csv");
         csvDaten = csvReader.leseDaten();
         csvDaten.forEach(csvZeile -> {
             try {
@@ -160,7 +160,7 @@ public class MainController {
         objekte.forEach(e -> csvDaten.add(e.bekommeCSVDaten()));
 
         if(objekte.get(0).getClass().equals(Rezept.class)){
-            CSVWriter writerKategorie = new CSVWriter(csvBilderPfad + "RezeptKategorie.csv", true);
+            CSVWriter writerKategorie = new CSVWriter(csvDateienPfad + "RezeptKategorie.csv", true);
             String[] kategorieKopf = new String[]{"RezeptID", "KategorieID"};
             List<Object[]> kategorieCSVDaten = new ArrayList<>();
             objekte.forEach(e -> {

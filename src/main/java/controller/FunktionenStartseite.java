@@ -1,10 +1,14 @@
 package controller;
 
+import model.Kategorie;
 import view.ListenÜbersicht;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.List;
 import java.util.UUID;
+
+import static app.RezeptApp.controller;
 
 public class FunktionenStartseite {
 
@@ -16,8 +20,14 @@ public class FunktionenStartseite {
         UUID id = UUID.fromString(name);
         new ListenÜbersicht(id);
     }
-    public static void kategorieHinzufügen(String message){
-        //TODO: hier muss die neue Kategorie in der CSV gespeichert werden. In Message steht der Name der Kategorie
-        System.out.print(message);
+    public static void kategorieHinzufügen(String name, String tag, String beschreibung){
+        Kategorie neueKategorie = new Kategorie(UUID.randomUUID(), name, tag, beschreibung);
+        try {
+            controller.entityManager.speichere( neueKategorie );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
+        controller.speichereCSVDaten(controller.csvDateienPfad + "Kategorie.csv", alleKategorien);
     }
 }

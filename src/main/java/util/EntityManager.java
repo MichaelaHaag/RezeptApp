@@ -38,4 +38,9 @@ public class EntityManager {
         }
         return foundElements;
     }
+
+    // Enfterne Objekt aus EntityManger
+    public void entferne(IPersistierbar ip ) {
+        this.allElements.remove( ip.bekommeUUID() );
+    }
 }

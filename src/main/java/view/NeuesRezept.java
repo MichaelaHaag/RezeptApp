@@ -1,5 +1,6 @@
 package view;
 
+import controller.FunktionenNeuesRezept;
 import model.*;
 import util.FileChooser;
 
@@ -8,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -131,107 +133,42 @@ public class NeuesRezept {
         JButton buttonAbbrechen = new JButton("Abbrechen");
         buttonAbbrechen.addActionListener(ae -> frame.dispose());
         JButton buttonSpeichern = new JButton("Speichern");
-        //TODO: Folgendes muss in die FunktionenNeuesrezept Klasse
         buttonSpeichern.addActionListener(ae -> {
             boolean tabelleBearbeitet = false;
             if(tabelle.getCellEditor() != null){
                 tabelle.getCellEditor().stopCellEditing();
                 tabelleBearbeitet = true;
             }
-            UUID rezeptID = UUID.randomUUID();
+
             String titel = textfeldTitel.getText();
             String beschreibung = textAreaBeschreibung.getText();
-            ArrayList<Kategorie> rezeptKategorien = new ArrayList<>();
-            ArrayList<Zutat> rezeptEinheiten = new ArrayList<>();
-            Schwierigkeit schwierigkeit = null;
+            String pfadBild = bildPfad[0];
 
-            List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
-            for (int i = 0; i < alleKategorien.size(); i++) {
+            ArrayList<String> checkedKategorien = new ArrayList<String>();
+            for (int i = 0; i < checkboxen.length; i++) {
                 if(checkboxen[i].getState()){
-                    System.out.println( checkboxen[i].getLabel());
-                    for (Kategorie kategorie : alleKategorien){
-                        if (kategorie.bekommeKurzformName().equals(checkboxen[i].getLabel())){
-                            rezeptKategorien.add(kategorie);
-                        }
-                    }
+                    checkedKategorien.add( checkboxen[i].getLabel());
                 }
             }
 
+            String ausewaehlteSchwierigkeit = "";
             for (JRadioButton radiobutton : radiobuttons){
                 if (radiobutton.isSelected()){
-                    for(Schwierigkeit enumSchwierigkeit : Schwierigkeit.values()){
-                        if(enumSchwierigkeit.bekomeName().equals(radiobutton.getText())){
-                            schwierigkeit = enumSchwierigkeit;
-                        }
-                    }
-                    System.out.println(radiobutton.getText());
+                    ausewaehlteSchwierigkeit = radiobutton.getText();
                 }
             }
 
-            if(!titel.equals("") && !beschreibung.equals("") && tabelleBearbeitet && !rezeptKategorien.isEmpty() && schwierigkeit != null){
-
+            if(!titel.equals("") && !beschreibung.equals("") && tabelleBearbeitet && !checkedKategorien.isEmpty() && !ausewaehlteSchwierigkeit.equals("")) {
+                ArrayList<String[]> zutatenListe = new ArrayList<String[]>();
                 for (int i = 0; i < tabelle.getRowCount(); i++) {
                     String mengeText = (String) tabelle.getModel().getValueAt(i, 0);
-                    long mengeLong = Long.parseLong(mengeText);
                     String einheitText = (String) tabelle.getModel().getValueAt(i, 1);
                     String name = (String) tabelle.getModel().getValueAt(i, 2);
-
-                    Einheit ausgewählteEinheit = null;
-                    Einheit[] alleEinheit = Einheit.values();
-                    for (Einheit einheit : alleEinheit) {
-                        if (einheit.bekommeName().equals(einheitText)) {
-                            ausgewählteEinheit = einheit;
-                        }
-                    }
-                    Menge menge = new Menge(mengeLong, ausgewählteEinheit);
-                    Zutat zutat = new Zutat(rezeptID, menge, name);
-                    rezeptEinheiten.add(zutat);
-
-                    try {
-                        controller.entityManager.speichere(zutat);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    String[] zutatEingabe = {mengeText, einheitText, name};
+                    zutatenListe.add(zutatEingabe);
                 }
 
-                String pfad = bildPfad[0];
-                if (pfad != null){
-                    String[] aufgeteilterPfad = pfad.split("(?=src)");
-                    String stringPfad = aufgeteilterPfad[1].replace("\\", "/");
-                    Bild bildElement = new Bild(rezeptID,stringPfad);
-
-                    //Bild und Rezept im EntityManager speichern
-                    try {
-                        controller.entityManager.speichere( bildElement );
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    Rezept rezeptElement = new Rezept(rezeptID, titel, rezeptKategorien, rezeptEinheiten, beschreibung, schwierigkeit, bildElement );
-                    try {
-                        controller.entityManager.speichere( rezeptElement );
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    //Bild in der CVS Datei speichern
-                    List<Bild> alleBilder = controller.entityManager.findeAlle(Bild.class);
-                    controller.speichereCSVDaten(controller.csvBilderPfad + "Bild.csv", alleBilder);
-
-                }else{
-                    Rezept rezeptElement = new Rezept(rezeptID, titel, rezeptKategorien, rezeptEinheiten, beschreibung, schwierigkeit);
-                    try {
-                        controller.entityManager.speichere( rezeptElement );
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                //Zutaten und Rezept in CSV Speichern
-                List<Zutat> alleZutaten = controller.entityManager.findeAlle(Zutat.class);
-                controller.speichereCSVDaten(controller.csvBilderPfad + "Zutaten.csv", alleZutaten);
-                List<Rezept> alleRezepte = controller.entityManager.findeAlle(Rezept.class);
-                controller.speichereCSVDaten(controller.csvBilderPfad + "Rezept.csv", alleRezepte);
+                FunktionenNeuesRezept.neuesRezeptSpeichern(titel, beschreibung, checkedKategorien,ausewaehlteSchwierigkeit, pfadBild, zutatenListe);
 
                 frame.dispose();
             }else{

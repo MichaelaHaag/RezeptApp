@@ -1,20 +1,24 @@
 package view;
 
+import controller.FunktionenRezeptBearbeiten;
 import model.Zutat;
 import model.Rezept;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.UUID;
 
 import static app.RezeptApp.controller;
 
 /* Diese KLasse erzeugt einen Frame, indem ein Rezept detailiert Angezeigt wird*/
-public class RezeptAnsicht {
+public class RezeptAnsicht implements ActionListener {
     JFrame frame = new JFrame();
     JPanel pnlRezeptAnsicht = new JPanel(new BorderLayout());
     ImageIcon logo = new ImageIcon("src/main/resources/Pictures/RecipeCollection.png");
+    Color farbeGrün = new Color(0x00AAAA);
 
     /*Erstellung des Headers mit dem Logo und dem Footer mit den Buttons, um ein neues Rezept hinzuzufügen, ein
     Zufallrezept auszuwählen oder auf die Homepage zu gelangen */
@@ -26,7 +30,6 @@ public class RezeptAnsicht {
         pnlKopfzeile.add(labelLogo);
         pnlRezeptAnsicht.add(pnlKopfzeile, BorderLayout.NORTH);
         JPanel pnlFusszeile = new JPanel(new GridLayout());
-        Color farbeGrün = new Color(0x00AAAA);
         pnlFusszeile.setBackground(farbeGrün);
         JButton zufallsgenerator = new JButton("Zufallsgenerator");
         zufallsgenerator.addActionListener(ae -> {
@@ -81,16 +84,23 @@ public class RezeptAnsicht {
             JLabel lblBild = new JLabel(bild);
             pnlKopfzeile.add(lblBild, BorderLayout.CENTER);
         }
+        JButton buttonBearbeiten = new JButton("Bearbeiten");
+        buttonBearbeiten.addActionListener(ae -> {
+            frame.dispose();
+            FunktionenRezeptBearbeiten.rezeptBearbeiten(ausgewähltesRezept);
+        });
+        buttonBearbeiten.setPreferredSize(new Dimension(100, 80));
+        buttonBearbeiten.setBackground(farbeGrün);
+        pnlKopfzeile.add(buttonBearbeiten, BorderLayout.EAST);
         pnlRezeptAnsicht2.add(pnlKopfzeile);
         pnlRezeptAnsicht2.add(lblZutaten);
         ArrayList<Zutat> zutaten = ausgewähltesRezept.bekommeZutaten();
 
         JPanel pnlZutaten = new JPanel(new GridLayout(zutaten.size(),1));
         for (Zutat zutat : zutaten) {
-            JLabel lblMenge = new JLabel(String.valueOf(zutat.bekommeMenge()));
+            JLabel lblMenge = new JLabel(String.valueOf(zutat.bekommeMenge().dieMenge()));
             pnlZutaten.add(lblMenge);
-
-            JLabel lblEinheit = new JLabel(String.valueOf(zutat.bekommeEinheit().bekommeName()));
+            JLabel lblEinheit = new JLabel(String.valueOf(zutat.bekommeMenge().dieEinheit().bekommeName()));
             pnlZutaten.add(lblEinheit);
             JLabel lblZutat = new JLabel(String.valueOf(zutat.bekommeName()));
             pnlZutaten.add(lblZutat);
@@ -104,5 +114,10 @@ public class RezeptAnsicht {
         pnlRezeptAnsicht2.add(textfeldBeschreibung);
 
         pnlRezeptAnsicht.add(pnlRezeptAnsicht2,BorderLayout.CENTER);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }

@@ -1,8 +1,7 @@
 package view;
 
-import controller.ButtonEditor;
-import controller.ButtonRenderer;
 import controller.FunktionenNeuesRezept;
+import controller.FunktionenRezeptBearbeiten;
 import model.*;
 import util.FileChooser;
 
@@ -11,7 +10,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -19,28 +17,35 @@ import java.util.UUID;
 import static app.RezeptApp.controller;
 
 /* Die KLasse erzeugt einen Frame, indem man ein neues Rezept hinzufügen kann*/
-public class NeuesRezept {
+public class RezeptBearbeiten {
     JFrame frame = new JFrame();
     JPanel pnlNeuesRezept = new JPanel(new BorderLayout());
     JButton button = new JButton();
 
-    public NeuesRezept()  {
+    public RezeptBearbeiten(Rezept rezept)  {
         JPanel pnlMitte = new JPanel(new BorderLayout());
         JPanel pnlOben = new JPanel(new GridLayout(2,2));
         System.out.println("Das Panel für ein neues Rezept wird gestartet");
         JLabel labelTitel = new JLabel("Titel: ");
         JTextField textfeldTitel = new JTextField();
+        textfeldTitel.setText(rezept.bekommeTitel());
         pnlOben.add(labelTitel);
         pnlOben.add(textfeldTitel);
 
         JLabel labelTags = new JLabel("Tags: ");
         List<Kategorie> kategorien = controller.entityManager.findeAlle(Kategorie.class);
+        List<Kategorie> kategorienAusgewählt = rezept.bekommeKategorien();
         JPanel pnlCheckboxen = new JPanel(new FlowLayout());
         Checkbox[] checkboxen = new Checkbox[kategorien.size()];
         for(int i=0; i<kategorien.size(); i++){
             Checkbox checkboxKategorie = new Checkbox(kategorien.get(i).bekommeKurzformName());
             checkboxen[i]= checkboxKategorie;
             pnlCheckboxen.add(checkboxKategorie);
+            for(int j=0; j<kategorienAusgewählt.size(); j++){
+                if(kategorien.get(i)==kategorienAusgewählt.get(j)){
+                    checkboxKategorie.setState(true);
+                }
+            }
         }
 
         pnlOben.add(labelTags);
@@ -49,11 +54,12 @@ public class NeuesRezept {
 
         pnlMitte.add(pnlOben, BorderLayout.NORTH);
 
-        Einheit[] alleEinheiten = Einheit.values();
+        Einheit [] alleEinheiten = Einheit.values();
         String [] stringEinheiten = new String[alleEinheiten.length];
         for(int i=0; i<alleEinheiten.length; i++){
             stringEinheiten[i] = alleEinheiten[i].bekommeName();
         }
+
         JComboBox<String> comboBoxEinheit = new JComboBox<>(stringEinheiten);
 
         JLabel labelZutaten = new JLabel("Zutaten: ");
@@ -68,7 +74,11 @@ public class NeuesRezept {
         model.addColumn("Zutat");
         model.addColumn("Löschen");
 
-        model.addRow(new Object[]{"","l", "", "-"});
+        List<Zutat> zutaten = rezept.bekommeZutaten();
+
+        for(Zutat zutat : zutaten){
+            model.addRow(new Object[]{String.valueOf(zutat.bekommeMenge().dieMenge()),zutat.bekommeMenge().dieEinheit().bekommeName(), String.valueOf(zutat.bekommeName()), "-"});
+        }
 
         TableColumn einheitSpalte = tabelle.getColumnModel().getColumn(1);
         einheitSpalte.setCellEditor(new DefaultCellEditor(comboBoxEinheit));
@@ -97,7 +107,7 @@ public class NeuesRezept {
 
         JPanel pnlWesten = new JPanel(new BorderLayout());
         JLabel labelBeschreibung = new JLabel("Beschreibung: ");
-        JTextArea textAreaBeschreibung = new JTextArea("Hier sollte die Beschreibung abc stehen");
+        JTextArea textAreaBeschreibung = new JTextArea(rezept.bekommeBeschreibung());
         textAreaBeschreibung.setLineWrap(true);
         textAreaBeschreibung.setWrapStyleWord(true);
         pnlWesten.add(labelBeschreibung, BorderLayout.NORTH);
@@ -111,8 +121,12 @@ public class NeuesRezept {
         Schwierigkeit[] alleSchwierigkeitsgrade = Schwierigkeit.values();
         ButtonGroup gruppe = new ButtonGroup();
         JRadioButton[] radiobuttons = new JRadioButton[alleSchwierigkeitsgrade.length];
+        Schwierigkeit schwierigkeitRezept = rezept.bekommeSchwierigkeitsgrad();
         for(int i=0; i<alleSchwierigkeitsgrade.length; i++){
             JRadioButton radioButtonSchwierigkeiten = new JRadioButton(alleSchwierigkeitsgrade[i].toString());
+            if(schwierigkeitRezept.equals(alleSchwierigkeitsgrade[i])){
+                radioButtonSchwierigkeiten.setSelected(true);
+            }
             radiobuttons[i]= radioButtonSchwierigkeiten;
             gruppe.add(radiobuttons[i]);
             pnlRadioButton.add(radiobuttons[i]);
@@ -122,7 +136,6 @@ public class NeuesRezept {
 
         JLabel labelDokument = new JLabel("Füge ein Dokument oder Bild hinzu ");
         JButton buttonDokument = new JButton("Wähle ein Dokument");
-        //TODO: Muss das auch raus?
         final String[] bildPfad = new String[1];
         buttonDokument.addActionListener(ae -> {
             FileChooser chooser = new FileChooser();
@@ -137,11 +150,6 @@ public class NeuesRezept {
         buttonAbbrechen.addActionListener(ae -> frame.dispose());
         JButton buttonSpeichern = new JButton("Speichern");
         buttonSpeichern.addActionListener(ae -> {
-            boolean tabelleBearbeitet = false;
-            if(tabelle.getCellEditor() != null){
-                tabelle.getCellEditor().stopCellEditing();
-                tabelleBearbeitet = true;
-            }
 
             String titel = textfeldTitel.getText();
             String beschreibung = textAreaBeschreibung.getText();
@@ -161,7 +169,7 @@ public class NeuesRezept {
                 }
             }
 
-            if(!titel.equals("") && !beschreibung.equals("") && tabelleBearbeitet && !checkedKategorien.isEmpty() && !ausewaehlteSchwierigkeit.equals("")) {
+            if(!titel.equals("") && !beschreibung.equals("") && !checkedKategorien.isEmpty() && !ausewaehlteSchwierigkeit.equals("")) {
                 ArrayList<String[]> zutatenListe = new ArrayList<String[]>();
                 for (int i = 0; i < tabelle.getRowCount(); i++) {
                     String mengeText = (String) tabelle.getModel().getValueAt(i, 0);
@@ -171,9 +179,10 @@ public class NeuesRezept {
                     zutatenListe.add(zutatEingabe);
                 }
 
-                FunktionenNeuesRezept.neuesRezeptSpeichern(titel, beschreibung, checkedKategorien,ausewaehlteSchwierigkeit, pfadBild, zutatenListe);
-
+                FunktionenRezeptBearbeiten.rezeptBearbeitungSpeichern(rezept, titel, beschreibung, checkedKategorien, ausewaehlteSchwierigkeit, pfadBild, zutatenListe);
+                new RezeptAnsicht(rezept.bekommeUUID(), null);
                 frame.dispose();
+
             }else{
                 JOptionPane.showMessageDialog(null, "Bitte füllen Sie alle Felder aus!");
             }
@@ -191,4 +200,38 @@ public class NeuesRezept {
         frame.setBounds(400,100,600,700);
     }
 
+
+    static class ButtonRenderer extends JButton implements TableCellRenderer
+    {
+        public ButtonRenderer() {
+            setOpaque(true);
+        }
+        public Component getTableCellRendererComponent(JTable tabele, Object wert,
+                                                       boolean istAusgewählt, boolean hatFokus, int zeile, int spalte) {
+            setText((wert == null) ? "-" : wert.toString());
+            return this;
+        }
+    }
+
+    class ButtonEditor extends DefaultCellEditor
+    {
+        private String label;
+
+        public ButtonEditor(JCheckBox checkBox)
+        {
+            super(checkBox);
+        }
+        public Component getTableCellEditorComponent(JTable tabele, Object wert,
+                                                     boolean istAusgewählt, int zeile, int spalte)
+        {
+            label = (wert == null) ? "-" : wert.toString();
+            button.setText(label);
+            return button;
+        }
+        public Object getCellEditorValue()
+        {
+            return label;
+        }
+    }
 }
+

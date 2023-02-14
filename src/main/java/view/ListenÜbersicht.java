@@ -1,5 +1,8 @@
 package view;
 
+import controller.FunktionenListenÜbersicht;
+import controller.FunktionenNeuesRezept;
+import controller.FunktionenZufallsGenerator;
 import model.Kategorie;
 import model.Rezept;
 
@@ -30,15 +33,13 @@ public class ListenÜbersicht {
         pnlFusszeile.setBackground(farbeGrün);
         JButton buttonZufallsgenerator = new JButton("Zufallsgenerator");
         buttonZufallsgenerator.addActionListener(ae -> {
-            new ZufallsGenerator();
-            frame.dispose();
+            FunktionenZufallsGenerator.neuerZufallsGenerator(frame);
         });
         JButton buttonStartseite = new JButton("Startseite");
         buttonStartseite.addActionListener(ae -> frame.dispose());
         JButton buttonNeuesRezept = new JButton("Neues Rezept");
         buttonNeuesRezept.addActionListener(ae -> {
-            new NeuesRezept();
-            frame.dispose();
+            FunktionenNeuesRezept.neuesRezeptErstellen(frame);
         });
         buttonZufallsgenerator.setBackground(farbeGrün);
         buttonStartseite.setBackground(farbeGrün);
@@ -55,53 +56,21 @@ public class ListenÜbersicht {
 
     //Diese Methode erzeugt eine Liste, mit allen Rezepten zu einer UUID
     private void initBenutzeroberfläche(UUID id) {
-        String name = "00000000-0000-0000-0000-000000000000";
-        UUID idAlleRezepte = UUID.fromString(name);
-        if(id.equals(idAlleRezepte)){
-            try {
-                String[][] alleRezepte = controller.findeAlleRezepte();
-                Rezept rezept = new Rezept();
-                String[] spaltenNamen = rezept.bekommeCSVKopf();
-
-                // Initiaisierung der Tabele
-                JTable tabelle = new JTable(alleRezepte, spaltenNamen);
-                tabelle.setRowHeight(30);
-                tabelle.addMouseListener(new java.awt.event.MouseAdapter() {
-                                           public void mouseClicked(java.awt.event.MouseEvent e) {
-                                               int spalte = tabelle.rowAtPoint(e.getPoint());
-                                               int zeile = 0;
-                                               UUID id = UUID.fromString(tabelle.getValueAt(spalte, zeile).toString());
-                                               new RezeptAnsicht(id, frame);
-                                           }
-                                       }
-                );
-                pnlListenÜbersicht.add(new JScrollPane(tabelle), BorderLayout.CENTER);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else{
-            Kategorie eingegbeneKategorie = controller.entityManager.finde(Kategorie.class, id);
-            try {
-                String[][] rezepte = controller.findeRezepteZuKategorie(eingegbeneKategorie);
-                Rezept rezept = new Rezept();
-                String[] spaltenNamen = rezept.bekommeCSVKopf();
-
-                // Initializing the JTable
-                JTable tabelle = new JTable(rezepte, spaltenNamen);
-                tabelle.setRowHeight(30);
-                tabelle.addMouseListener(new java.awt.event.MouseAdapter() {
-                                           public void mouseClicked(java.awt.event.MouseEvent e) {
-                                               int spalte = tabelle.rowAtPoint(e.getPoint());
-                                               int zeile = 0;
-                                               UUID id = UUID.fromString(tabelle.getValueAt(spalte, zeile).toString());
-                                               new RezeptAnsicht(id, frame);
-                                           }
-                                       }
-                );
-                pnlListenÜbersicht.add(new JScrollPane(tabelle), BorderLayout.CENTER);
-            } catch (Exception e) {
-                e.printStackTrace();
+        String[][] alleRezepte = FunktionenListenÜbersicht.alleRezepte(id);
+        Rezept rezept = new Rezept();
+        String[] spaltenNamen = rezept.bekommeCSVKopf();
+        // Initiaisierung der Tabele
+        JTable tabelle = new JTable(alleRezepte, spaltenNamen);
+        tabelle.setRowHeight(30);
+        tabelle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                int spalte = tabelle.rowAtPoint(e.getPoint());
+                int zeile = 0;
+                UUID id = UUID.fromString(tabelle.getValueAt(spalte, zeile).toString());
+                FunktionenListenÜbersicht.elementAusgwewählt(id, frame);
             }
         }
+        );
+        pnlListenÜbersicht.add(new JScrollPane(tabelle), BorderLayout.CENTER);
     }
 }

@@ -70,7 +70,7 @@ public class Rezept implements IPersistierbar {
         String[] daten = new String[CSVPosition.values().length];
         daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(this.rezeptID);
         daten[CSVPosition.TITEL.ordinal()] = String.valueOf(this.titel);
-        daten[CSVPosition.SCHWIERIGKEITSGRAD.ordinal()] = String.valueOf(this.schwierigkeitsgrad.bekommeSchwierigkeitsgradID());
+        daten[CSVPosition.SCHWIERIGKEITSGRAD.ordinal()] = String.valueOf(this.schwierigkeitsgrad);
         daten[CSVPosition.BESCHREIBUNG.ordinal()] = String.valueOf(this.beschreibung);
         return daten;
     }
@@ -109,5 +109,29 @@ public class Rezept implements IPersistierbar {
 
     public Bild bekommeBild() {
         return bild;
+    }
+
+    public void setzeTitel(String titel) {
+        this.titel = titel;
+    }
+
+    public void setzeKategorien(ArrayList<Kategorie> kategorien) {
+        this.kategorien = kategorien;
+    }
+
+    public void setzeZutaten(ArrayList<Zutat> zutaten) {
+        this.zutaten = zutaten;
+    }
+
+    public void setzeBeschreibung(String beschreibung) {
+        this.beschreibung = beschreibung;
+    }
+
+    public void setzeSchwierigkeitsgrad(Schwierigkeit schwierigkeitsgrad) {
+        this.schwierigkeitsgrad = schwierigkeitsgrad;
+    }
+
+    public void setzeBild(Bild bild) {
+        this.bild = bild;
     }
 }

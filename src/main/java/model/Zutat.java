@@ -8,23 +8,20 @@ import java.util.UUID;
 public class Zutat implements IPersistierbar {
     private final UUID zutatID;
     private UUID rezeptID;
-    private long menge;
-    private Einheit einheit;
+    private Menge menge;
     private String name;
 
-    public Zutat(UUID rezeptID, long menge, Einheit einheit, String name) {
+    public Zutat(UUID rezeptID, Menge menge, String name) {
         this.zutatID = UUID.randomUUID();
         this.rezeptID = rezeptID;
         this.menge = menge;
-        this.einheit = einheit;
         this.name = name;
     }
 
-    public Zutat(UUID zutatID, UUID rezeptID, long menge, Einheit einheit, String name) {
+    public Zutat(UUID zutatID, UUID rezeptID, Menge menge, String name) {
         this.zutatID = zutatID;
         this.rezeptID = rezeptID;
         this.menge = menge;
-        this.einheit = einheit;
         this.name = name;
     }
 
@@ -32,7 +29,6 @@ public class Zutat implements IPersistierbar {
         ZUATATID,
         REZEPTID,
         MENGE,
-        EINHEITID,
         NAME
     }
 
@@ -42,7 +38,7 @@ public class Zutat implements IPersistierbar {
 
     @Override
     public String[] bekommeCSVKopf() {
-        return new String[]{"ZutatID","RezeptID","Menge","EinheitID","Name"};
+        return new String[]{"ZutatID","RezeptID","Menge","Name"};
     }
 
     @Override
@@ -50,8 +46,7 @@ public class Zutat implements IPersistierbar {
         String[] daten = new String[CSVPosition.values().length];
         daten[CSVPosition.ZUATATID.ordinal()] = String.valueOf(this.zutatID);
         daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(this.rezeptID);
-        daten[CSVPosition.MENGE.ordinal()] = String.valueOf(this.menge);
-        daten[CSVPosition.EINHEITID.ordinal()] = String.valueOf(this.einheit.bekommeUUID());
+        daten[CSVPosition.MENGE.ordinal()] = String.valueOf(this.menge.toString());
         daten[CSVPosition.NAME.ordinal()] = String.valueOf(this.name);
         return daten;
     }
@@ -60,12 +55,8 @@ public class Zutat implements IPersistierbar {
         return rezeptID;
     }
 
-    public long bekommeMenge() {
+    public Menge bekommeMenge() {
         return menge;
-    }
-
-    public Einheit bekommeEinheit() {
-        return einheit;
     }
 
     public String bekommeName() {

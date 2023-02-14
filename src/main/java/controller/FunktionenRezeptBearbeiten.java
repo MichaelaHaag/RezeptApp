@@ -35,7 +35,7 @@ public class FunktionenRezeptBearbeiten {
         }
 
         for(Schwierigkeit enumSchwierigkeit : Schwierigkeit.values()){
-            if(enumSchwierigkeit.bekomeName().equals(ausgewaelteSchwierigkeit)){
+            if(enumSchwierigkeit.toString().equals(ausgewaelteSchwierigkeit)){
                 schwierigkeit = enumSchwierigkeit;
             }
         }

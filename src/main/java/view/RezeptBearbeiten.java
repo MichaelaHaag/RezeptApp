@@ -123,7 +123,7 @@ public class RezeptBearbeiten {
         JRadioButton[] radiobuttons = new JRadioButton[alleSchwierigkeitsgrade.length];
         Schwierigkeit schwierigkeitRezept = rezept.bekommeSchwierigkeitsgrad();
         for(int i=0; i<alleSchwierigkeitsgrade.length; i++){
-            JRadioButton radioButtonSchwierigkeiten = new JRadioButton(alleSchwierigkeitsgrade[i].bekomeName());
+            JRadioButton radioButtonSchwierigkeiten = new JRadioButton(alleSchwierigkeitsgrade[i].toString());
             if(schwierigkeitRezept.equals(alleSchwierigkeitsgrade[i])){
                 radioButtonSchwierigkeiten.setSelected(true);
             }
@@ -180,10 +180,9 @@ public class RezeptBearbeiten {
                 }
 
                 FunktionenRezeptBearbeiten.rezeptBearbeitungSpeichern(rezept, titel, beschreibung, checkedKategorien, ausewaehlteSchwierigkeit, pfadBild, zutatenListe);
-
+                new RezeptAnsicht(rezept.bekommeUUID(), null);
                 frame.dispose();
 
-                //TODO Detail Ansicht Seite des Rezeptes neu laden, sodass die Änderungen angezeigt werden
             }else{
                 JOptionPane.showMessageDialog(null, "Bitte füllen Sie alle Felder aus!");
             }

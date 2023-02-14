@@ -1,5 +1,6 @@
 package app;
 
+import controller.FunktionenStartseite;
 import controller.MainController;
 import view.Startseite;
 
@@ -12,8 +13,6 @@ public class RezeptApp {
         controller = new MainController();
         controller.init();
 
-        Startseite startseite = new Startseite();
-        startseite.setVisible(true);
-        startseite.setBounds(300,70,900,650);
+        FunktionenStartseite.startseiteStarten();
     }
 }

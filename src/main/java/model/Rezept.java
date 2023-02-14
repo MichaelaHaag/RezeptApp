@@ -70,7 +70,7 @@ public class Rezept implements IPersistierbar {
         String[] daten = new String[CSVPosition.values().length];
         daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(this.rezeptID);
         daten[CSVPosition.TITEL.ordinal()] = String.valueOf(this.titel);
-        daten[CSVPosition.SCHWIERIGKEITSGRAD.ordinal()] = String.valueOf(this.schwierigkeitsgrad.bekommeSchwierigkeitsgradID());
+        daten[CSVPosition.SCHWIERIGKEITSGRAD.ordinal()] = String.valueOf(this.schwierigkeitsgrad);
         daten[CSVPosition.BESCHREIBUNG.ordinal()] = String.valueOf(this.beschreibung);
         return daten;
     }

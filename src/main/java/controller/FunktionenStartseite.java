@@ -2,6 +2,7 @@ package controller;
 
 import model.Kategorie;
 import view.ListenÜbersicht;
+import view.Startseite;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,5 +30,11 @@ public class FunktionenStartseite {
         }
         List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
         controller.speichereCSVDaten(controller.csvDateienPfad + "Kategorie.csv", alleKategorien);
+    }
+
+    public static void startseiteStarten(){
+        Startseite startseite = new Startseite();
+        startseite.setVisible(true);
+        startseite.setBounds(300,70,900,650);
     }
 }

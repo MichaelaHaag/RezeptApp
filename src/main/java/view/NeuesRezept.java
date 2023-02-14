@@ -1,5 +1,7 @@
 package view;
 
+import controller.ButtonEditor;
+import controller.ButtonRenderer;
 import controller.FunktionenNeuesRezept;
 import model.*;
 import util.FileChooser;
@@ -110,7 +112,7 @@ public class NeuesRezept {
         ButtonGroup gruppe = new ButtonGroup();
         JRadioButton[] radiobuttons = new JRadioButton[alleSchwierigkeitsgrade.length];
         for(int i=0; i<alleSchwierigkeitsgrade.length; i++){
-            JRadioButton radioButtonSchwierigkeiten = new JRadioButton(alleSchwierigkeitsgrade[i].bekomeName());
+            JRadioButton radioButtonSchwierigkeiten = new JRadioButton(alleSchwierigkeitsgrade[i].toString());
             radiobuttons[i]= radioButtonSchwierigkeiten;
             gruppe.add(radiobuttons[i]);
             pnlRadioButton.add(radiobuttons[i]);
@@ -120,6 +122,7 @@ public class NeuesRezept {
 
         JLabel labelDokument = new JLabel("Füge ein Dokument oder Bild hinzu ");
         JButton buttonDokument = new JButton("Wähle ein Dokument");
+        //TODO: Muss das auch raus?
         final String[] bildPfad = new String[1];
         buttonDokument.addActionListener(ae -> {
             FileChooser chooser = new FileChooser();
@@ -188,37 +191,4 @@ public class NeuesRezept {
         frame.setBounds(400,100,600,700);
     }
 
-
-    static class ButtonRenderer extends JButton implements TableCellRenderer
-    {
-        public ButtonRenderer() {
-            setOpaque(true);
-        }
-        public Component getTableCellRendererComponent(JTable tabele, Object wert,
-                                                       boolean istAusgewählt, boolean hatFokus, int zeile, int spalte) {
-            setText((wert == null) ? "-" : wert.toString());
-            return this;
-        }
-    }
-
-    class ButtonEditor extends DefaultCellEditor
-    {
-        private String label;
-
-        public ButtonEditor(JCheckBox checkBox)
-        {
-            super(checkBox);
-        }
-        public Component getTableCellEditorComponent(JTable tabele, Object wert,
-                                                     boolean istAusgewählt, int zeile, int spalte)
-        {
-            label = (wert == null) ? "-" : wert.toString();
-            button.setText(label);
-            return button;
-        }
-        public Object getCellEditorValue()
-        {
-            return label;
-        }
-    }
 }

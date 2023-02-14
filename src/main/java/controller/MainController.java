@@ -100,7 +100,7 @@ public class MainController {
             try {
                 UUID rezeptID = UUID.fromString(csvZeile[ Rezept.CSVPosition.REZEPTID.ordinal() ]);
                 String titel = csvZeile[ Rezept.CSVPosition.TITEL.ordinal() ];
-                int schwierigkeitsgrad = Integer.parseInt(csvZeile[ Rezept.CSVPosition.SCHWIERIGKEITSGRAD.ordinal() ]);
+                String schwierigkeitsgrad = csvZeile[ Rezept.CSVPosition.SCHWIERIGKEITSGRAD.ordinal() ];
                 String beschreibung = csvZeile[ Rezept.CSVPosition.BESCHREIBUNG.ordinal() ];
                 Bild rezeptBild = null;
                 ArrayList<Zutat> zutaten = new ArrayList<>();
@@ -137,7 +137,7 @@ public class MainController {
                 });
 
                 for(Schwierigkeit enumSchwierigkeit : Schwierigkeit.values()){
-                    if(enumSchwierigkeit.bekommeSchwierigkeitsgradID() == schwierigkeitsgrad){
+                    if(enumSchwierigkeit.toString().equals(schwierigkeitsgrad)){
                         schwierigkeit = enumSchwierigkeit;
                     }
                 }

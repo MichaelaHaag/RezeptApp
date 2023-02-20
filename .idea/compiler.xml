@@ -7,7 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="RezeptApp" />
+        <module name="1-Adapters" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="RezeptApp" target="1.8" />
+      <module name="test2" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

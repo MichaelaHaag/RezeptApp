@@ -1,5 +1,6 @@
 package view;
 
+import controller.FunktionenZufallsGenerator;
 import model.Rezept;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class ZufallsGenerator {
 
     public ZufallsGenerator() {
         System.out.println("Der Randomizer wird gestartet");
-        UUID zufälligeRezeptID = zufälligeRezeptUUID();
+        UUID zufälligeRezeptID = FunktionenZufallsGenerator.zufälligeRezeptUUID();
         Rezept zufälligesRezept = controller.entityManager.finde(Rezept.class, zufälligeRezeptID);
         JLabel labelVorschlag = new JLabel(zufälligesRezept.bekommeTitel());
         labelVorschlag.setFont(new Font("Calibri", Font.PLAIN, 30));
@@ -50,12 +51,4 @@ public class ZufallsGenerator {
         frame.setBounds(500,250,500,170);
     }
 
-    //Erzeugt aus den vorhandenen UUIDs eine zufällige UUID
-    public UUID zufälligeRezeptUUID(){
-        List<Rezept> listeAlleRezepte = controller.entityManager.findeAlle(Rezept.class);
-        Random zufallsGenerator =new Random();
-        int zufallszahl = zufallsGenerator.nextInt(listeAlleRezepte.size());
-        Rezept zufallsRezept = listeAlleRezepte.get(zufallszahl);
-        return zufallsRezept.bekommeUUID();
-    }
 }

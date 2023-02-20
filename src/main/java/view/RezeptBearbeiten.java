@@ -1,5 +1,7 @@
 package view;
 
+import controller.ButtonEditor;
+import controller.ButtonRenderer;
 import controller.FunktionenNeuesRezept;
 import controller.FunktionenRezeptBearbeiten;
 import model.*;
@@ -47,23 +49,17 @@ public class RezeptBearbeiten {
                 }
             }
         }
-
         pnlOben.add(labelTags);
         pnlCheckboxen.setPreferredSize(new Dimension(600,120));
         pnlOben.add(pnlCheckboxen);
-
         pnlMitte.add(pnlOben, BorderLayout.NORTH);
-
         Einheit [] alleEinheiten = Einheit.values();
         String [] stringEinheiten = new String[alleEinheiten.length];
         for(int i=0; i<alleEinheiten.length; i++){
             stringEinheiten[i] = alleEinheiten[i].bekommeName();
         }
-
         JComboBox<String> comboBoxEinheit = new JComboBox<>(stringEinheiten);
-
         JLabel labelZutaten = new JLabel("Zutaten: ");
-
         JPanel pnlZutaten = new JPanel(new BorderLayout());
 
         DefaultTableModel model = new DefaultTableModel();
@@ -200,38 +196,5 @@ public class RezeptBearbeiten {
         frame.setBounds(400,100,600,700);
     }
 
-
-    static class ButtonRenderer extends JButton implements TableCellRenderer
-    {
-        public ButtonRenderer() {
-            setOpaque(true);
-        }
-        public Component getTableCellRendererComponent(JTable tabele, Object wert,
-                                                       boolean istAusgewählt, boolean hatFokus, int zeile, int spalte) {
-            setText((wert == null) ? "-" : wert.toString());
-            return this;
-        }
-    }
-
-    class ButtonEditor extends DefaultCellEditor
-    {
-        private String label;
-
-        public ButtonEditor(JCheckBox checkBox)
-        {
-            super(checkBox);
-        }
-        public Component getTableCellEditorComponent(JTable tabele, Object wert,
-                                                     boolean istAusgewählt, int zeile, int spalte)
-        {
-            label = (wert == null) ? "-" : wert.toString();
-            button.setText(label);
-            return button;
-        }
-        public Object getCellEditorValue()
-        {
-            return label;
-        }
-    }
 }
 

@@ -1,6 +1,7 @@
 package controller;
 
 import model.Kategorie;
+import model.KategorieRepository;
 import model.Rezept;
 import view.ListenÜbersicht;
 import view.RezeptAnsicht;
@@ -14,6 +15,7 @@ import java.util.UUID;
 import static app.RezeptApp.controller;
 
 public class FunktionenListenÜbersicht {
+    final static KategorieRepository kategorieRepository = new KategorieRepository();
 
     public static  String[][] alleRezepte(UUID id) {
         String name = "11111111-1111-1111-1111-111111111111";
@@ -30,7 +32,7 @@ public class FunktionenListenÜbersicht {
             }
 
         }else{
-            Kategorie eingegbeneKategorie = controller.entityManager.finde(Kategorie.class, id);
+            Kategorie eingegbeneKategorie = kategorieRepository.findeKategorie(id);
             try {
                 String[][] rezepte = controller.findeRezepteZuKategorie(eingegbeneKategorie);
                 return rezepte;

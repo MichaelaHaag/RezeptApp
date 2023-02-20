@@ -1,8 +1,7 @@
 package view;
 
 import controller.FunktionenRezeptBearbeiten;
-import model.Zutat;
-import model.Rezept;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +14,7 @@ import static app.RezeptApp.controller;
 
 /* Diese KLasse erzeugt einen Frame, indem ein Rezept detailiert Angezeigt wird*/
 public class RezeptAnsicht implements ActionListener {
+    final static RezeptRepository rezeptRepository = new RezeptRepository();
     JFrame frame = new JFrame();
     JPanel pnlRezeptAnsicht = new JPanel(new BorderLayout());
     ImageIcon logo = new ImageIcon("src/main/resources/Pictures/RecipeCollection.png");
@@ -62,13 +62,13 @@ public class RezeptAnsicht implements ActionListener {
     }
     //Methode, die die Rezept Details auf den Frame einfügt
     private void initBenutzeroberfläche(UUID id) {
-        Rezept ausgewähltesRezept = controller.entityManager.finde(Rezept.class, id);
+        Rezept ausgewähltesRezept = rezeptRepository.findeRezept(id);
         JPanel pnlRezeptAnsicht2 = new JPanel(new GridLayout(5,1));
         JPanel pnlKopfzeile = new JPanel(new BorderLayout());
         JPanel pnlTitel = new JPanel(new GridLayout(2,1));
         JLabel lblTitel = new JLabel(ausgewähltesRezept.bekommeTitel());
         lblTitel.setFont(new Font("Calibri", Font.PLAIN, 30));
-        JLabel lblZutaten = new JLabel("Zustaten:");
+        JLabel lblZutaten = new JLabel("Zutaten:");
         lblZutaten.setFont(new Font("Calibri", Font.PLAIN, 20));
         JLabel lblSchwierigkeit = new JLabel("Schwierigkeitsgrad:             "+ ausgewähltesRezept.bekommeSchwierigkeitsgrad());
         lblSchwierigkeit.setFont(new Font("Calibri", Font.PLAIN, 15));

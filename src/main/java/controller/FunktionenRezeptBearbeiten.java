@@ -14,6 +14,11 @@ import static app.RezeptApp.controller;
 
 public class FunktionenRezeptBearbeiten {
 
+    final static KategorieRepository kategorieRepository = new KategorieRepository();
+    final static ZutatRepository zutatRepository = new ZutatRepository();
+    final static RezeptRepository rezeptRepository = new RezeptRepository();
+    final static BildRepository bildRepository = new BildRepository();
+
     public static void rezeptBearbeiten(Rezept rezept) {
         new RezeptBearbeiten(rezept);
 
@@ -24,7 +29,7 @@ public class FunktionenRezeptBearbeiten {
         ArrayList<Zutat> rezeptZutaten = new ArrayList<>();
         Schwierigkeit schwierigkeit = null;
 
-        List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
+        List<Kategorie> alleKategorien = kategorieRepository.findeAlleKategorien();
         // hier kann man evtl. noch optimieren
         for (int i = 0; i < checkedKategorien.size(); i++) {
             for (Kategorie kategorie : alleKategorien){
@@ -43,7 +48,7 @@ public class FunktionenRezeptBearbeiten {
         //lösche alte Zutaten im EntityManager
         ArrayList<Zutat> alteRezeptZutaten = rezept.bekommeZutaten();
         for(Zutat zutat: alteRezeptZutaten){
-            controller.entityManager.entferne(zutat);
+            zutatRepository.entferneZutat(zutat);
         }
 
         //lege neue Zutaten an im EntityManger
@@ -65,7 +70,7 @@ public class FunktionenRezeptBearbeiten {
             rezeptZutaten.add(zutat);
 
             try {
-                controller.entityManager.speichere(zutat);
+                zutatRepository.speichereZutat(zutat);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -80,7 +85,7 @@ public class FunktionenRezeptBearbeiten {
         if (pfadBild != null) {
             //falls altes Bild existiert dieses löschen
             if (rezept.bekommeBild() != null) {
-                controller.entityManager.entferne(rezept.bekommeBild());
+                bildRepository.entferneBild(rezept.bekommeBild());
             }
 
             String[] aufgeteilterPfad = pfadBild.split("(?=src)");
@@ -89,7 +94,7 @@ public class FunktionenRezeptBearbeiten {
 
             //Bild im EntityManager speichern
             try {
-                controller.entityManager.speichere(bildElement);
+                bildRepository.speichereBild(bildElement);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -97,14 +102,14 @@ public class FunktionenRezeptBearbeiten {
             rezept.setzeBild(bildElement);
 
             //Bild in der CVS Datei speichern
-            List<Bild> alleBilder = controller.entityManager.findeAlle(Bild.class);
+            List<Bild> alleBilder = bildRepository.findeAlleBilder();
             controller.speichereCSVDaten(controller.csvDateienPfad + "Bild.csv", alleBilder);
         }
 
         //Zutaten und Rezept in CSV Speichern
-        List<Zutat> alleZutaten = controller.entityManager.findeAlle(Zutat.class);
+        List<Zutat> alleZutaten = zutatRepository.findeAlleZutaten();
         controller.speichereCSVDaten(controller.csvDateienPfad + "Zutaten.csv", alleZutaten);
-        List<Rezept> alleRezepte = controller.entityManager.findeAlle(Rezept.class);
+        List<Rezept> alleRezepte = rezeptRepository.findeAlleRezepte();
         controller.speichereCSVDaten(controller.csvDateienPfad + "Rezept.csv", alleRezepte);
     }
 }

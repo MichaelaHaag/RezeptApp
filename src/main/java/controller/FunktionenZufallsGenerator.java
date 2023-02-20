@@ -1,6 +1,6 @@
 package controller;
 
-import model.Rezept;
+import model.*;
 import view.NeuesRezept;
 import view.ZufallsGenerator;
 
@@ -12,6 +12,7 @@ import java.util.UUID;
 import static app.RezeptApp.controller;
 
 public class FunktionenZufallsGenerator {
+    final static RezeptRepository rezeptRepository = new RezeptRepository();
 
     public static void neuerZufallsGenerator(JFrame frame){
         new ZufallsGenerator();
@@ -20,7 +21,7 @@ public class FunktionenZufallsGenerator {
 
     //Erzeugt aus den vorhandenen UUIDs eine zufällige UUID
     public static UUID zufälligeRezeptUUID(){
-        List<Rezept> listeAlleRezepte = controller.entityManager.findeAlle(Rezept.class);
+        List<Rezept> listeAlleRezepte = rezeptRepository.findeAlleRezepte();
         Random zufallsGenerator =new Random();
         int zufallszahl = zufallsGenerator.nextInt(listeAlleRezepte.size());
         Rezept zufallsRezept = listeAlleRezepte.get(zufallszahl);

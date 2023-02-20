@@ -13,6 +13,11 @@ import static app.RezeptApp.controller;
 
 public class FunktionenNeuesRezept {
 
+    final static KategorieRepository kategorieRepository = new KategorieRepository();
+    final static ZutatRepository zutatRepository = new ZutatRepository();
+    final static RezeptRepository rezeptRepository = new RezeptRepository();
+    final static BildRepository bildRepository = new BildRepository();
+
     public static void neuesRezeptErstellen(JFrame frame){
         new NeuesRezept();
         frame.dispose();
@@ -24,7 +29,7 @@ public class FunktionenNeuesRezept {
         ArrayList<Zutat> rezeptZutaten = new ArrayList<>();
         Schwierigkeit schwierigkeit = null;
 
-        List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
+        List<Kategorie> alleKategorien = kategorieRepository.findeAlleKategorien();
         // hier kann man evtl. noch optimieren
         for (int i = 0; i < checkedKategorien.size(); i++) {
             for (Kategorie kategorie : alleKategorien){
@@ -58,7 +63,7 @@ public class FunktionenNeuesRezept {
             rezeptZutaten.add(zutat);
 
             try {
-                controller.entityManager.speichere(zutat);
+                zutatRepository.speichereZutat(zutat);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -71,35 +76,35 @@ public class FunktionenNeuesRezept {
 
             //Bild und Rezept im EntityManager speichern
             try {
-                controller.entityManager.speichere(bildElement);
+                bildRepository.speichereBild(bildElement);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             Rezept rezeptElement = new Rezept(rezeptID, titel, rezeptKategorien, rezeptZutaten, beschreibung, schwierigkeit, bildElement);
             try {
-                controller.entityManager.speichere(rezeptElement);
+                rezeptRepository.speichereRezept(rezeptElement);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             //Bild in der CVS Datei speichern
-            List<Bild> alleBilder = controller.entityManager.findeAlle(Bild.class);
+            List<Bild> alleBilder = bildRepository.findeAlleBilder();
             controller.speichereCSVDaten(controller.csvDateienPfad + "Bild.csv", alleBilder);
 
         } else {
             Rezept rezeptElement = new Rezept(rezeptID, titel, rezeptKategorien, rezeptZutaten, beschreibung, schwierigkeit);
             try {
-                controller.entityManager.speichere(rezeptElement);
+                rezeptRepository.speichereRezept(rezeptElement);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         //Zutaten und Rezept in CSV Speichern
-        List<Zutat> alleZutaten = controller.entityManager.findeAlle(Zutat.class);
+        List<Zutat> alleZutaten = zutatRepository.findeAlleZutaten();
         controller.speichereCSVDaten(controller.csvDateienPfad + "Zutaten.csv", alleZutaten);
-        List<Rezept> alleRezepte = controller.entityManager.findeAlle(Rezept.class);
+        List<Rezept> alleRezepte = rezeptRepository.findeAlleRezepte();
         controller.speichereCSVDaten(controller.csvDateienPfad + "Rezept.csv", alleRezepte);
     }
 }

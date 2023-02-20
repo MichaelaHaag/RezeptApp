@@ -1,7 +1,7 @@
 package view;
 
 import controller.FunktionenZufallsGenerator;
-import model.Rezept;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,13 +14,14 @@ import static app.RezeptApp.controller;
 /* Klasse erzeugt ein Zufalliges Rezept und zeigt es an. Das Rezept kann dann ausgewählt werden oder ein
 neues zufälliges Rezept kann erzeugt werden*/
 public class ZufallsGenerator {
+    final static RezeptRepository rezeptRepository = new RezeptRepository();
     JFrame frame = new JFrame();
     JPanel pnlZufallsGenerator = new JPanel(new BorderLayout());
 
     public ZufallsGenerator() {
         System.out.println("Der Randomizer wird gestartet");
         UUID zufälligeRezeptID = FunktionenZufallsGenerator.zufälligeRezeptUUID();
-        Rezept zufälligesRezept = controller.entityManager.finde(Rezept.class, zufälligeRezeptID);
+        Rezept zufälligesRezept = rezeptRepository.findeRezept(zufälligeRezeptID);
         JLabel labelVorschlag = new JLabel(zufälligesRezept.bekommeTitel());
         labelVorschlag.setFont(new Font("Calibri", Font.PLAIN, 30));
         JLabel labelKategorie = new JLabel("Kategorie: ");

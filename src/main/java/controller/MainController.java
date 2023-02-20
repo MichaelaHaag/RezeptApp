@@ -16,7 +16,10 @@ public class MainController {
 
     public final String csvDateienPfad = "src\\main\\resources\\CSVFiles\\";
     public EntityManager entityManager = new EntityManager();
-    private IPersistierbar element = null;
+    final static KategorieRepository kategorieRepository = new KategorieRepository();
+    final static ZutatRepository zutatRepository = new ZutatRepository();
+    final static RezeptRepository rezeptRepository = new RezeptRepository();
+    final static BildRepository bildRepository = new BildRepository();
 
     public void init() {
         try {
@@ -37,8 +40,8 @@ public class MainController {
                 String tag = csvZeile[ Kategorie.CSVPosition.TAG.ordinal() ];
                 String beschreibung = csvZeile[ Kategorie.CSVPosition.BESCHREIBUNG.ordinal() ];
 
-                element = new Kategorie(kategorieID, name, tag, beschreibung);
-                entityManager.speichere( element );
+                Kategorie kategorie = new Kategorie(kategorieID, name, tag, beschreibung);
+                kategorieRepository.speichereKategorie( kategorie );
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -67,8 +70,8 @@ public class MainController {
                 }
                 Menge menge = new Menge(mengeAnzahl, einheit);
 
-                element = new Zutat(zutatenID, zutatenRezeptID, menge, zutatName);
-                entityManager.speichere( element );
+                Zutat zutat = new Zutat(zutatenID, zutatenRezeptID, menge, zutatName);
+                zutatRepository.speichereZutat( zutat );
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -83,8 +86,8 @@ public class MainController {
                 UUID rezeptID = UUID.fromString(csvZeile[ Bild.CSVPosition.REZEPTID.ordinal() ]);
                 String pfad = csvZeile[ Bild.CSVPosition.PFAD.ordinal() ];
 
-                element = new Bild(bildID, rezeptID, pfad);
-                entityManager.speichere( element );
+                Bild bild = new Bild(bildID, rezeptID, pfad);
+                bildRepository.speichereBild( bild );
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -107,21 +110,21 @@ public class MainController {
                 ArrayList<Kategorie> kategorien = new ArrayList<>();
                 Schwierigkeit schwierigkeit = null;
 
-                List<Bild> bilderListe = entityManager.findeAlle(Bild.class);
+                List<Bild> bilderListe = bildRepository.findeAlleBilder();
                 for (Bild bild : bilderListe){
                     if (bild.bekommeRezeptID().equals(rezeptID)){
                         rezeptBild = bild;
                     }
                 }
 
-                List<Zutat> zutatenListe = entityManager.findeAlle(Zutat.class);
+                List<Zutat> zutatenListe = zutatRepository.findeAlleZutaten();
                 for (Zutat zutat : zutatenListe){
                     if (zutat.bekommeRezeptID().equals(rezeptID)){
                         zutaten.add(zutat);
                     }
                 }
 
-                List<Kategorie> kategorieListe = entityManager.findeAlle(Kategorie.class);
+                List<Kategorie> kategorieListe = kategorieRepository.findeAlleKategorien();
                 csvDatenRezeptKategorie.forEach(csvZeileKategorie -> {
                     try {
                         if (UUID.fromString(csvZeileKategorie[0]).equals(rezeptID)){
@@ -142,8 +145,8 @@ public class MainController {
                     }
                 }
 
-                element = new Rezept(rezeptID, titel, kategorien, zutaten, beschreibung, schwierigkeit, rezeptBild);
-                entityManager.speichere( element );
+                Rezept rezept = new Rezept(rezeptID, titel, kategorien, zutaten, beschreibung, schwierigkeit, rezeptBild);
+                rezeptRepository.speichereRezept( rezept );
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -184,7 +187,7 @@ public class MainController {
 
     // Methode um die zugehörigen Kategorien zu einem Rezept zu finden
     public String[][] findeRezepteZuKategorie(Kategorie eingabeKategorie){
-        List<Rezept> alleRezepte = entityManager.findeAlle(Rezept.class);
+        List<Rezept> alleRezepte = rezeptRepository.findeAlleRezepte();
         List<String[]> ausgewähltesRezept = new ArrayList<>();
 
         for (Rezept rezept: alleRezepte){
@@ -205,7 +208,7 @@ public class MainController {
 
     //Methode um alle Rezepte zu finden
     public String[][] findeAlleRezepte(){
-        List<Rezept> alleRezepte = entityManager.findeAlle(Rezept.class);
+        List<Rezept> alleRezepte = rezeptRepository.findeAlleRezepte();
         List<String[]> rezepte = new ArrayList<>();
 
         for (Rezept rezept: alleRezepte){

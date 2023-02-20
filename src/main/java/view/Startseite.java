@@ -2,7 +2,7 @@ package view;
 
 import controller.FunktionenRezeptBearbeiten;
 import controller.FunktionenStartseite;
-import model.Kategorie;
+import model.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -16,6 +16,7 @@ import static app.RezeptApp.controller;
 
 /* Home Page: Wird beim Starten der Anwendung geladen. Die Home Page enthält Kacheln mit den einzelnen Kategorien */
 public class Startseite extends JFrame implements ActionListener {
+    final static KategorieRepository kategorieRepository = new KategorieRepository();
     JPanel pnlStartseite = new JPanel(new BorderLayout());
     ImageIcon logo = new ImageIcon("src/main/resources/Pictures/RecipeCollection.png");
 
@@ -52,7 +53,7 @@ public class Startseite extends JFrame implements ActionListener {
     private void initBenutzeroberfläche() {
         JPanel pnlStartseite2 = new JPanel(new GridLayout(5,5));
         JScrollPane scrollBar = new JScrollPane(pnlStartseite2);
-        List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
+        List<Kategorie> alleKategorien = kategorieRepository.findeAlleKategorien();
         JButton[] knöpfe = new JButton[alleKategorien.size()+2];
 
         knöpfe[0] = new JButton("<html>Kategorie<br>hinzufügen</html>");

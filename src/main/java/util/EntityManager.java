@@ -1,28 +1,25 @@
 package util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /* EntityManager Klasse: Ist zuständig für die Datenhaltung */
 public class EntityManager {
 
     private final Map<Object, IPersistierbar> allElements = new HashMap<>();
 
-    public boolean contains( IPersistierbar ip ) {
+    public boolean existiert(IPersistierbar ip ) {
         return this.allElements.containsValue( ip );
     }
 
     // Speicherung der Objekte im EntityManager
     public void speichere(IPersistierbar ip ) throws Exception {
-        if( this.contains( ip ) )
+        if( this.existiert( ip ) )
             throw new Exception( "Element exsistiert bereits! " );
         this.allElements.put( ip.bekommeUUID(), ip );
     }
 
     // Suche einzelnes Objekt im EntityManger
-    public <T extends IPersistierbar> T finde(Class<T> c, Object key ) {
+    public <T extends IPersistierbar> T finde(Class<T> c, UUID key ) {
         for( IPersistierbar ip: this.allElements.values() ){
             // hardcoded:
             if( c.isInstance(ip) && ip.bekommeUUID().equals(key) ) return (T) ip;

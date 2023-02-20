@@ -20,6 +20,7 @@ import static app.RezeptApp.controller;
 
 /* Die KLasse erzeugt einen Frame, indem man ein neues Rezept hinzufügen kann*/
 public class RezeptBearbeiten {
+    final static KategorieRepository kategorieRepository = new KategorieRepository();
     JFrame frame = new JFrame();
     JPanel pnlNeuesRezept = new JPanel(new BorderLayout());
     JButton button = new JButton();
@@ -35,7 +36,7 @@ public class RezeptBearbeiten {
         pnlOben.add(textfeldTitel);
 
         JLabel labelTags = new JLabel("Tags: ");
-        List<Kategorie> kategorien = controller.entityManager.findeAlle(Kategorie.class);
+        List<Kategorie> kategorien = kategorieRepository.findeAlleKategorien();
         List<Kategorie> kategorienAusgewählt = rezept.bekommeKategorien();
         JPanel pnlCheckboxen = new JPanel(new FlowLayout());
         Checkbox[] checkboxen = new Checkbox[kategorien.size()];

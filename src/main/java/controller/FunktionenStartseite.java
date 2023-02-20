@@ -1,6 +1,6 @@
 package controller;
 
-import model.Kategorie;
+import model.*;
 import view.ListenÜbersicht;
 import view.Startseite;
 
@@ -13,6 +13,8 @@ import static app.RezeptApp.controller;
 
 public class FunktionenStartseite {
 
+    final static KategorieRepository kategorieRepository = new KategorieRepository();
+
     /*Methode für die Funktionalität der Buttons. Wird ein Button geklickt, so öffnet sich die UI der KLasse
   Listpage (eine Liste mit allen Rezepten der ausgewählten Kategorie */
     public static void listenÜbersichtÖffnen(ActionEvent ae) {
@@ -24,11 +26,11 @@ public class FunktionenStartseite {
     public static void kategorieHinzufügen(String name, String tag, String beschreibung){
         Kategorie neueKategorie = new Kategorie(UUID.randomUUID(), name, tag, beschreibung);
         try {
-            controller.entityManager.speichere( neueKategorie );
+            kategorieRepository.speichereKategorie( neueKategorie );
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Kategorie> alleKategorien = controller.entityManager.findeAlle(Kategorie.class);
+        List<Kategorie> alleKategorien = kategorieRepository.findeAlleKategorien();
         controller.speichereCSVDaten(controller.csvDateienPfad + "Kategorie.csv", alleKategorien);
     }
 

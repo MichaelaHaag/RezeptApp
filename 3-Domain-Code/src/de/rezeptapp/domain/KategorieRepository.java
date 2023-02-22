@@ -7,11 +7,11 @@ import static app.RezeptApp.controller;
 
 public class KategorieRepository {
 
-    public boolean existiertKategorie( Kategorie kategorie ) {
+    public boolean existiertKategorie(Kategorie kategorie) {
         return controller.entityManager.existiert(kategorie);
     }
 
-    public void speichereKategorie(Kategorie kategorie ) throws Exception {
+    public void speichereKategorie(Kategorie kategorie) throws Exception {
         controller.entityManager.speichere(kategorie);
     }
 

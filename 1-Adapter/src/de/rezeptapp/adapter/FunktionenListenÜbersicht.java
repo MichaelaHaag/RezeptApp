@@ -1,22 +1,20 @@
 package de.rezeptapp.adapter;
 
 import de.rezeptapp.domain.*;
-import model.Kategorie;
-import model.KategorieRepository;
-import view.RezeptAnsicht;
 
 import javax.swing.*;
 import java.util.UUID;
 
 public class FunktionenListenÜbersicht {
     final static KategorieRepository kategorieRepository = new KategorieRepository();
+    final static RezeptRepository rezeptRepository = new RezeptRepository();
 
     public static  String[][] alleRezepte(UUID id) {
         String name = "11111111-1111-1111-1111-111111111111";
         UUID idAlleRezepte = UUID.fromString(name);
         if(id.equals(idAlleRezepte)){
             try {
-                String[][] alleRezept = controller.findeAlleRezepte();
+                String[][] alleRezept = rezeptRepository.findeAlleRezepteUI();
                 return alleRezept;
 
             } catch (Exception e) {
@@ -28,7 +26,7 @@ public class FunktionenListenÜbersicht {
         }else{
             Kategorie eingegbeneKategorie = kategorieRepository.findeKategorie(id);
             try {
-                String[][] rezepte = controller.findeRezepteZuKategorie(eingegbeneKategorie);
+                String[][] rezepte = rezeptRepository.findeRezepteZuKategorie(eingegbeneKategorie);
                 return rezepte;
             }catch (Exception e) {
                 e.printStackTrace();

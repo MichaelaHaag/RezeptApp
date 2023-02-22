@@ -1,6 +1,6 @@
 package de.rezeptapp.plugins.util;
 
-import de.rezeptapp.application.IPersistierbar;
+import de.rezeptapp.domain.IPersistierbar;
 
 import java.util.*;
 

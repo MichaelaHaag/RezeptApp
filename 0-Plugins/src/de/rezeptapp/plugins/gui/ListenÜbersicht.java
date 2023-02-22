@@ -1,9 +1,7 @@
 package de.rezeptapp.plugins.gui;
 
-import controller.FunktionenListenÜbersicht;
-import controller.FunktionenNeuesRezept;
-import controller.FunktionenZufallsGenerator;
-import model.Rezept;
+import de.rezeptapp.adapter.*;
+import de.rezeptapp.domain.*;
 
 import javax.swing.*;
 import java.awt.*;

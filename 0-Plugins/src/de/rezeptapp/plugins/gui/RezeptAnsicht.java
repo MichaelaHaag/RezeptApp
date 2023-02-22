@@ -1,6 +1,7 @@
 package de.rezeptapp.plugins.gui;
 
-import controller.FunktionenRezeptBearbeiten;
+import de.rezeptapp.adapter.*;
+import de.rezeptapp.domain.*;
 
 import javax.swing.*;
 import java.awt.*;

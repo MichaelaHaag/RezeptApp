@@ -1,9 +1,8 @@
 package de.rezeptapp.plugins.gui;
 
-import controller.ButtonEditor;
-import controller.ButtonRenderer;
-import controller.FunktionenNeuesRezept;
-import util.FileChooser;
+import de.rezeptapp.adapter.*;
+import de.rezeptapp.domain.*;
+import de.rezeptapp.plugins.util.FileChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

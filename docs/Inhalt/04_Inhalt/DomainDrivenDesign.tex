@@ -19,7 +19,10 @@ In der Domäne gibt es zusätzlich die Enumeration Schwierigkeit und Einheit. En
 Wir haben uns dazu entschieden die ID bei allen Entities mit Surrogatschlüsseln umzusetzen. Dafür haben wir allen Enity Elemente in unserer Domäne eine UUID. Universally Unique Identifier, kurz UUID, ist ein Standard für Identifikationsnummern. Vorteil von UUIDs sind, dass sie jederzeit generierbar sind und das sie anwendungsübergreifend eindeutig sind. Außerdem ist hier die Verteilung der IDs einfacher, da eine UUID generiert werden kann ohne, dass sie mit den bereits vorhandenen UUIDs verglichen werden muss, da  es sehr unwahrscheinlich, dass versehentlich doppelte UUIDs generiert werden. Auch die Nachteile, wie: Nicht sprechend, keine Bedeutung in der Domäne und eventuelle Engpässe bei Generierung in
 Hochlastsystemen sind in unserer Anwendung nicht von Bedeutung, da der Schlüssel einfach aus der CSV ausgelesen werden kann. ??Mehr erläuterung??
 
-\subsection{Repositories}
 \subsection{Aggregates}
-Aggregate gruppieren die Entities und Value Objects zu gemeinsam verwalteten Einheiten. Die Verwendung von Aggregaten ermöglicht das Entkoppeln der Objektbeziehungen, Bilden natürlicher Transaktionsgrenzen und kontinuierliche Übereinstimmung mit den Domänenregeln. In unserer Domäne befinden sich XX Aggregate.
+Aggregate gruppieren die Entities und Value Objects zu gemeinsam verwalteten Einheiten. Die Verwendung von Aggregaten ermöglicht das Entkoppeln der Objektbeziehungen, Bilden natürlicher Transaktionsgrenzen und kontinuierliche Übereinstimmung mit den Domänenregeln. 
+Da alle Klassen im Packet XXX Eigenschaften eines Rezeptes abbilden, werden diese zu einem Aggregate zusammengefasst. Dazu gehören, Rezept, Kategorie, Bild und Schwierigkeit. Die Root Entität ist dabei das Rezept selbst. Im zweiten Aggregat verhält es sich ähnlich. Auch hier bilden alle Klassen direkt oder indirekt Eigenschaften der Zutat ab, daher werden auch diese, also Menge und Einheit zu einem Aggregate zusammengefasst. Die Root Entity ist hier die Zutat.
 
+\subsection{Repositories}
+Für den Zugriff auf den persistenten Speicher werden zwei Repositories gemäß dem Grundsatz „Ein Repository pro Aggregate“ definiert: Das XXRepository erlaubt den Zugriff auf das Rezept, also die Root Entity des entsprechenden Aggregates. Analog hierzu
+ermöglicht das XXRepository Zugriff auf die Zutat als Root Entity des zugehörigen Aggregates.

@@ -5,3 +5,4 @@ Objects
 Entity
 Domänenregeln
 Repositories
+Observer

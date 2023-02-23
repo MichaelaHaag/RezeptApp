@@ -1,0 +1,9 @@
+\chapter{Entwurfsmuster}
+Entwurfsmuster stellen bewährte Methoden dar, um wiederkehrende Probleme in der Softwareentwicklung zu lösen und stellen somit eine Art Blaupause dar, die zur Verbesserung der Struktur, Klarheit und Flexibilität von Software beitragen.
+Auch in diesem Projekt wurden Entwurfsmuster eingesetzt. Eines dieser Entwurfsmuster
+soll im nachfolgenden Abschnitt genauer erläutert werden.
+
+\section{Observer Pattern}
+In der rezeptanwendung  wurde vermehrt mit dem Entwurfmuster Observer-Pattern (Beobachter) gearbeitet. Das Observer-Entwurfsmuster ermöglicht es, Änderungen an einem Objekt anderen Objekten mitzuteilen, die sich dafür registriert haben. Der Observer gehört zu der Kategorie Verhaltensmustern. Das Entwurfsmuster besteht aus zwei Hauptkomponenten: dem Observable (Subjekt) und den Observern (Beobachtern). 
+Das Subjekt enthält einen Zustand, der sich im Laufe der Zeit ändern kann. Die Beobachter registrieren sich beim Subjekt und werden automatisch benachrichtigt, wenn sich der Zustand des Subjekts ändert. Das Observer-Entwurfsmuster ermöglicht es, Objekte lose zu koppeln, da Observer keine Kenntnis über den Zustand anderer Objekte haben müssen, auf die sie reagieren. Dies führt zu einer flexibleren und wartungsfreundlicheren Softwarearchitektur.
+Im Folgenden wird das Entwurfsmuster anhand eines Beispiels genauer erläutert.

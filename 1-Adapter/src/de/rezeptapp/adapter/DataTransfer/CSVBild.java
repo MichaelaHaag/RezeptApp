@@ -1,6 +1,6 @@
 package de.rezeptapp.adapter.DataTransfer;
 
-import Bild;
+import de.rezeptapp.domain.Rezept.Bild;
 
 public class CSVBild {
 

@@ -17,7 +17,7 @@ public class CSVZutat {
     public String[] bekommeCSVDaten(Zutat zutat) {
         String[] daten = new String[CSVPosition.values().length];
         daten[CSVPosition.ZUATATID.ordinal()] = String.valueOf(zutat.bekommeUUID());
-        daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(zutat.bekommenRezeptID());
+        daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(zutat.bekommeRezeptID());
         daten[CSVPosition.MENGE.ordinal()] = String.valueOf(zutat.bekommeMenge());
         daten[CSVPosition.NAME.ordinal()] = String.valueOf(zutat.bekommeName());
         return daten;

@@ -3,7 +3,6 @@ package de.rezeptapp.adapter;
 import de.rezeptapp.domain.Kategorie.Kategorie;
 import de.rezeptapp.domain.Kategorie.KategorieRepository;
 import de.rezeptapp.domain.Rezept.*;
-import view.NeuesRezept;
 
 import java.util.ArrayList;
 import java.util.List;

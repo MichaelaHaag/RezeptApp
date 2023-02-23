@@ -38,5 +38,6 @@ public class Zutat implements IPersistierbar {
         return name;
     }
 
-    public UUID bekommenRezeptID() { return rezeptID; }
+    public UUID bekommeRezeptID() { return rezeptID; }
+
 }

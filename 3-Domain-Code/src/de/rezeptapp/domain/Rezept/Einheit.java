@@ -1,4 +1,4 @@
-package de.rezeptapp.domain;
+package de.rezeptapp.domain.Rezept;
 
 public enum Einheit {
 

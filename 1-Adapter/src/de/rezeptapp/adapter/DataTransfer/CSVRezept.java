@@ -1,11 +1,10 @@
 package de.rezeptapp.adapter.DataTransfer;
 
-import de.rezeptapp.domain.Rezept;
-import de.rezeptapp.domain.Kategorie;
+import de.rezeptapp.domain.Rezept.Rezept;
+import de.rezeptapp.domain.Kategorie.Kategorie;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class CSVRezept {
 

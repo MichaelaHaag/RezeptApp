@@ -1,7 +1,8 @@
 package de.rezeptapp.plugins.gui;
 
-import de.rezeptapp.adapter.*;
-import de.rezeptapp.domain.*;
+import de.rezeptapp.domain.Rezept.Rezept;
+import de.rezeptapp.domain.Rezept.RezeptRepository;
+import de.rezeptapp.domain.Rezept.Zutat;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,6 @@
-package de.rezeptapp.domain;
+package de.rezeptapp.domain.Rezept;
+
+import de.rezeptapp.domain.Kategorie.Kategorie;
 
 import java.util.ArrayList;
 import java.util.List;

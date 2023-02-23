@@ -1,7 +1,12 @@
 package de.rezeptapp.plugins.gui;
 
 import de.rezeptapp.adapter.*;
-import de.rezeptapp.domain.*;
+import de.rezeptapp.domain.Kategorie.Kategorie;
+import de.rezeptapp.domain.Kategorie.KategorieRepository;
+import de.rezeptapp.domain.Rezept.Einheit;
+import de.rezeptapp.domain.Rezept.Rezept;
+import de.rezeptapp.domain.Rezept.Schwierigkeit;
+import de.rezeptapp.domain.Rezept.Zutat;
 import de.rezeptapp.plugins.util.FileChooser;
 
 import javax.swing.*;
@@ -47,7 +52,7 @@ public class RezeptBearbeiten {
         pnlCheckboxen.setPreferredSize(new Dimension(600,120));
         pnlOben.add(pnlCheckboxen);
         pnlMitte.add(pnlOben, BorderLayout.NORTH);
-        Einheit [] alleEinheiten = Einheit.values();
+        Einheit[] alleEinheiten = Einheit.values();
         String [] stringEinheiten = new String[alleEinheiten.length];
         for(int i=0; i<alleEinheiten.length; i++){
             stringEinheiten[i] = alleEinheiten[i].bekommeName();

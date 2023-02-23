@@ -1,6 +1,9 @@
 package de.rezeptapp.application;
 
 import de.rezeptapp.domain.*;
+import de.rezeptapp.domain.Kategorie.Kategorie;
+import de.rezeptapp.domain.Kategorie.KategorieRepository;
+import de.rezeptapp.domain.Rezept.*;
 import util.CSVReader;
 import util.CSVWriter;
 import util.EntityManager;

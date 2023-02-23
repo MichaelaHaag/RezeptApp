@@ -1,7 +1,4 @@
-package de.rezeptapp.domain;
-
-import model.Einheit;
-import util.IPersistierbar;
+package de.rezeptapp.domain.Rezept;
 
 import java.util.Objects;
 

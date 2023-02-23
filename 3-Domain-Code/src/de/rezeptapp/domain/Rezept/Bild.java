@@ -1,5 +1,7 @@
-package de.rezeptapp.domain;
+package de.rezeptapp.domain.Rezept;
 
+
+import de.rezeptapp.domain.IPersistierbar;
 
 import java.util.UUID;
 

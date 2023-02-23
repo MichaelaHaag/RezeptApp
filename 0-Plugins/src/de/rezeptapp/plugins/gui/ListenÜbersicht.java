@@ -1,7 +1,7 @@
 package de.rezeptapp.plugins.gui;
 
 import de.rezeptapp.adapter.*;
-import de.rezeptapp.domain.*;
+import de.rezeptapp.domain.Rezept.Rezept;
 
 import javax.swing.*;
 import java.awt.*;

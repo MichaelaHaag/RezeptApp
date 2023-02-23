@@ -1,4 +1,6 @@
-package de.rezeptapp.domain;
+package de.rezeptapp.domain.Kategorie;
+
+import de.rezeptapp.domain.Kategorie.Kategorie;
 
 import java.util.List;
 import java.util.UUID;

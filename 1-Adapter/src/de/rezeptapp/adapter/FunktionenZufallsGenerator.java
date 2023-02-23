@@ -1,9 +1,9 @@
 package de.rezeptapp.adapter;
 
-import de.rezeptapp.domain.*;
+import de.rezeptapp.domain.Rezept.Rezept;
+import de.rezeptapp.domain.Rezept.RezeptRepository;
 import view.ZufallsGenerator;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;

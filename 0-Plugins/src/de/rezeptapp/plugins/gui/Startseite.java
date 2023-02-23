@@ -1,7 +1,7 @@
 package de.rezeptapp.plugins.gui;
 
-import de.rezeptapp.adapter.FunktionenStartseite;
-import de.rezeptapp.domain.*;
+import de.rezeptapp.domain.Kategorie.Kategorie;
+import de.rezeptapp.domain.Kategorie.KategorieRepository;
 
 import javax.swing.*;
 import java.awt.*;

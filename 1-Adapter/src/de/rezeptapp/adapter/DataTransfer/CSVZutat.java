@@ -1,7 +1,6 @@
 package de.rezeptapp.adapter.DataTransfer;
 
-import de.rezeptapp.domain.Zutat;
-import java.util.UUID;
+import de.rezeptapp.domain.Rezept.Zutat;
 
 public class CSVZutat {
     public enum CSVPosition {

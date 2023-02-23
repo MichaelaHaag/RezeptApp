@@ -28,13 +28,15 @@ public class ListenÜbersicht {
         pnlFusszeile.setBackground(farbeGrün);
         JButton buttonZufallsgenerator = new JButton("Zufallsgenerator");
         buttonZufallsgenerator.addActionListener(ae -> {
-            FunktionenZufallsGenerator.neuerZufallsGenerator(frame);
+            new ZufallsGenerator();
+            frame.dispose();
         });
         JButton buttonStartseite = new JButton("Startseite");
         buttonStartseite.addActionListener(ae -> frame.dispose());
         JButton buttonNeuesRezept = new JButton("Neues Rezept");
         buttonNeuesRezept.addActionListener(ae -> {
-            FunktionenNeuesRezept.neuesRezeptErstellen(frame);
+            new NeuesRezept();
+            frame.dispose();
         });
         buttonZufallsgenerator.setBackground(farbeGrün);
         buttonStartseite.setBackground(farbeGrün);
@@ -53,7 +55,7 @@ public class ListenÜbersicht {
     private void initBenutzeroberfläche(UUID id) {
         String[][] alleRezepte = FunktionenListenÜbersicht.alleRezepte(id);
         Rezept rezept = new Rezept();
-        String[] spaltenNamen = rezept.bekommeCSVKopf();
+        String[] spaltenNamen = de.rezeptapp.adapter.DataTransfer.CSVRezept.bekommeCSVKopf();
         // Initiaisierung der Tabele
         JTable tabelle = new JTable(alleRezepte, spaltenNamen);
         tabelle.setRowHeight(30);
@@ -62,7 +64,7 @@ public class ListenÜbersicht {
                 int spalte = tabelle.rowAtPoint(e.getPoint());
                 int zeile = 0;
                 UUID id = UUID.fromString(tabelle.getValueAt(spalte, zeile).toString());
-                FunktionenListenÜbersicht.elementAusgwewählt(id, frame);
+                new RezeptAnsicht(id, frame);
             }
         }
         );

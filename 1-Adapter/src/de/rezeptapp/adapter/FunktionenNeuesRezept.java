@@ -11,14 +11,7 @@ import java.util.UUID;
 public class FunktionenNeuesRezept {
 
     final static KategorieRepository kategorieRepository = new KategorieRepository();
-    final static ZutatRepository zutatRepository = new ZutatRepository();
     final static RezeptRepository rezeptRepository = new RezeptRepository();
-    final static BildRepository bildRepository = new BildRepository();
-
-    public static void neuesRezeptErstellen(JFrame frame){
-        new NeuesRezept();
-        frame.dispose();
-    }
 
     public static void neuesRezeptSpeichern(String titel, String beschreibung, ArrayList<String> checkedKategorien, String ausgewaelteSchwierigkeit, String pfadBild, ArrayList<String[]> zutatenListe){
         UUID rezeptID = UUID.randomUUID();
@@ -60,7 +53,7 @@ public class FunktionenNeuesRezept {
             rezeptZutaten.add(zutat);
 
             try {
-                zutatRepository.speichereZutat(zutat);
+                rezeptRepository.speichereZutat(zutat);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -73,7 +66,7 @@ public class FunktionenNeuesRezept {
 
             //Bild und Rezept im EntityManager speichern
             try {
-                bildRepository.speichereBild(bildElement);
+                rezeptRepository.speichereBild(bildElement);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -86,7 +79,7 @@ public class FunktionenNeuesRezept {
             }
 
             //Bild in der CVS Datei speichern
-            List<Bild> alleBilder = bildRepository.findeAlleBilder();
+            List<Bild> alleBilder = rezeptRepository.findeAlleBilder();
             controller.speichereCSVDaten(controller.csvDateienPfad + "Bild.csv", alleBilder);
 
         } else {
@@ -99,7 +92,7 @@ public class FunktionenNeuesRezept {
         }
 
         //Zutaten und Rezept in CSV Speichern
-        List<Zutat> alleZutaten = zutatRepository.findeAlleZutaten();
+        List<Zutat> alleZutaten = rezeptRepository.findeAlleZutaten();
         controller.speichereCSVDaten(controller.csvDateienPfad + "Zutaten.csv", alleZutaten);
         List<Rezept> alleRezepte = rezeptRepository.findeAlleRezepte();
         controller.speichereCSVDaten(controller.csvDateienPfad + "Rezept.csv", alleRezepte);

@@ -17,9 +17,7 @@ public class MainController {
     public final String csvDateienPfad = "src\\main\\resources\\CSVFiles\\";
     public EntityManager entityManager = new EntityManager();
     final static KategorieRepository kategorieRepository = new KategorieRepository();
-    final static ZutatRepository zutatRepository = new ZutatRepository();
     final static RezeptRepository rezeptRepository = new RezeptRepository();
-    final static BildRepository bildRepository = new BildRepository();
 
     public void init() {
         try {
@@ -71,7 +69,7 @@ public class MainController {
                 Menge menge = new Menge(mengeAnzahl, einheit);
 
                 Zutat zutat = new Zutat(zutatenID, zutatenRezeptID, menge, zutatName);
-                zutatRepository.speichereZutat( zutat );
+                rezeptRepository.speichereZutat( zutat );
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -87,7 +85,7 @@ public class MainController {
                 String pfad = csvZeile[ Bild.CSVPosition.PFAD.ordinal() ];
 
                 Bild bild = new Bild(bildID, rezeptID, pfad);
-                bildRepository.speichereBild( bild );
+                rezeptRepository.speichereBild( bild );
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -110,14 +108,14 @@ public class MainController {
                 ArrayList<Kategorie> kategorien = new ArrayList<>();
                 Schwierigkeit schwierigkeit = null;
 
-                List<Bild> bilderListe = bildRepository.findeAlleBilder();
+                List<Bild> bilderListe = rezeptRepository.findeAlleBilder();
                 for (Bild bild : bilderListe){
                     if (bild.bekommeRezeptID().equals(rezeptID)){
                         rezeptBild = bild;
                     }
                 }
 
-                List<Zutat> zutatenListe = zutatRepository.findeAlleZutaten();
+                List<Zutat> zutatenListe = rezeptRepository.findeAlleZutaten();
                 for (Zutat zutat : zutatenListe){
                     if (zutat.bekommeRezeptID().equals(rezeptID)){
                         zutaten.add(zutat);

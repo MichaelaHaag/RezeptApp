@@ -85,7 +85,7 @@ public class RezeptAnsicht implements ActionListener {
         JButton buttonBearbeiten = new JButton("Bearbeiten");
         buttonBearbeiten.addActionListener(ae -> {
             frame.dispose();
-            FunktionenRezeptBearbeiten.rezeptBearbeiten(ausgewähltesRezept);
+            new RezeptBearbeiten(ausgewähltesRezept);
         });
         buttonBearbeiten.setPreferredSize(new Dimension(100, 80));
         buttonBearbeiten.setBackground(farbeGrün);

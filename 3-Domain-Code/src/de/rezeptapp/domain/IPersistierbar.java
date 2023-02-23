@@ -4,7 +4,6 @@ package de.rezeptapp.domain;
 public interface IPersistierbar {
 
     Object bekommeUUID();
-    String[] bekommeCSVKopf();
-    String[] bekommeCSVDaten();
+
 
 }

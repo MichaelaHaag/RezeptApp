@@ -10,12 +10,10 @@
         <module name="0-Plugins-Main" />
         <module name="3-Domain-Code" />
         <module name="0-Plugins" />
-        <module name="RezeptApp" />
         <module name="2-Application-Code" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="RezeptApp" target="1.8" />
       <module name="test2" target="17" />
     </bytecodeTargetLevel>
   </component>

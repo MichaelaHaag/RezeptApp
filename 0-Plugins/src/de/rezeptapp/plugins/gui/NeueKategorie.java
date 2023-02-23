@@ -28,7 +28,9 @@ public class NeueKategorie {
         JButton buttonRezeptÖffnen = new JButton("Speichern");
         buttonRezeptÖffnen.addActionListener(ae -> {
             FunktionenStartseite.kategorieHinzufügen(tfeldKategorie.getText(), tfeldKategorieTag.getText(), tfeldKategorieBeschreibung.getText());
-            FunktionenStartseite.startseiteStarten();
+            Startseite startseite = new Startseite();
+            startseite.setVisible(true);
+            startseite.setBounds(300,70,900,650);
             frame.dispose();
         });
         JButton buttonNeuesZufallsRezept = new JButton("Schließen");

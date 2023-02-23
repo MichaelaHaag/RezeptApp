@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.UUID;
 
 /* Home Page: Wird beim Starten der Anwendung geladen. Die Home Page enthält Kacheln mit den einzelnen Kategorien */
 public class Startseite extends JFrame implements ActionListener {
@@ -69,7 +70,10 @@ public class Startseite extends JFrame implements ActionListener {
         knöpfe[1].setToolTipText("Alle Katgorie");
         pnlStartseite2.add(knöpfe[1]);
         knöpfe[1].addActionListener(ae -> {
-            FunktionenStartseite.listenÜbersichtÖffnen(ae);
+            JButton angeklickterButton = (JButton)ae.getSource();
+            String name = angeklickterButton.getName();
+            UUID id = UUID.fromString(name);
+            new ListenÜbersicht(id);
         });
         Kategorie[] kategorieArray = alleKategorien.toArray(new Kategorie[0]);
         String [] kategorien = new String[kategorieArray.length];
@@ -84,7 +88,10 @@ public class Startseite extends JFrame implements ActionListener {
             knöpfe[i+2].setToolTipText(kategorien[i]);
             pnlStartseite2.add(knöpfe[i+2]);
             knöpfe[i+2].addActionListener(ae -> {
-                FunktionenStartseite.listenÜbersichtÖffnen(ae);
+                JButton angeklickterButton = (JButton)ae.getSource();
+                String name = angeklickterButton.getName();
+                UUID id = UUID.fromString(name);
+                new ListenÜbersicht(id);
             });
         }
         Color farbeGrau = new Color(0xFCFCFC);

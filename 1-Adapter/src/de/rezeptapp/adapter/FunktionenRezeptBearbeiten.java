@@ -9,14 +9,8 @@ import java.util.List;
 public class FunktionenRezeptBearbeiten {
 
     final static KategorieRepository kategorieRepository = new KategorieRepository();
-    final static ZutatRepository zutatRepository = new ZutatRepository();
     final static RezeptRepository rezeptRepository = new RezeptRepository();
-    final static BildRepository bildRepository = new BildRepository();
 
-    public static void rezeptBearbeiten(Rezept rezept) {
-        new RezeptBearbeiten(rezept);
-
-    }
 
     public static void rezeptBearbeitungSpeichern(Rezept rezept, String titel, String beschreibung, ArrayList<String> checkedKategorien, String ausgewaelteSchwierigkeit, String pfadBild, ArrayList<String[]> zutatenListe) {
         ArrayList<Kategorie> rezeptKategorien = new ArrayList<>();
@@ -42,7 +36,7 @@ public class FunktionenRezeptBearbeiten {
         //lösche alte Zutaten im EntityManager
         ArrayList<Zutat> alteRezeptZutaten = rezept.bekommeZutaten();
         for(Zutat zutat: alteRezeptZutaten){
-            zutatRepository.entferneZutat(zutat);
+            rezeptRepository.entferneZutat(zutat);
         }
 
         //lege neue Zutaten an im EntityManger
@@ -64,7 +58,7 @@ public class FunktionenRezeptBearbeiten {
             rezeptZutaten.add(zutat);
 
             try {
-                zutatRepository.speichereZutat(zutat);
+                rezeptRepository.speichereZutat(zutat);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -79,7 +73,7 @@ public class FunktionenRezeptBearbeiten {
         if (pfadBild != null) {
             //falls altes Bild existiert dieses löschen
             if (rezept.bekommeBild() != null) {
-                bildRepository.entferneBild(rezept.bekommeBild());
+                rezeptRepository.entferneBild(rezept.bekommeBild());
             }
 
             String[] aufgeteilterPfad = pfadBild.split("(?=src)");
@@ -88,7 +82,7 @@ public class FunktionenRezeptBearbeiten {
 
             //Bild im EntityManager speichern
             try {
-                bildRepository.speichereBild(bildElement);
+                rezeptRepository.speichereBild(bildElement);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -96,12 +90,12 @@ public class FunktionenRezeptBearbeiten {
             rezept.setzeBild(bildElement);
 
             //Bild in der CVS Datei speichern
-            List<Bild> alleBilder = bildRepository.findeAlleBilder();
+            List<Bild> alleBilder = rezeptRepository.findeAlleBilder();
             controller.speichereCSVDaten(controller.csvDateienPfad + "Bild.csv", alleBilder);
         }
 
         //Zutaten und Rezept in CSV Speichern
-        List<Zutat> alleZutaten = zutatRepository.findeAlleZutaten();
+        List<Zutat> alleZutaten = rezeptRepository.findeAlleZutaten();
         controller.speichereCSVDaten(controller.csvDateienPfad + "Zutaten.csv", alleZutaten);
         List<Rezept> alleRezepte = rezeptRepository.findeAlleRezepte();
         controller.speichereCSVDaten(controller.csvDateienPfad + "Rezept.csv", alleRezepte);

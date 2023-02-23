@@ -64,4 +64,47 @@ public class RezeptRepository {
         }
         return out;
     }
+
+    /*Bild Funktionen*/
+    public boolean existiertBild( Bild bild ) {
+        return controller.entityManager.existiert(bild);
+    }
+
+    public void speichereBild(Bild bild ) throws Exception {
+        controller.entityManager.speichere(bild);
+    }
+
+    public Bild findeBild(UUID key) {
+        return controller.entityManager.finde(Bild.class, key);
+    }
+
+    public List<Bild> findeAlleBilder() {
+        return controller.entityManager.findeAlle(Bild.class);
+    }
+
+    public void entferneBild(Bild bild) {
+        controller.entityManager.entferne(bild);
+    }
+
+
+    /* Zutat Funktionen */
+    public boolean existiertZutat( Zutat zutat ) {
+        return controller.entityManager.existiert(zutat);
+    }
+
+    public void speichereZutat(Zutat zutat ) throws Exception {
+        controller.entityManager.speichere(zutat);
+    }
+
+    public Zutat findeZutat(UUID key) {
+        return controller.entityManager.finde(Zutat.class, key);
+    }
+
+    public List<Zutat> findeAlleZutaten() {
+        return controller.entityManager.findeAlle(Zutat.class);
+    }
+
+    public void entferneZutat(Zutat zutat) {
+        controller.entityManager.entferne(zutat);
+    }
 }

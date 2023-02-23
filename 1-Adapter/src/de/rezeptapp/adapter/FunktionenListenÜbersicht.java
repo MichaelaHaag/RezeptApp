@@ -36,7 +36,4 @@ public class FunktionenListenÜbersicht {
         }
     }
 
-    public static void elementAusgwewählt(UUID id, JFrame frame){
-        new RezeptAnsicht(id, frame);
-    }
 }

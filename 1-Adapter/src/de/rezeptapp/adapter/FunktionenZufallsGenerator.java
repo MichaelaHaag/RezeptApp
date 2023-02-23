@@ -11,11 +11,6 @@ import java.util.UUID;
 public class FunktionenZufallsGenerator {
     final static RezeptRepository rezeptRepository = new RezeptRepository();
 
-    public static void neuerZufallsGenerator(JFrame frame){
-        new ZufallsGenerator();
-        frame.dispose();
-    }
-
     //Erzeugt aus den vorhandenen UUIDs eine zufällige UUID
     public static UUID zufälligeRezeptUUID(){
         List<Rezept> listeAlleRezepte = rezeptRepository.findeAlleRezepte();

@@ -1,15 +1,12 @@
 package de.rezeptapp.domain;
 
-import model.Kategorie;
-import model.Schwierigkeit;
-import util.IPersistierbar;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 /* Rezept Klasse: Definiert ein Rezept */
-public class Rezept implements IPersistierbar {
+public class Rezept {
     private final UUID rezeptID;
     private String titel;
     private ArrayList<Kategorie> kategorien;
@@ -51,42 +48,8 @@ public class Rezept implements IPersistierbar {
         this.rezeptID = UUID.randomUUID();
     }
 
-    public enum CSVPosition {
-        REZEPTID,
-        TITEL,
-        SCHWIERIGKEITSGRAD,
-        BESCHREIBUNG
-    }
-
     public UUID bekommeUUID() {
         return rezeptID;
-    }
-
-    @Override
-    public String[] bekommeCSVKopf() {
-        return new String[]{"RezeptID","Titel","Schwierigkeitsgrad","Beschreibung"};
-    }
-
-    @Override
-    public String[] bekommeCSVDaten() {
-        String[] daten = new String[CSVPosition.values().length];
-        daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(this.rezeptID);
-        daten[CSVPosition.TITEL.ordinal()] = String.valueOf(this.titel);
-        daten[CSVPosition.SCHWIERIGKEITSGRAD.ordinal()] = String.valueOf(this.schwierigkeitsgrad);
-        daten[CSVPosition.BESCHREIBUNG.ordinal()] = String.valueOf(this.beschreibung);
-        return daten;
-    }
-
-    public List<String[]> bekommeKategorienCSV() {
-        List<String[]> csvDaten = new ArrayList<>();
-        for (Kategorie kategorie : this.bekommeKategorien()) {
-            String[] daten = new String[2];
-            daten[0] = String.valueOf(this.rezeptID);
-            daten[1] = String.valueOf(kategorie.bekommeUUID());
-            csvDaten.add(daten);
-
-        }
-       return csvDaten;
     }
 
     public String bekommeTitel() {

@@ -12,30 +12,25 @@ public class FunktionenListenÜbersicht {
     final static RezeptRepository rezeptRepository = new RezeptRepository();
 
     public static  String[][] alleRezepte(UUID id, DataReader dataReader) {
+        String[][] alleRezept;
         String name = "11111111-1111-1111-1111-111111111111";
         UUID idAlleRezepte = UUID.fromString(name);
         if(id.equals(idAlleRezepte)){
             try {
-                String[][] alleRezept = rezeptRepository.findeAlleRezepteUI(dataReader.entityManager);
-                return alleRezept;
-
+                alleRezept = rezeptRepository.findeAlleRezepteUI(dataReader.entityManager);
             } catch (Exception e) {
                 e.printStackTrace();
-                String[][] alleRezept = new String[0][0];
-                return alleRezept;
+                alleRezept = new String[0][0];
             }
-
         }else{
             Kategorie eingegbeneKategorie = kategorieRepository.findeKategorie(id, dataReader.entityManager);
             try {
-                String[][] rezepte = rezeptRepository.findeRezepteZuKategorie(eingegbeneKategorie, dataReader.entityManager);
-                return rezepte;
+                alleRezept = rezeptRepository.findeRezepteZuKategorie(eingegbeneKategorie, dataReader.entityManager);
             }catch (Exception e) {
                 e.printStackTrace();
-                String[][] alleRezept = new String[0][0];
-                return alleRezept;
+                alleRezept = new String[0][0];
             }
         }
+        return alleRezept;
     }
-
 }

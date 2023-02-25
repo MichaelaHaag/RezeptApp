@@ -7,9 +7,9 @@ import java.util.UUID;
 /* Zutat Klasse: Definiert eine Zutat eines Rezeptes */
 public class Zutat implements IPersistierbar{
     private final UUID zutatID;
-    private UUID rezeptID;
-    private Menge menge;
-    private String name;
+    private final UUID rezeptID;
+    private final Menge menge;
+    private final String name;
 
     public Zutat(UUID rezeptID, Menge menge, String name) {
         this.zutatID = UUID.randomUUID();

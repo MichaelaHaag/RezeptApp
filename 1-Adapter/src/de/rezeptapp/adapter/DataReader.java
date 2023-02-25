@@ -1,9 +1,7 @@
 package de.rezeptapp.adapter;
 
 import de.rezeptapp.adapter.DataTransfer.*;
-import de.rezeptapp.adapter.util.CSVReader;
-import de.rezeptapp.adapter.util.CSVWriter;
-import de.rezeptapp.domain.IPersistierbar;
+import de.rezeptapp.adapter.util.*;
 import de.rezeptapp.domain.Kategorie.*;
 import de.rezeptapp.domain.Rezept.*;
 

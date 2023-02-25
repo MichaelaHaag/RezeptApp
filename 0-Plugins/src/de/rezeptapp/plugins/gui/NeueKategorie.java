@@ -36,7 +36,7 @@ public class NeueKategorie {
             frame.dispose();
         });
         JButton buttonNeuesZufallsRezept = new JButton("Schließen");
-        buttonNeuesZufallsRezept.addActionListener(ae -> { frame.dispose(); });
+        buttonNeuesZufallsRezept.addActionListener(ae -> frame.dispose());
         JPanel pnlOben = new JPanel(new FlowLayout());
         pnlOben.add(labelNeueKategorie);
         pnlZufallsGenerator.add(pnlOben, BorderLayout.NORTH);

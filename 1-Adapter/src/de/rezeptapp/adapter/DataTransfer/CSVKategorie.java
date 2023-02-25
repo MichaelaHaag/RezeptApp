@@ -1,6 +1,7 @@
 package de.rezeptapp.adapter.DataTransfer;
 
 import de.rezeptapp.domain.Kategorie.Kategorie;
+
 public class CSVKategorie implements ICSVPersistierbar {
     Kategorie kategorie;
 

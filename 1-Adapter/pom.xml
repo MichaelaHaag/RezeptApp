@@ -15,8 +15,8 @@
 
     <dependencies>
         <dependency>
-            <artifactId>2-Application-Code</artifactId>
-            <groupId>de.rezeptapp.application</groupId>
+            <artifactId>3-Domain-Code</artifactId>
+            <groupId>de.rezeptapp.domain</groupId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

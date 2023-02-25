@@ -4,5 +4,5 @@ package de.rezeptapp.domain.Rezept;
 public enum Schwierigkeit {
     Einfach(),
     Normal(),
-    Schwer();
+    Schwer()
 }

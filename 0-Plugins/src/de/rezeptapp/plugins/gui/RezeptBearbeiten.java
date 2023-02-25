@@ -45,8 +45,8 @@ public class RezeptBearbeiten {
             Checkbox checkboxKategorie = new Checkbox(kategorien.get(i).bekommeKurzformName());
             checkboxen[i]= checkboxKategorie;
             pnlCheckboxen.add(checkboxKategorie);
-            for(int j=0; j<kategorienAusgewählt.size(); j++){
-                if(kategorien.get(i)==kategorienAusgewählt.get(j)){
+            for (Kategorie kategorie : kategorienAusgewählt) {
+                if (kategorien.get(i) == kategorie) {
                     checkboxKategorie.setState(true);
                 }
             }
@@ -153,10 +153,10 @@ public class RezeptBearbeiten {
             String beschreibung = textAreaBeschreibung.getText();
             String pfadBild = bildPfad[0];
 
-            ArrayList<String> checkedKategorien = new ArrayList<String>();
-            for (int i = 0; i < checkboxen.length; i++) {
-                if(checkboxen[i].getState()){
-                    checkedKategorien.add( checkboxen[i].getLabel());
+            ArrayList<String> checkedKategorien = new ArrayList<>();
+            for (Checkbox checkbox : checkboxen) {
+                if (checkbox.getState()) {
+                    checkedKategorien.add(checkbox.getLabel());
                 }
             }
 
@@ -168,7 +168,7 @@ public class RezeptBearbeiten {
             }
 
             if(!titel.equals("") && !beschreibung.equals("") && !checkedKategorien.isEmpty() && !ausewaehlteSchwierigkeit.equals("")) {
-                ArrayList<String[]> zutatenListe = new ArrayList<String[]>();
+                ArrayList<String[]> zutatenListe = new ArrayList<>();
                 for (int i = 0; i < tabelle.getRowCount(); i++) {
                     String mengeText = (String) tabelle.getModel().getValueAt(i, 0);
                     String einheitText = (String) tabelle.getModel().getValueAt(i, 1);

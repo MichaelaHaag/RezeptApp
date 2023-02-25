@@ -146,10 +146,10 @@ public class NeuesRezept {
             String beschreibung = textAreaBeschreibung.getText();
             String pfadBild = bildPfad[0];
 
-            ArrayList<String> checkedKategorien = new ArrayList<String>();
-            for (int i = 0; i < checkboxen.length; i++) {
-                if(checkboxen[i].getState()){
-                    checkedKategorien.add( checkboxen[i].getLabel());
+            ArrayList<String> checkedKategorien = new ArrayList<>();
+            for (Checkbox checkbox : checkboxen) {
+                if (checkbox.getState()) {
+                    checkedKategorien.add(checkbox.getLabel());
                 }
             }
 
@@ -161,7 +161,7 @@ public class NeuesRezept {
             }
 
             if(!titel.equals("") && !beschreibung.equals("") && tabelleBearbeitet && !checkedKategorien.isEmpty() && !ausewaehlteSchwierigkeit.equals("")) {
-                ArrayList<String[]> zutatenListe = new ArrayList<String[]>();
+                ArrayList<String[]> zutatenListe = new ArrayList<>();
                 for (int i = 0; i < tabelle.getRowCount(); i++) {
                     String mengeText = (String) tabelle.getModel().getValueAt(i, 0);
                     String einheitText = (String) tabelle.getModel().getValueAt(i, 1);

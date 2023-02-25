@@ -24,9 +24,9 @@ public class FunktionenRezeptBearbeiten {
 
         List<Kategorie> alleKategorien = kategorieRepository.findeAlleKategorien(dataReader.entityManager);
         // hier kann man evtl. noch optimieren
-        for (int i = 0; i < checkedKategorien.size(); i++) {
-            for (Kategorie kategorie : alleKategorien){
-                if (kategorie.bekommeKurzformName().equals(checkedKategorien.get(i))){
+        for (String kategorieString : checkedKategorien) {
+            for (Kategorie kategorie : alleKategorien) {
+                if (kategorie.bekommeKurzformName().equals(kategorieString)) {
                     rezeptKategorien.add(kategorie);
                 }
             }

@@ -1,6 +1,8 @@
 package de.rezeptapp.plugins.gui;
 
-import de.rezeptapp.adapter.*;
+import de.rezeptapp.adapter.DataReader;
+import de.rezeptapp.adapter.DataTransfer.CSVRezept;
+import de.rezeptapp.adapter.GUIFunktionen.FunktionenListenÜbersicht;
 import de.rezeptapp.domain.Rezept.Rezept;
 
 import javax.swing.*;
@@ -13,10 +15,12 @@ public class ListenÜbersicht {
     JFrame frame = new JFrame();
     JPanel pnlListenÜbersicht = new JPanel(new BorderLayout());
     ImageIcon logo = new ImageIcon("src/main/resources/Pictures/RecipeCollection.png");
+    DataReader dataReader;
 
     /*Erstellung des Headers mit dem Logo und dem Footer mit den Buttons, um ein neues Rezept hinzuzufügen, ein Zufallrezept auszuwählen
     oder auf die Homepage zu gelangen */
-    public ListenÜbersicht(UUID id){
+    public ListenÜbersicht(UUID id, DataReader dataReaderImport){
+        this.dataReader = dataReaderImport;
         System.out.println("Die Listpage wird gestartet");
         JPanel pnlKopfzeile = new JPanel();
         pnlKopfzeile.setBackground(Color.white);
@@ -28,14 +32,14 @@ public class ListenÜbersicht {
         pnlFusszeile.setBackground(farbeGrün);
         JButton buttonZufallsgenerator = new JButton("Zufallsgenerator");
         buttonZufallsgenerator.addActionListener(ae -> {
-            new ZufallsGenerator();
+            new ZufallsGenerator(dataReader);
             frame.dispose();
         });
         JButton buttonStartseite = new JButton("Startseite");
         buttonStartseite.addActionListener(ae -> frame.dispose());
         JButton buttonNeuesRezept = new JButton("Neues Rezept");
         buttonNeuesRezept.addActionListener(ae -> {
-            new NeuesRezept();
+            new NeuesRezept(dataReader);
             frame.dispose();
         });
         buttonZufallsgenerator.setBackground(farbeGrün);
@@ -53,9 +57,10 @@ public class ListenÜbersicht {
 
     //Diese Methode erzeugt eine Liste, mit allen Rezepten zu einer UUID
     private void initBenutzeroberfläche(UUID id) {
-        String[][] alleRezepte = FunktionenListenÜbersicht.alleRezepte(id);
+        String[][] alleRezepte = FunktionenListenÜbersicht.alleRezepte(id, dataReader);
         Rezept rezept = new Rezept();
-        String[] spaltenNamen = de.rezeptapp.adapter.DataTransfer.CSVRezept.bekommeCSVKopf();
+        CSVRezept csvRezept = new CSVRezept(rezept);
+        String[] spaltenNamen = csvRezept.bekommeCSVKopf();
         // Initiaisierung der Tabele
         JTable tabelle = new JTable(alleRezepte, spaltenNamen);
         tabelle.setRowHeight(30);
@@ -64,7 +69,7 @@ public class ListenÜbersicht {
                 int spalte = tabelle.rowAtPoint(e.getPoint());
                 int zeile = 0;
                 UUID id = UUID.fromString(tabelle.getValueAt(spalte, zeile).toString());
-                new RezeptAnsicht(id, frame);
+                new RezeptAnsicht(id, frame, dataReader);
             }
         }
         );

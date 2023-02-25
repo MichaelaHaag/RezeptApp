@@ -1,4 +1,4 @@
-package de.rezeptapp.plugins.util;
+package de.rezeptapp.adapter.util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,8 @@ public class FileChooser extends Component {
             e.printStackTrace();
         }
 
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "\\src\\main\\resources\\Pictures\\Food"));
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "\\resources\\Pictures\\Food"));
+        System.out.println(fileChooser.getCurrentDirectory());
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();

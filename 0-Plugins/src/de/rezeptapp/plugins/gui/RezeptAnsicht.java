@@ -1,5 +1,6 @@
 package de.rezeptapp.plugins.gui;
 
+import de.rezeptapp.adapter.DataReader;
 import de.rezeptapp.domain.Rezept.Rezept;
 import de.rezeptapp.domain.Rezept.RezeptRepository;
 import de.rezeptapp.domain.Rezept.Zutat;
@@ -18,10 +19,12 @@ public class RezeptAnsicht implements ActionListener {
     JPanel pnlRezeptAnsicht = new JPanel(new BorderLayout());
     ImageIcon logo = new ImageIcon("src/main/resources/Pictures/RecipeCollection.png");
     Color farbeGrün = new Color(0x00AAAA);
+    DataReader dataReader;
 
     /*Erstellung des Headers mit dem Logo und dem Footer mit den Buttons, um ein neues Rezept hinzuzufügen, ein
     Zufallrezept auszuwählen oder auf die Homepage zu gelangen */
-    public RezeptAnsicht(UUID id, JFrame frameListenÜbersicht) {
+    public RezeptAnsicht(UUID id, JFrame frameListenÜbersicht, DataReader dataReaderImport) {
+        this.dataReader = dataReaderImport;
         System.out.println("Die Listpage wird gestartet");
         JPanel pnlKopfzeile = new JPanel();
         pnlKopfzeile.setBackground(Color.white);
@@ -32,7 +35,7 @@ public class RezeptAnsicht implements ActionListener {
         pnlFusszeile.setBackground(farbeGrün);
         JButton zufallsgenerator = new JButton("Zufallsgenerator");
         zufallsgenerator.addActionListener(ae -> {
-            new ZufallsGenerator();
+            new ZufallsGenerator(dataReader);
             frame.dispose();
             frameListenÜbersicht.dispose();
         });
@@ -43,7 +46,7 @@ public class RezeptAnsicht implements ActionListener {
         });
         JButton buttonNeuesRezept = new JButton("Neues Rezept");
         buttonNeuesRezept.addActionListener(ae -> {
-            new NeuesRezept();
+            new NeuesRezept(dataReader);
             frame.dispose();
             frameListenÜbersicht.dispose();
         });
@@ -61,7 +64,7 @@ public class RezeptAnsicht implements ActionListener {
     }
     //Methode, die die Rezept Details auf den Frame einfügt
     private void initBenutzeroberfläche(UUID id) {
-        Rezept ausgewähltesRezept = rezeptRepository.findeRezept(id);
+        Rezept ausgewähltesRezept = rezeptRepository.findeRezept(id, dataReader.entityManager);
         JPanel pnlRezeptAnsicht2 = new JPanel(new GridLayout(5,1));
         JPanel pnlKopfzeile = new JPanel(new BorderLayout());
         JPanel pnlTitel = new JPanel(new GridLayout(2,1));
@@ -86,7 +89,7 @@ public class RezeptAnsicht implements ActionListener {
         JButton buttonBearbeiten = new JButton("Bearbeiten");
         buttonBearbeiten.addActionListener(ae -> {
             frame.dispose();
-            new RezeptBearbeiten(ausgewähltesRezept);
+            new RezeptBearbeiten(ausgewähltesRezept, dataReader);
         });
         buttonBearbeiten.setPreferredSize(new Dimension(100, 80));
         buttonBearbeiten.setBackground(farbeGrün);
@@ -117,6 +120,5 @@ public class RezeptAnsicht implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
     }
 }

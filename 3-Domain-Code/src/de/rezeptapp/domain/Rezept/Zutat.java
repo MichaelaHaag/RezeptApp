@@ -1,12 +1,11 @@
 package de.rezeptapp.domain.Rezept;
 
 import de.rezeptapp.domain.IPersistierbar;
-import de.rezeptapp.domain.Rezept.Menge;
 
 import java.util.UUID;
 
 /* Zutat Klasse: Definiert eine Zutat eines Rezeptes */
-public class Zutat implements IPersistierbar {
+public class Zutat implements IPersistierbar{
     private final UUID zutatID;
     private UUID rezeptID;
     private Menge menge;

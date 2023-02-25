@@ -1,9 +1,13 @@
 package de.rezeptapp.plugins.gui;
 
-import de.rezeptapp.adapter.*;
+import de.rezeptapp.adapter.DataReader;
+import de.rezeptapp.adapter.GUIFunktionen.ButtonEditor;
+import de.rezeptapp.adapter.GUIFunktionen.ButtonRenderer;
+import de.rezeptapp.adapter.GUIFunktionen.FunktionenNeuesRezept;
 import de.rezeptapp.domain.Kategorie.Kategorie;
 import de.rezeptapp.domain.Kategorie.KategorieRepository;
-import de.rezeptapp.plugins.util.FileChooser;
+import de.rezeptapp.adapter.util.FileChooser;
+import de.rezeptapp.domain.Rezept.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +23,7 @@ public class NeuesRezept {
     JPanel pnlNeuesRezept = new JPanel(new BorderLayout());
     JButton button = new JButton();
 
-    public NeuesRezept()  {
+    public NeuesRezept(DataReader dataReader)  {
         JPanel pnlMitte = new JPanel(new BorderLayout());
         JPanel pnlOben = new JPanel(new GridLayout(2,2));
         System.out.println("Das Panel für ein neues Rezept wird gestartet");
@@ -29,7 +33,7 @@ public class NeuesRezept {
         pnlOben.add(textfeldTitel);
 
         JLabel labelTags = new JLabel("Tags: ");
-        List<Kategorie> kategorien = kategorieRepository.findeAlleKategorien();
+        List<Kategorie> kategorien = kategorieRepository.findeAlleKategorien(dataReader.entityManager);
         JPanel pnlCheckboxen = new JPanel(new FlowLayout());
         Checkbox[] checkboxen = new Checkbox[kategorien.size()];
         for(int i=0; i<kategorien.size(); i++){
@@ -166,7 +170,7 @@ public class NeuesRezept {
                     zutatenListe.add(zutatEingabe);
                 }
 
-                FunktionenNeuesRezept.neuesRezeptSpeichern(titel, beschreibung, checkedKategorien,ausewaehlteSchwierigkeit, pfadBild, zutatenListe);
+                FunktionenNeuesRezept.neuesRezeptSpeichern(titel, beschreibung, checkedKategorien,ausewaehlteSchwierigkeit, pfadBild, zutatenListe, dataReader);
 
                 frame.dispose();
             }else{

@@ -1,13 +1,15 @@
 package de.rezeptapp.domain.Rezept;
 
 
+import de.rezeptapp.domain.IPersistierbar;
 import de.rezeptapp.domain.Kategorie.Kategorie;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /* Rezept Klasse: Definiert ein Rezept */
-public class Rezept {
+public class Rezept implements IPersistierbar{
     private final UUID rezeptID;
     private String titel;
     private ArrayList<Kategorie> kategorien;

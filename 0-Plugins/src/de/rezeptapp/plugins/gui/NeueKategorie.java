@@ -1,6 +1,7 @@
 package de.rezeptapp.plugins.gui;
 
-import de.rezeptapp.adapter.*;
+import de.rezeptapp.adapter.DataReader;
+import de.rezeptapp.adapter.GUIFunktionen.FunktionenStartseite;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +11,10 @@ neues zufälliges Rezept kann erzeugt werden*/
 public class NeueKategorie {
     JFrame frame = new JFrame();
     JPanel pnlZufallsGenerator = new JPanel(new BorderLayout());
+    DataReader dataReader;
 
-    public NeueKategorie() {
-
+    public NeueKategorie(DataReader dataReaderImport) {
+        this.dataReader = dataReaderImport;
         JLabel labelNeueKategorie = new JLabel("Neue Kategorie");
         labelNeueKategorie.setFont(new Font("Calibri", Font.PLAIN, 30));
 
@@ -27,8 +29,8 @@ public class NeueKategorie {
 
         JButton buttonRezeptÖffnen = new JButton("Speichern");
         buttonRezeptÖffnen.addActionListener(ae -> {
-            FunktionenStartseite.kategorieHinzufügen(tfeldKategorie.getText(), tfeldKategorieTag.getText(), tfeldKategorieBeschreibung.getText());
-            Startseite startseite = new Startseite();
+            FunktionenStartseite.kategorieHinzufügen(tfeldKategorie.getText(), tfeldKategorieTag.getText(), tfeldKategorieBeschreibung.getText(), dataReader);
+            Startseite startseite = new Startseite(dataReader);
             startseite.setVisible(true);
             startseite.setBounds(300,70,900,650);
             frame.dispose();

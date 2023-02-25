@@ -1,31 +1,29 @@
 package de.rezeptapp.domain.Kategorie;
 
-import de.rezeptapp.domain.Kategorie.Kategorie;
+import de.rezeptapp.domain.IEntityManager;
 
 import java.util.List;
 import java.util.UUID;
 
-import static app.RezeptApp.controller;
-
 public class KategorieRepository {
 
-    public boolean existiertKategorie(Kategorie kategorie) {
-        return controller.entityManager.existiert(kategorie);
+    public boolean existiertKategorie(Kategorie kategorie, IEntityManager entityManager) {
+        return entityManager.existiert(kategorie);
     }
 
-    public void speichereKategorie(Kategorie kategorie) throws Exception {
-        controller.entityManager.speichere(kategorie);
+    public void speichereKategorie(Kategorie kategorie, IEntityManager entityManager) throws Exception {
+        entityManager.speichere(kategorie);
     }
 
-    public Kategorie findeKategorie(UUID key) {
-        return controller.entityManager.finde(Kategorie.class, key);
+    public Kategorie findeKategorie(UUID key, IEntityManager entityManager) {
+        return entityManager.finde(Kategorie.class, key);
     }
 
-    public List<Kategorie> findeAlleKategorien() {
-        return controller.entityManager.findeAlle(Kategorie.class);
+    public List<Kategorie> findeAlleKategorien(IEntityManager entityManager) {
+        return entityManager.findeAlle(Kategorie.class);
     }
 
-    public void entferneKategorie(Kategorie kategorie) {
-        controller.entityManager.entferne(kategorie);
+    public void entferneKategorie(Kategorie kategorie, IEntityManager entityManager) {
+        entityManager.entferne(kategorie);
     }
 }

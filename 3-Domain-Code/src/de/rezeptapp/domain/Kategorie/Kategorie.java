@@ -7,7 +7,7 @@ import de.rezeptapp.domain.IPersistierbar;
 import java.util.UUID;
 
 /* Kategorie Klasse: Definiert eine Kategorie eines Rezeptes */
-public class Kategorie implements IPersistierbar {
+public class Kategorie implements IPersistierbar{
     private final UUID kategorieId;
     private String name;
     private String kurzformName;
@@ -32,7 +32,6 @@ public class Kategorie implements IPersistierbar {
         return this.name;
     }
 
-    @Override
     public Object bekommeUUID() {
         return kategorieId;
     }

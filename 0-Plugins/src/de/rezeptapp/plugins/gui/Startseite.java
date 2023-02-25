@@ -1,5 +1,6 @@
 package de.rezeptapp.plugins.gui;
 
+import de.rezeptapp.adapter.DataReader;
 import de.rezeptapp.domain.Kategorie.Kategorie;
 import de.rezeptapp.domain.Kategorie.KategorieRepository;
 
@@ -18,7 +19,7 @@ public class Startseite extends JFrame implements ActionListener {
 
     /*Erstellung des Headers mit dem Logo und dem Footer mit den Buttons, um ein neues Rezept hinzuzufügen, ein
     Zufallrezept auszuwählen oder auf die Homepage zu gelangen */
-    public Startseite() {
+    public Startseite(DataReader dataReader) {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         System.out.println("Die Homepage wird gestartet");
         JPanel pnlKopfzeile = new JPanel();
@@ -26,15 +27,15 @@ public class Startseite extends JFrame implements ActionListener {
         JLabel labelLogo = new JLabel(logo);
         pnlKopfzeile.add(labelLogo);
         pnlStartseite.add(pnlKopfzeile, BorderLayout.NORTH);
-        initBenutzeroberfläche();
+        initBenutzeroberfläche(dataReader);
         JPanel fusszeile = new JPanel(new GridLayout());
         Color farbeGrün = new Color(0x00AAAA);
         fusszeile.setBackground(farbeGrün);
         JButton zufallsgenerator = new JButton("Zufallsgenerator");
-        zufallsgenerator.addActionListener(ae -> new ZufallsGenerator());
+        zufallsgenerator.addActionListener(ae -> new ZufallsGenerator(dataReader));
         JButton buttonStartseite = new JButton("Startseite");
         JButton buttonNeuesRezept = new JButton("Neues Rezept");
-        buttonNeuesRezept.addActionListener(ae -> new NeuesRezept());
+        buttonNeuesRezept.addActionListener(ae -> new NeuesRezept(dataReader));
         zufallsgenerator.setBackground(farbeGrün);
         buttonStartseite.setBackground(farbeGrün);
         buttonNeuesRezept.setBackground(farbeGrün);
@@ -46,10 +47,10 @@ public class Startseite extends JFrame implements ActionListener {
     }
 
     //Methode, um die Kachlen der einzelnen Kategorien zu erstellen
-    private void initBenutzeroberfläche() {
+    private void initBenutzeroberfläche(DataReader dataReader) {
         JPanel pnlStartseite2 = new JPanel(new GridLayout(5,5));
         JScrollPane scrollBar = new JScrollPane(pnlStartseite2);
-        List<Kategorie> alleKategorien = kategorieRepository.findeAlleKategorien();
+        List<Kategorie> alleKategorien = kategorieRepository.findeAlleKategorien(dataReader.entityManager);
         JButton[] knöpfe = new JButton[alleKategorien.size()+2];
 
         knöpfe[0] = new JButton("<html>Kategorie<br>hinzufügen</html>");
@@ -59,7 +60,7 @@ public class Startseite extends JFrame implements ActionListener {
         knöpfe[0].setToolTipText("Kategorie hinzufügen");
         pnlStartseite2.add(knöpfe[0]);
         knöpfe[0].addActionListener(ae -> {
-            new NeueKategorie();
+            new NeueKategorie(dataReader);
             this.dispose();
         });
 
@@ -73,7 +74,7 @@ public class Startseite extends JFrame implements ActionListener {
             JButton angeklickterButton = (JButton)ae.getSource();
             String name = angeklickterButton.getName();
             UUID id = UUID.fromString(name);
-            new ListenÜbersicht(id);
+            new ListenÜbersicht(id, dataReader);
         });
         Kategorie[] kategorieArray = alleKategorien.toArray(new Kategorie[0]);
         String [] kategorien = new String[kategorieArray.length];
@@ -91,7 +92,7 @@ public class Startseite extends JFrame implements ActionListener {
                 JButton angeklickterButton = (JButton)ae.getSource();
                 String name = angeklickterButton.getName();
                 UUID id = UUID.fromString(name);
-                new ListenÜbersicht(id);
+                new ListenÜbersicht(id, dataReader);
             });
         }
         Color farbeGrau = new Color(0xFCFCFC);

@@ -1,13 +1,16 @@
 package de.rezeptapp.plugins.gui;
 
-import de.rezeptapp.adapter.*;
+import de.rezeptapp.adapter.DataReader;
+import de.rezeptapp.adapter.GUIFunktionen.ButtonEditor;
+import de.rezeptapp.adapter.GUIFunktionen.ButtonRenderer;
+import de.rezeptapp.adapter.GUIFunktionen.FunktionenRezeptBearbeiten;
 import de.rezeptapp.domain.Kategorie.Kategorie;
 import de.rezeptapp.domain.Kategorie.KategorieRepository;
 import de.rezeptapp.domain.Rezept.Einheit;
 import de.rezeptapp.domain.Rezept.Rezept;
 import de.rezeptapp.domain.Rezept.Schwierigkeit;
 import de.rezeptapp.domain.Rezept.Zutat;
-import de.rezeptapp.plugins.util.FileChooser;
+import de.rezeptapp.adapter.util.FileChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +26,7 @@ public class RezeptBearbeiten {
     JPanel pnlNeuesRezept = new JPanel(new BorderLayout());
     JButton button = new JButton();
 
-    public RezeptBearbeiten(Rezept rezept)  {
+    public RezeptBearbeiten(Rezept rezept, DataReader dataReader)  {
         JPanel pnlMitte = new JPanel(new BorderLayout());
         JPanel pnlOben = new JPanel(new GridLayout(2,2));
         System.out.println("Das Panel für ein neues Rezept wird gestartet");
@@ -34,7 +37,7 @@ public class RezeptBearbeiten {
         pnlOben.add(textfeldTitel);
 
         JLabel labelTags = new JLabel("Tags: ");
-        List<Kategorie> kategorien = kategorieRepository.findeAlleKategorien();
+        List<Kategorie> kategorien = kategorieRepository.findeAlleKategorien(dataReader.entityManager);
         List<Kategorie> kategorienAusgewählt = rezept.bekommeKategorien();
         JPanel pnlCheckboxen = new JPanel(new FlowLayout());
         Checkbox[] checkboxen = new Checkbox[kategorien.size()];
@@ -174,8 +177,8 @@ public class RezeptBearbeiten {
                     zutatenListe.add(zutatEingabe);
                 }
 
-                FunktionenRezeptBearbeiten.rezeptBearbeitungSpeichern(rezept, titel, beschreibung, checkedKategorien, ausewaehlteSchwierigkeit, pfadBild, zutatenListe);
-                new RezeptAnsicht(rezept.bekommeUUID(), null);
+                FunktionenRezeptBearbeiten.rezeptBearbeitungSpeichern(rezept, titel, beschreibung, checkedKategorien, ausewaehlteSchwierigkeit, pfadBild, zutatenListe, dataReader);
+                new RezeptAnsicht(rezept.bekommeUUID(), null, dataReader);
                 frame.dispose();
 
             }else{

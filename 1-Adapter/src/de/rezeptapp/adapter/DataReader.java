@@ -1,49 +1,37 @@
-package de.rezeptapp.application;
+package de.rezeptapp.adapter;
 
-import de.rezeptapp.domain.*;
-import de.rezeptapp.domain.Kategorie.Kategorie;
-import de.rezeptapp.domain.Kategorie.KategorieRepository;
-import de.rezeptapp.domain.Rezept.Zutat;
+import de.rezeptapp.adapter.DataTransfer.*;
+import de.rezeptapp.adapter.util.CSVReader;
+import de.rezeptapp.adapter.util.CSVWriter;
+import de.rezeptapp.domain.IPersistierbar;
+import de.rezeptapp.domain.Kategorie.*;
 import de.rezeptapp.domain.Rezept.*;
-import util.CSVReader;
-import util.CSVWriter;
-import util.EntityManager;
-import util.IPersistierbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/* Main Controller: Beinhaltet alle Funktionalitäten des Backends */
-public class MainController {
+public class DataReader {
 
-    public final String csvDateienPfad = "src\\main\\resources\\CSVFiles\\";
+    public final String csvDateienPfad = "resources\\CSVFiles\\";
     public EntityManager entityManager = new EntityManager();
     final static KategorieRepository kategorieRepository = new KategorieRepository();
     final static RezeptRepository rezeptRepository = new RezeptRepository();
 
-    public void init() {
-        try {
-            ladeCSVDaten();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     //Methode zum laden der Daten aus den CSV Dateien und Erstellung von Einträgen im Entitymanager
-    private void ladeCSVDaten() throws IOException {
+    public void ladeCSVDaten() throws IOException {
         CSVReader csvReader = new CSVReader(csvDateienPfad + "Kategorie.csv");
         List<String[]> csvDaten = csvReader.leseDaten();
         csvDaten.forEach(csvZeile -> {
             try {
-                UUID kategorieID = UUID.fromString(csvZeile[ Kategorie.CSVPosition.KATEGORIEID.ordinal() ]);
-                String name = csvZeile[ Kategorie.CSVPosition.NAME.ordinal() ];
-                String tag = csvZeile[ Kategorie.CSVPosition.TAG.ordinal() ];
-                String beschreibung = csvZeile[ Kategorie.CSVPosition.BESCHREIBUNG.ordinal() ];
+                UUID kategorieID = UUID.fromString(csvZeile[ CSVKategorie.CSVPosition.KATEGORIEID.ordinal() ]);
+                String name = csvZeile[ CSVKategorie.CSVPosition.NAME.ordinal() ];
+                String tag = csvZeile[ CSVKategorie.CSVPosition.TAG.ordinal() ];
+                String beschreibung = csvZeile[ CSVKategorie.CSVPosition.BESCHREIBUNG.ordinal() ];
 
                 Kategorie kategorie = new Kategorie(kategorieID, name, tag, beschreibung);
-                kategorieRepository.speichereKategorie( kategorie );
+                kategorieRepository.speichereKategorie( kategorie, entityManager);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -55,10 +43,10 @@ public class MainController {
         csvDaten = csvReader.leseDaten();
         csvDaten.forEach(csvZeile -> {
             try {
-                UUID zutatenID = UUID.fromString(csvZeile[ Zutat.CSVPosition.ZUATATID.ordinal() ]);
-                UUID zutatenRezeptID = UUID.fromString(csvZeile[ Zutat.CSVPosition.REZEPTID.ordinal() ]);
-                String mengeString = csvZeile[ Zutat.CSVPosition.MENGE.ordinal() ];
-                String zutatName = csvZeile[ Zutat.CSVPosition.NAME.ordinal() ];
+                UUID zutatenID = UUID.fromString(csvZeile[ CSVZutat.CSVPosition.ZUATATID.ordinal() ]);
+                UUID zutatenRezeptID = UUID.fromString(csvZeile[ CSVZutat.CSVPosition.REZEPTID.ordinal() ]);
+                String mengeString = csvZeile[ CSVZutat.CSVPosition.MENGE.ordinal() ];
+                String zutatName = csvZeile[ CSVZutat.CSVPosition.NAME.ordinal() ];
 
                 String[] mengeStringParts = mengeString.split("-");
                 long mengeAnzahl = Long.parseLong( mengeStringParts[0]);
@@ -73,7 +61,7 @@ public class MainController {
                 Menge menge = new Menge(mengeAnzahl, einheit);
 
                 Zutat zutat = new Zutat(zutatenID, zutatenRezeptID, menge, zutatName);
-                rezeptRepository.speichereZutat( zutat );
+                rezeptRepository.speichereZutat( zutat, entityManager );
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -84,12 +72,12 @@ public class MainController {
         csvDaten = csvReader.leseDaten();
         csvDaten.forEach(csvZeile -> {
             try {
-                UUID bildID = UUID.fromString(csvZeile[ Bild.CSVPosition.BILDID.ordinal() ]);
-                UUID rezeptID = UUID.fromString(csvZeile[ Bild.CSVPosition.REZEPTID.ordinal() ]);
-                String pfad = csvZeile[ Bild.CSVPosition.PFAD.ordinal() ];
+                UUID bildID = UUID.fromString(csvZeile[ CSVBild.CSVPosition.BILDID.ordinal() ]);
+                UUID rezeptID = UUID.fromString(csvZeile[ CSVBild.CSVPosition.REZEPTID.ordinal() ]);
+                String pfad = csvZeile[ CSVBild.CSVPosition.PFAD.ordinal() ];
 
                 Bild bild = new Bild(bildID, rezeptID, pfad);
-                rezeptRepository.speichereBild( bild );
+                rezeptRepository.speichereBild( bild, entityManager );
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -103,30 +91,30 @@ public class MainController {
         csvDaten = csvReader.leseDaten();
         csvDaten.forEach(csvZeile -> {
             try {
-                UUID rezeptID = UUID.fromString(csvZeile[ Rezept.CSVPosition.REZEPTID.ordinal() ]);
-                String titel = csvZeile[ Rezept.CSVPosition.TITEL.ordinal() ];
-                String schwierigkeitsgrad = csvZeile[ Rezept.CSVPosition.SCHWIERIGKEITSGRAD.ordinal() ];
-                String beschreibung = csvZeile[ Rezept.CSVPosition.BESCHREIBUNG.ordinal() ];
+                UUID rezeptID = UUID.fromString(csvZeile[ CSVRezept.CSVPosition.REZEPTID.ordinal() ]);
+                String titel = csvZeile[ CSVRezept.CSVPosition.TITEL.ordinal() ];
+                String schwierigkeitsgrad = csvZeile[ CSVRezept.CSVPosition.SCHWIERIGKEITSGRAD.ordinal() ];
+                String beschreibung = csvZeile[ CSVRezept.CSVPosition.BESCHREIBUNG.ordinal() ];
                 Bild rezeptBild = null;
                 ArrayList<Zutat> zutaten = new ArrayList<>();
                 ArrayList<Kategorie> kategorien = new ArrayList<>();
                 Schwierigkeit schwierigkeit = null;
 
-                List<Bild> bilderListe = rezeptRepository.findeAlleBilder();
+                List<Bild> bilderListe = rezeptRepository.findeAlleBilder(entityManager);
                 for (Bild bild : bilderListe){
                     if (bild.bekommeRezeptID().equals(rezeptID)){
                         rezeptBild = bild;
                     }
                 }
 
-                List<Zutat> zutatenListe = rezeptRepository.findeAlleZutaten();
+                List<Zutat> zutatenListe = rezeptRepository.findeAlleZutaten(entityManager);
                 for (Zutat zutat : zutatenListe){
                     if (zutat.bekommeRezeptID().equals(rezeptID)){
                         zutaten.add(zutat);
                     }
                 }
 
-                List<Kategorie> kategorieListe = kategorieRepository.findeAlleKategorien();
+                List<Kategorie> kategorieListe = kategorieRepository.findeAlleKategorien(entityManager);
                 csvDatenRezeptKategorie.forEach(csvZeileKategorie -> {
                     try {
                         if (UUID.fromString(csvZeileKategorie[0]).equals(rezeptID)){
@@ -148,7 +136,7 @@ public class MainController {
                 }
 
                 Rezept rezept = new Rezept(rezeptID, titel, kategorien, zutaten, beschreibung, schwierigkeit, rezeptBild);
-                rezeptRepository.speichereRezept( rezept );
+                rezeptRepository.speichereRezept( rezept, entityManager );
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -157,19 +145,19 @@ public class MainController {
     }
 
     // Methode zur Datenspeicherung aus dem Entitymanager in CSV Dateien
-    public <T extends IPersistierbar> void speichereCSVDaten(String pfad, List<T> objekte) {
+    public <T extends ICSVPersistierbar> void speichereCSVDaten(String pfad, List<T> objekte) {
         CSVWriter writer = new CSVWriter(pfad, true);  // createIfNotExists
 
         List<Object[]> csvDaten = new ArrayList<>();
 
         objekte.forEach(e -> csvDaten.add(e.bekommeCSVDaten()));
 
-        if(objekte.get(0).getClass().equals(Rezept.class)){
+        if(objekte.get(0).getClass().equals(CSVRezept.class)){
             CSVWriter writerKategorie = new CSVWriter(csvDateienPfad + "RezeptKategorie.csv", true);
             String[] kategorieKopf = new String[]{"RezeptID", "KategorieID"};
             List<Object[]> kategorieCSVDaten = new ArrayList<>();
             objekte.forEach(e -> {
-                List<String[]> kategorieArray = ((Rezept) e).bekommeKategorienCSV();
+                List<String[]> kategorieArray = ((CSVRezept) e).bekommeKategorienArray();
                 kategorieCSVDaten.addAll(kategorieArray);
             });
 

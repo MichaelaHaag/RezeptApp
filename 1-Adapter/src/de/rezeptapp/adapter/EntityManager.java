@@ -1,11 +1,12 @@
-package de.rezeptapp.plugins.util;
+package de.rezeptapp.adapter;
 
 import de.rezeptapp.domain.IPersistierbar;
+import de.rezeptapp.domain.IEntityManager;
 
 import java.util.*;
 
 /* EntityManager Klasse: Ist zuständig für die Datenhaltung */
-public class EntityManager {
+public class EntityManager implements IEntityManager{
 
     private final Map<Object, IPersistierbar> allElements = new HashMap<>();
 
@@ -42,4 +43,5 @@ public class EntityManager {
     public void entferne(IPersistierbar ip ) {
         this.allElements.remove( ip.bekommeUUID() );
     }
+
 }

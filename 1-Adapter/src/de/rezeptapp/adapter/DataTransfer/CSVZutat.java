@@ -2,7 +2,13 @@ package de.rezeptapp.adapter.DataTransfer;
 
 import de.rezeptapp.domain.Rezept.Zutat;
 
-public class CSVZutat {
+public class CSVZutat implements ICSVPersistierbar {
+    Zutat zutat;
+
+    public CSVZutat(Zutat zutat) {
+        this.zutat = zutat;
+    }
+
     public enum CSVPosition {
         ZUATATID,
         REZEPTID,
@@ -10,16 +16,21 @@ public class CSVZutat {
         NAME
     }
 
-    public static String[] bekommeCSVKopf() {
+    @Override
+    public Object bekommeUUID() {
+        return this.zutat.bekommeUUID();
+    }
+
+    public String[] bekommeCSVKopf() {
         return new String[]{"ZutatID","RezeptID","Menge","Name"};
     }
 
-    public String[] bekommeCSVDaten(Zutat zutat) {
+    public String[] bekommeCSVDaten() {
         String[] daten = new String[CSVPosition.values().length];
-        daten[CSVPosition.ZUATATID.ordinal()] = String.valueOf(zutat.bekommeUUID());
-        daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(zutat.bekommeRezeptID());
-        daten[CSVPosition.MENGE.ordinal()] = String.valueOf(zutat.bekommeMenge());
-        daten[CSVPosition.NAME.ordinal()] = String.valueOf(zutat.bekommeName());
+        daten[CSVPosition.ZUATATID.ordinal()] = String.valueOf(this.zutat.bekommeUUID());
+        daten[CSVPosition.REZEPTID.ordinal()] = String.valueOf(this.zutat.bekommeRezeptID());
+        daten[CSVPosition.MENGE.ordinal()] = String.valueOf(this.zutat.bekommeMenge());
+        daten[CSVPosition.NAME.ordinal()] = String.valueOf(this.zutat.bekommeName());
         return daten;
     }
 }

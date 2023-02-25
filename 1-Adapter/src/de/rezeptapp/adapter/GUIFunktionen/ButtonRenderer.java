@@ -1,4 +1,4 @@
-package de.rezeptapp.adapter;
+package de.rezeptapp.adapter.GUIFunktionen;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;

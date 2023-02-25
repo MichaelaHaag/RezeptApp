@@ -6,7 +6,7 @@ import de.rezeptapp.domain.IPersistierbar;
 import java.util.UUID;
 
 /* Bild Klasse: Definiert ein Bild eines Rezeptes */
-public class Bild implements IPersistierbar {
+public class Bild implements IPersistierbar{
     private final UUID bildID;
     private final UUID rezeptID;
     private final String pfad;

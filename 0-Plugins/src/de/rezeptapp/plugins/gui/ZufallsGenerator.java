@@ -1,6 +1,7 @@
 package de.rezeptapp.plugins.gui;
 
-import de.rezeptapp.adapter.FunktionenZufallsGenerator;
+import de.rezeptapp.adapter.DataReader;
+import de.rezeptapp.adapter.GUIFunktionen.FunktionenZufallsGenerator;
 import de.rezeptapp.domain.Rezept.Rezept;
 import de.rezeptapp.domain.Rezept.RezeptRepository;
 
@@ -15,22 +16,22 @@ public class ZufallsGenerator {
     JFrame frame = new JFrame();
     JPanel pnlZufallsGenerator = new JPanel(new BorderLayout());
 
-    public ZufallsGenerator() {
+    public ZufallsGenerator(DataReader dataReader) {
         System.out.println("Der Randomizer wird gestartet");
-        UUID zufälligeRezeptID = FunktionenZufallsGenerator.zufälligeRezeptUUID();
-        Rezept zufälligesRezept = rezeptRepository.findeRezept(zufälligeRezeptID);
+        UUID zufälligeRezeptID = FunktionenZufallsGenerator.zufälligeRezeptUUID(dataReader);
+        Rezept zufälligesRezept = rezeptRepository.findeRezept(zufälligeRezeptID, dataReader.entityManager);
         JLabel labelVorschlag = new JLabel(zufälligesRezept.bekommeTitel());
         labelVorschlag.setFont(new Font("Calibri", Font.PLAIN, 30));
         JLabel labelKategorie = new JLabel("Kategorie: ");
         JLabel labelZufallsrezeptKategorie = new JLabel(zufälligesRezept.bekommeKategorien().toString());
         JButton buttonRezeptÖffnen = new JButton("Rezept öffnen");
         buttonRezeptÖffnen.addActionListener(ae -> {
-            new RezeptAnsicht(zufälligeRezeptID, null);
+            new RezeptAnsicht(zufälligeRezeptID, null, dataReader);
             frame.dispose();
         });
         JButton buttonNeuesZufallsRezept = new JButton("Neues Zufallsrezept");
         buttonNeuesZufallsRezept.addActionListener(ae -> {
-            new ZufallsGenerator();
+            new ZufallsGenerator(dataReader);
             frame.dispose();
         });
         JPanel pnlOben = new JPanel(new FlowLayout());

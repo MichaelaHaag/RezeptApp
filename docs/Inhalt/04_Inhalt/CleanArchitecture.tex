@@ -1,0 +1,27 @@
+\chapter{Clean Architecture}
+
+Dieses Kapitel beschreibt die Architektur der entwickelten Software. Es wurde nach den in der Vorlesung erläuterten Clean-Architecture-Prinzipien gebaut. Clean Architecture ist ein Softwarearchitektur-Muster, welches zum Ziel hat, die Abhängigkeiten innerhalb einer Anwendung zu minimieren und die Wiederverwendbarkeit und Testbarkeit zu maximieren. Es besteht aus einer inneren Schicht von unabhängigen Entitäten, die von einer äußeren Schicht von Abhängigkeiten umgeben sind. Dies ermöglicht es Entwicklern, Anwendungen zu erstellen, die leicht zu testen, zu verstehen und zu warten sind und die flexibel sind, um schnell auf Änderungen reagieren zu können.
+
+Im Folgenden werden die verwendeten Schichten genauer erläutert. Die Schicht \enquote{Abstraction Code} wurde in unserer Anwendung nicht verwendet, da für die in der Domäne behandelten Themengebiete kein Domänen übergreifendes Wissen notwendig war, welches Teil dieser Schicht hätte sein müssen. 
+%Außerdem wird auf die Application Code Schicht verzichtet
+
+\section{Schicht 3: Domain Code}
+Die Domain Code Schicht umfasst die unabhängigen und wiederverwendbaren Geschäftslogik-Komponenten der Anwendung. Sie enthalten keine Abhängigkeiten von anderen Schichten und sind in der Regel unabhängig von der Benutzeroberfläche oder der Datenpersistenz.
+
+%Diese Schicht befindet sich im 3-Quickie-Domain-Modul und enthält die in Abbildung 2.1 gezeigten Klassen und Schnittstellen. Die enthaltenen Klassen implementieren die Entitäten und Wertobjekte der Softwaredomäne. Sie bilden die Unternehmens-Geschäftslogik der Software ab und repräsentieren typische Elemente des Domänencodes. Die enthaltene Schnittstelle spezifiziert die Methoden, die das zugehörige Repository benötigt. Es ist auch Teil des Domänencodes gemäß der sauberen Architektur, die wir in der Vorlesung besprochen haben.
+%Der Code in dieser Schicht verwendet nur Java-Standards, sodass er als Kern und langlebigste Softwareschicht keine Abhängigkeiten aufweist.
+
+\section{Schicht 2: Application Code}
+
+% Use Cases: Dies sind die Interaktionslogik-Komponenten der Anwendung, die die Geschäftslogik der Entitäten verwenden, um bestimmte Aufgaben auszuführen. Sie enthalten keine Abhängigkeiten von der Benutzeroberfläche oder der Datenpersistenz.
+
+\section{Schicht 1: Adapters}
+
+% Interface Adapters: Dies sind die Schichten, die die Anwendungslogik mit der Benutzeroberfläche und der Datenpersistenz verbinden. Sie enthalten Adapter, die die Datenformate und Schnittstellen der Entitäten und Use Cases in diejenigen der Benutzeroberfläche und der Datenpersistenz übersetzen.
+
+\section{Schicht 0: Plugins}
+
+% Frameworks and Drivers: Dies sind die äußersten Schichten der Anwendung, die die tatsächliche Ausführung auf spezifischen Plattformen, wie z.B. Web-Server, Datenbanken, ermöglichen.
+
+\section{Dependency Inversion}
+%Dependency Injection durchgeführt mit Entity Manager Aufruf in den Repositories. 

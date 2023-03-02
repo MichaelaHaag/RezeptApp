@@ -3,3 +3,6 @@ aufschluss
 Entities
 Objects
 Entity
+Domänenregeln
+Repositories
+Observer

@@ -1,6 +1,6 @@
 package de.rezeptapp.plugins.main;
 
-import de.rezeptapp.adapter.DataReader;
+import de.rezeptapp.adapter.Datenpersistenz.DataReader;
 import de.rezeptapp.plugins.gui.Startseite;
 
 import java.io.IOException;

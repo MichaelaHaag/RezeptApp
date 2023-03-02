@@ -1,4 +1,4 @@
-package de.rezeptapp.adapter.DataTransfer;
+package de.rezeptapp.adapter.Datenpersistenz;
 
 import de.rezeptapp.domain.Rezept.Bild;
 

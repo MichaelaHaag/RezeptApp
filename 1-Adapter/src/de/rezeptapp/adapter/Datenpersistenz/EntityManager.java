@@ -1,4 +1,4 @@
-package de.rezeptapp.adapter;
+package de.rezeptapp.adapter.Datenpersistenz;
 
 import de.rezeptapp.domain.IPersistierbar;
 import de.rezeptapp.domain.IEntityManager;

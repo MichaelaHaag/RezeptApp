@@ -1,4 +1,4 @@
-package de.rezeptapp.adapter.DataTransfer;
+package de.rezeptapp.adapter.Datenpersistenz;
 
 /* ICSVPersistierbar Interface: Enthält Methoden zur Speicherung der Objekte */
 public interface ICSVPersistierbar {

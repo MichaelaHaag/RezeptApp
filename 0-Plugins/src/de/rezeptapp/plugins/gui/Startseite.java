@@ -1,6 +1,6 @@
 package de.rezeptapp.plugins.gui;
 
-import de.rezeptapp.adapter.DataReader;
+import de.rezeptapp.adapter.Datenpersistenz.DataReader;
 import de.rezeptapp.domain.Kategorie.*;
 
 import javax.swing.*;

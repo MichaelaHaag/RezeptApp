@@ -1,4 +1,4 @@
-package de.rezeptapp.adapter.util;
+package de.rezeptapp.adapter.Datenpersistenz;
 
 import java.io.*;
 import java.util.List;

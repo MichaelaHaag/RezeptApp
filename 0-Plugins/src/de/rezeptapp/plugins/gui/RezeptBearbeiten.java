@@ -1,6 +1,6 @@
 package de.rezeptapp.plugins.gui;
 
-import de.rezeptapp.adapter.DataReader;
+import de.rezeptapp.adapter.Datenpersistenz.DataReader;
 import de.rezeptapp.adapter.GUIFunktionen.ButtonEditor;
 import de.rezeptapp.adapter.GUIFunktionen.ButtonRenderer;
 import de.rezeptapp.adapter.GUIFunktionen.FunktionenRezeptBearbeiten;
@@ -10,7 +10,6 @@ import de.rezeptapp.domain.Rezept.Einheit;
 import de.rezeptapp.domain.Rezept.Rezept;
 import de.rezeptapp.domain.Rezept.Schwierigkeit;
 import de.rezeptapp.domain.Rezept.Zutat;
-import de.rezeptapp.adapter.util.FileChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

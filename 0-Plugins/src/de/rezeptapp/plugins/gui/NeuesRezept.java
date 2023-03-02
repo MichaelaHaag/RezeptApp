@@ -1,12 +1,11 @@
 package de.rezeptapp.plugins.gui;
 
-import de.rezeptapp.adapter.DataReader;
+import de.rezeptapp.adapter.Datenpersistenz.DataReader;
 import de.rezeptapp.adapter.GUIFunktionen.ButtonEditor;
 import de.rezeptapp.adapter.GUIFunktionen.ButtonRenderer;
 import de.rezeptapp.adapter.GUIFunktionen.FunktionenNeuesRezept;
 import de.rezeptapp.domain.Kategorie.Kategorie;
 import de.rezeptapp.domain.Kategorie.KategorieRepository;
-import de.rezeptapp.adapter.util.FileChooser;
 import de.rezeptapp.domain.Rezept.*;
 
 import javax.swing.*;

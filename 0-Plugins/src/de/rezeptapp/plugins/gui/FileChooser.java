@@ -1,4 +1,4 @@
-package de.rezeptapp.adapter.util;
+package de.rezeptapp.plugins.gui;
 
 import javax.swing.*;
 import java.awt.*;

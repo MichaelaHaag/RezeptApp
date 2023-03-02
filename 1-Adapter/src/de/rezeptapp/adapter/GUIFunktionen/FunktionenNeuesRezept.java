@@ -1,7 +1,7 @@
 package de.rezeptapp.adapter.GUIFunktionen;
 
-import de.rezeptapp.adapter.DataReader;
-import de.rezeptapp.adapter.DataTransfer.*;
+import de.rezeptapp.adapter.Datenpersistenz.DataReader;
+import de.rezeptapp.adapter.Datenpersistenz.*;
 import de.rezeptapp.domain.Kategorie.*;
 import de.rezeptapp.domain.Rezept.*;
 

@@ -1,7 +1,5 @@
-package de.rezeptapp.adapter;
+package de.rezeptapp.adapter.Datenpersistenz;
 
-import de.rezeptapp.adapter.DataTransfer.*;
-import de.rezeptapp.adapter.util.*;
 import de.rezeptapp.domain.Kategorie.*;
 import de.rezeptapp.domain.Rezept.*;
 

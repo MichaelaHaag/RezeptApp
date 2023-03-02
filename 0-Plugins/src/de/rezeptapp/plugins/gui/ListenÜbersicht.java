@@ -1,7 +1,7 @@
 package de.rezeptapp.plugins.gui;
 
-import de.rezeptapp.adapter.DataReader;
-import de.rezeptapp.adapter.DataTransfer.CSVRezept;
+import de.rezeptapp.adapter.Datenpersistenz.DataReader;
+import de.rezeptapp.adapter.Datenpersistenz.CSVRezept;
 import de.rezeptapp.adapter.GUIFunktionen.FunktionenListenÜbersicht;
 import de.rezeptapp.domain.Rezept.Rezept;
 

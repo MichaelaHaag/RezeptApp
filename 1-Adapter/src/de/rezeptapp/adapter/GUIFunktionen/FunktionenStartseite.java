@@ -1,7 +1,7 @@
 package de.rezeptapp.adapter.GUIFunktionen;
 
-import de.rezeptapp.adapter.DataReader;
-import de.rezeptapp.adapter.DataTransfer.CSVKategorie;
+import de.rezeptapp.adapter.Datenpersistenz.DataReader;
+import de.rezeptapp.adapter.Datenpersistenz.CSVKategorie;
 import de.rezeptapp.domain.Kategorie.*;
 
 import java.util.ArrayList;

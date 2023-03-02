@@ -6,8 +6,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="RezeptApp" />
+        <module name="0-Plugins-Main" />
+        <module name="1-Adapter" />
+        <module name="3-Domain-Code" />
+        <module name="0-Plugins" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="2-Application-Code" target="17" />
+      <module name="test2" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

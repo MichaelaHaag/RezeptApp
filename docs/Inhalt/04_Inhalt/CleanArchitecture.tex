@@ -3,31 +3,18 @@
 Dieses Kapitel beschreibt die Architektur der entwickelten Software. Es wurde nach den in der Vorlesung erläuterten Clean-Architecture-Prinzipien gebaut. Clean Architecture ist ein Softwarearchitektur-Muster, welches zum Ziel hat, die Abhängigkeiten innerhalb einer Anwendung zu minimieren und die Wiederverwendbarkeit und Testbarkeit zu maximieren. Es besteht aus einer inneren Schicht von unabhängigen Entitäten, die von einer äußeren Schicht von Abhängigkeiten umgeben sind. Dies ermöglicht es Entwicklern, Anwendungen zu erstellen, die leicht zu testen, zu verstehen und zu warten sind und die flexibel sind, um schnell auf Änderungen reagieren zu können.
 
 Im Folgenden werden die verwendeten Schichten genauer erläutert. Die Schicht \enquote{Abstraction Code} wurde in unserer Anwendung nicht verwendet, da für die in der Domäne behandelten Themengebiete kein Domänen übergreifendes Wissen notwendig war, welches Teil dieser Schicht hätte sein müssen. 
-
-- Außerdem wird auf die Application Code Schicht verzichtet (eigentlich weil wir nicht mehr genug Code für die Schicht haben, das sollten wir aber anders begründen) evtl. Begründen, dass wir Schicht 2 und 1 zusammengelegt haben
+Außerdem haben wir die Adapters Code Schicht und die Application Code Schicht zusammengelegt. Der Code dieser Schichten befinden sich in der Schicht 1: Adapters Code.
 
 \section{Schicht 3: Domain Code}
 Die Domain Code Schicht umfasst die unabhängigen und wiederverwendbaren Geschäftslogik-Komponenten der Anwendung. Sie enthalten keine Abhängigkeiten von anderen Schichten und sind in der Regel unabhängig von der Benutzeroberfläche oder der Datenpersistenz.
-
-%Diese Schicht befindet sich im 3-Quickie-Domain-Modul und enthält die in Abbildung 2.1 gezeigten Klassen und Schnittstellen. Die enthaltenen Klassen implementieren die Entitäten und Wertobjekte der Softwaredomäne. Sie bilden die Unternehmens-Geschäftslogik der Software ab und repräsentieren typische Elemente des Domänencodes. Die enthaltene Schnittstelle spezifiziert die Methoden, die das zugehörige Repository benötigt. Es ist auch Teil des Domänencodes gemäß der sauberen Architektur, die wir in der Vorlesung besprochen haben.
-%Der Code in dieser Schicht verwendet nur Java-Standards, sodass er als Kern und langlebigste Softwareschicht keine Abhängigkeiten aufweist.
-
-- Enthält alle Objekte aus DDD (Entitys, VOs)
-- Unterteilung in beide Aggregate
-- Pro Aggregat ein Repository erstellt (Enthält spezifische Methoden des Entity Managers, als Zwischenschicht)
-- Alle Entitäten implementieren Interface IPersistierbar, welches sicherstellt, dass diese eine UUID zum Speichern im EntityManager haben
-- IEntityManager für Dependecy Injection (genauer erklärt in Kapitel Dependency Injection)
-- beide interfaces wurden neu erstellt
-
-
-%\section{Schicht 2: Application Code}
-% Use Cases: Dies sind die Interaktionslogik-Komponenten der Anwendung, die die Geschäftslogik der Entitäten verwenden, um bestimmte Aufgaben auszuführen. Sie enthalten keine Abhängigkeiten von der Benutzeroberfläche oder der Datenpersistenz.
+In der Domain Code Schicht sind die beiden Aggregate und die enthaltenen Entitäten und Value Objects der Softwaredomäne. Für beide Aggregate wurde jeweils ein Repository erstellt, die sich auch in der Domain Code Schicht befinden. Die Repositories enthalten spezifische Methoden des Entity Managers, als Zwischenspeicher.  Außerdem befindet sich im Domain Code das Interface IEntityManager für die Dependecy Injection. Eine genauere Erläuterung befindet sich in Kapitel XX Dependency Injection. Alle Entitäten der Domäne implementieren das Interface IPersistierbar. Das IPersistierbar wird dazu genutzt, um sicherzustellen, dass die Entitäten eine UUID zum Speichern im Entity Manager haben.
+Die Interfaces IEntityManager und IPersistierbar wurden beide neu erstellt.
+Der Code in dieser Schicht verwendet nur Java-Standards, sodass er als Kern und langlebigste Softwareschicht keine Abhängigkeiten aufweist.
 
 \section{Schicht 1: Adapters}
-
-% Interface Adapters: Dies sind die Schichten, die die Anwendungslogik mit der Benutzeroberfläche und der Datenpersistenz verbinden. Sie enthalten Adapter, die die Datenformate und Schnittstellen der Entitäten und Use Cases in diejenigen der Benutzeroberfläche und der Datenpersistenz übersetzen.
-
-- Entity Manager für interne Datenhaltung in diese Schicht geschoben, implementiert IEntityManager Interface 
+Dies sind die Schichten, die die Anwendungslogik mit der Benutzeroberfläche und der Datenpersistenz verbinden. Sie enthalten Adapter, die die Datenformate und Schnittstellen der Entitäten und Use Cases in diejenigen der Benutzeroberfläche und der Datenpersistenz übersetzen.
+In unserer Anwendung befinden sich in der Adapters Schicht der Entity Manager. Der EntityManager implementiert das IEntityManager Interface. 
+Darüber hinaus befindet sich in dieser Schicht die Informationen zu Daten Speicherung. 
 - Ordner Datenpersistenz erstellt, beinhaltet alles für CSV Speicherung (CSV Funktionaliät wird möglichst nach außen in Schichten gelegt, dass schnell und einfach austauschbar ist)
     - Erstellung von Data Transfer Objekte, basierend auf den zugrundelegenden persistierbaren Entitäten, welche explizite Funktionalitäten zur Speicherung in CSV Dateien beinhalten. Deshalb implementieren alle Objekte ICSVPersistierbar
     - CSVReader und Writer dort rein verschoben, welche Objekte aus CSV Dateien lesen oder dort rein schreiben können

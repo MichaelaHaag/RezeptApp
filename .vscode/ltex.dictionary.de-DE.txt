@@ -1,8 +1,12 @@
 übersetzungs
 aufschluss
 Entities
+EntityManager
 Objects
 Entity
 Domänenregeln
 Repositories
 Observer
+Dependency
+DataReader
+Architecture

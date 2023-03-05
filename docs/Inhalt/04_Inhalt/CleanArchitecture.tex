@@ -12,35 +12,30 @@ Die Interfaces IEntityManager und IPersistierbar wurden beide neu erstellt.
 Der Code in dieser Schicht verwendet nur Java-Standards, sodass er als Kern und langlebigste Softwareschicht keine Abhängigkeiten aufweist.
 
 \section{Schicht 1: Adapters}
-Dies sind die Schichten, die die Anwendungslogik mit der Benutzeroberfläche und der Datenpersistenz verbinden. Sie enthalten Adapter, die die Datenformate und Schnittstellen der Entitäten und Use Cases in diejenigen der Benutzeroberfläche und der Datenpersistenz übersetzen.
-In unserer Anwendung befinden sich in der Adapters Schicht der Entity Manager. Der EntityManager implementiert das IEntityManager Interface. 
-Darüber hinaus befindet sich in dieser Schicht die Informationen zu Daten Speicherung. 
-- Ordner Datenpersistenz erstellt, beinhaltet alles für CSV Speicherung (CSV Funktionaliät wird möglichst nach außen in Schichten gelegt, dass schnell und einfach austauschbar ist)
-    - Erstellung von Data Transfer Objekte, basierend auf den zugrundelegenden persistierbaren Entitäten, welche explizite Funktionalitäten zur Speicherung in CSV Dateien beinhalten. Deshalb implementieren alle Objekte ICSVPersistierbar
-    - CSVReader und Writer dort rein verschoben, welche Objekte aus CSV Dateien lesen oder dort rein schreiben können
-    - DataReader erstellt, dieser beinhaltet Funktionalität zum Laden der Daten aus den CSV Dateien in den EntityManager und zurück speichern (Funktionen aus Controller verschoben) 
+Die Adapters-Schicht in Clean Architecture stellt die Schnittstelle zwischen der Anwendung und externen Systemen dar. Sie ermöglicht die Kommunikation der Anwendung mit der Umgebung und besteht aus Adaptern, die dafür verantwortlich sind, die Daten von der Anwendung in eine Form zu konvertieren, die von den externen Systemen verarbeitet werden kann, und umgekehrt.
+In unserer Anwendung befinden sich in der Adapters-Schicht der Entity Manager. Der EntityManager implementiert das IEntityManager Interface aus der Domain Code-Schicht. 
+Darüber hinaus befindet sich in dieser Schicht die Konvertierung der Daten, die für die Speicherung notwendig ist.  In dieser Anwendung würde sich für eine Speicherung der Daten in CSV Dateien entschieden. Die CSV Funktionalitäten werden möglichst in die äußeren Schichten implementiert, um die Speicherung austauschbar zu gestalten.
+Für die Konvertierung wurde der Ordner Datenpersistenz erstellt und das Interface ICSVPersistierbar implementiert. Das ICSVPersistierbar wird dazu genutzt, um sicherzustellen, dass die zugrundelegenden persistierbaren Entitäten eine UUID zum Speichern, sowie einen CSV Kopf und CSV Daten haben. Außerdem befinden sich im Ordner zu jeder persistierbaren Entitäte eine Klasse, die explizite Funktionalitäten zur Speicherung in CSV Dateien beinhalten. 
+In der Adapters-Schicht befinden sich außerdem der CSVReader und CSVWriter. Der CSV Reader liest die Daten aus den CSV Dateien und packt sie in XXXX(EntityManager?). Der CSVWriter schreibt die Daten aus dem EntityManager in die CSV Dateien. Für das lesen und schreiben der Daten in und aus der CSV wurde zusätzlich der DataReader implementiert, der die Funktionalitäten zum Laden der Daten aus den CSV Dateien in den EntityManager und zurück beinhaltet.
+Zusätzlich wurden, um die Code-Qualität und Wartbarkeit zu verbessern,  die Funktionen, die zuvor in den GUI-Klassen enthalten waren, in separate Funktionen-Klassen ausgelagert. Diese Funktionen-Klassen sind nun Teil der Adapters-Schicht, die als Vermittler zwischen der Benutzeroberfläche und den Daten fungiert.
+
     - DataReader beinhaltet Instanz des Entity Managers
-    (hier noch ergänzen, was Herr Lindner gesagt hat, dass wir es mit im Text erwähnen sollen)
-- Funktionalität wurde aus den GUI Klassen in sogenannte Funktionen Klassen ausgelagert und in Adapters Schicht gezogen als Zwischenstück zwischen GUI und Daten (Kathi vlt. noch Ergänzungen von dir)
+    (hier noch ergänzen, was Herr Lindner gesagt hat, dass wir es mit im Text erwähnen sollen) (Verstehe nicht ganz was damit gemeint ist :/)
+
 
 
 
 \section{Schicht 0: Plugins}
-
-% Frameworks and Drivers: Dies sind die äußersten Schichten der Anwendung, die die tatsächliche Ausführung auf spezifischen Plattformen, wie z.B. Web-Server, Datenbanken, ermöglichen.
-
-- aufgeteilt in plugins und plugins-main
-- beinhaltet eigentlich nur GUI und die Main Methode der APP 
-- in RezeptApp Main wird DataReader Instanz erstellt und überall nach unten in Schichten weiter gegeben (durch UI), sodass man von überall auf EntityManager zugreifen kann 
-- da man von inneren schichten nicht auf datareader Instanz in plugins mehr zugreifen kann wird er in Schichten nach unten durchgereicht Dependecy Rule
+In der Clean Architecture sind Plugins optional einsetzbare Komponenten, die von der Kernanwendung getrennt sind und über Schnittstellen integriert werden können. Sie ermöglichen es, die Anwendung um zusätzliche Funktionen oder Integrationsmöglichkeiten zu erweitern, ohne die Kernanwendung selbst zu verändern. In unserer Anwendung haben wir die Plugins in Plugins und Plugins-Main aufgeteilt.
+In den Plugins sind alle GUIs implementiert.
+Die Plugins-Main Schicht beinhaltet die Main Methode der App. In der Main-Methode wird die DataReader Instanz erstellt und an die darunter liegenden Schichten weitergegeben, sodass man in allen Schichten auf den EntityManager zugreifen kann. Da man aus den unteren Schichten nicht auf die DataReader Instanz in der Plugins Schicht zugreifen kann, wird er in den Schichten nach unten durchgereicht-Dependency Rule.
 
 \section{Dependency Inversion}
+In der ursprünglichen Architektur haben Repositories innerhalb der Domain-Schicht den EntityManager aus der Adapters-Schicht aufgerufen. Dies verstieß gegen das Prinzip der Dependency Rule, das besagt, dass Abhängigkeiten immer von innen nach außen gerichtet sein sollten.
 
-Ausgangssituation: Hatten Repositories in Domain-Schicht, welche EntityManager von Adapters Schicht aufrufen (Dependecy Rule verletzt (Aufrufe von innen nach außen))
+Um dieses Problem zu beheben, werden die Prinzipien der Dependency Inversion und Injection eingesetzt, um sicherzustellen, dass der EntityManager in der Domain-Schicht aufgerufen werden kann, ohne die Abhängigkeiten zwischen den Schichten zu verletzen.
+Zu diesem Zweck wird eine Schnittstelle, IEntityManager, in der Domain-Schicht erstellt, um Methoden aus dem EntityManager aufzurufen. Der EntityManager selbst wird in die Adapters-Schicht umgelagert und implementiert das Interface. Um sicherzustellen, dass Repositories auf den EntityManager zugreifen können, wird beim Aufruf des Repositorys ein EntityManager-Objekt übergeben. Da der EntityManager jedoch nun als IEntityManager-Typ im Repository-Code deklariert ist, kann er auch in der Domain-Schicht aufgerufen werden. Hierbei war wichtig, dass Entitys in Domain Schicht IPersistierbar implementieren, da dies in EntityManager vorausgesetzt wird. 
 
-Deshalb Dependency Inversion und Injection: 
-IEntityManager mit Methoden aus EntityManger erstellt in Domain Schicht und EntityManager implementiert das Interface
-Repositories bekommen einen Entitymanager beim Aufruf übergeben, aber in Repository code hat dieser nur den Typ IEntityManager
-Somit kann man auch den EnitiyManager in Domain Schicht "aufrufen"
+Durch die Verwendung von Dependency Inversion und Injection wird die Abhängigkeit zwischen der Domain-Schicht und der Adapters-Schicht umgekehrt, sodass die Domain-Schicht unabhängig von der Adapters-Schicht bleibt. Dies verbessert die Flexibilität und Wartbarkeit der Anwendung und ermöglicht es, Komponenten einfach auszutauschen oder zu erweitern, ohne dass dies Auswirkungen auf andere Schichten hat.
 
-Hierbei war wichtig, dass Entitys in Domain Schicht IPersistierbar implementieren, da dies in EntityManager vorausgesetzt wird. 
+

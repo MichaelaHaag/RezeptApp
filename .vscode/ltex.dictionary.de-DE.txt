@@ -10,3 +10,5 @@ Observer
 Dependency
 DataReader
 Architecture
+UUIDs
+UUID

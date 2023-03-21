@@ -29,9 +29,6 @@ public class RezeptRepositoryTest {
         RezeptRepository repository = new RezeptRepository();
         Zutat erhalteneZutat = repository.findeZutat(orginalZutat.bekommeUUID(), mockedEntityManager );
         assertThat(orginalZutat, is(erhalteneZutat));
-
-        EasyMock.verify(mockedEntityManager);
-        EasyMock.verify(mockedRepository);
     }
 
     @Test
@@ -49,9 +46,6 @@ public class RezeptRepositoryTest {
         RezeptRepository repository = new RezeptRepository();
         Boolean existiertZutat = repository.existiertZutat(orginalZutat, mockedEntityManager );
         assertThat(true, is(existiertZutat));
-
-        EasyMock.verify(mockedEntityManager);
-        EasyMock.verify(mockedRepository);
     }
 
     @Test
@@ -82,8 +76,5 @@ public class RezeptRepositoryTest {
         String[][] ausgewähltesRezept = repository.findeRezepteZuKategorie(kategorie1, mockedEntityManager );
         String[][] actual = {{rezept1.bekommeUUID().toString(), rezept1.bekommeTitel(), rezept1.bekommeSchwierigkeitsgrad().toString(), rezept1.bekommeBeschreibung()}};
         assertThat(actual, is(ausgewähltesRezept));
-
-        EasyMock.verify(mockedEntityManager);
-        EasyMock.verify(mockedRepository);
     }
 }

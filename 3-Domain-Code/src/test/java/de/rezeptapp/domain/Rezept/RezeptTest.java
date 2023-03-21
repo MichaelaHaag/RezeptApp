@@ -2,12 +2,9 @@ package de.rezeptapp.domain.Rezept;
 
 
 import de.rezeptapp.domain.Kategorie.Kategorie;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RezeptTest {
 
@@ -21,6 +18,6 @@ public class RezeptTest {
 
         Rezept rezept = new Rezept(titel, kategorien, zutaten, beschreibung, schwierigkeitsgrad);
         String actual = rezept.bekommeTitel();
-        assertThat(actual, is("Test Rezept"));
+        assertEquals(actual, "Test Rezept");
     }
 }

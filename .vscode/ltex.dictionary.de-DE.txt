@@ -12,3 +12,5 @@ DataReader
 Architecture
 UUIDs
 UUID
+Coupling
+Low

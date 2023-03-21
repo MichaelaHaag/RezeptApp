@@ -35,3 +35,17 @@ von Interfaces. Durch die Verwendung von abstrakten Schnittstellen oder Interfac
 Ein Beispiel für das Dependency-Inversion-Principle ist zum beispiel unser Entity Manager. Hier wurde die allgemeine Schnittstelle IEntityManager definiert, welches die Methoden des EntityManager beinhaltet. Der EntityManager selbst wird in die Adapters-Schicht implementiert. Dadurch
 haben die Entitäten im Domain Code keine Abhängigkeit auf die
 konkreten Implementierungen, sondern erhält diese lediglich durch Aufrufe der Methoden.
+
+\section{GRASP}
+GRASP steht für General Responsibility Assignment Software Patterns/Prinziples und ist ein Muster oder Prinzipg, die sich mit der Zuweisung von Verantwortlichkeiten an Objekte befasst. GRASP stellt 9 Lösungsprinzipien für die Softwareentwicklung vor. Zum Grundkonzept gehören zwei der Lösungsprinzipien: Low Coupling und High Cohesion. Beide gehören mit zuden wichtigsten Prinzipen für das GRASP-Programmierprinzip. Daher werden beide im folgenden anhand unserer Anwendung erläutert und analysiert.
+
+\subsection{Low Coupling}
+Low Coupling ist eines der Muster, das sich auf die Reduzierung der Abhängigkeiten einer Klasse von ihrer Umgebung konzentriert. Das Ziel ist es, die Verbindungen zwischen den verschiedenen Komponenten im System zu minimieren, um eine höhere Flexibilität, leichtere Anpassbarkeit, gute Testbarkeit, erhöhte Wiederverwendbarkeit und Erweiterbarkeit zu erreichen. Außerdem je loser die Kopplung, desto leichter ist die Austauschbarkeit der Funktionalität.
+Auch die in \autoref{CA} gemachten Änderungen haben darauf abgezielt die Kopplung zu reduzieren. Denn das Ziel von Clean Architecture ist, die Abhängigkeiten zwischen verschiedenen Schichten eines Systems zu minimieren. Das bedeutet, dass jede Schicht in der Architektur so gestaltet wurde, dass sie nur von den Schichten darunter abhängt und keine Kenntnis über die Schichten darüber hat.
+Da das Projekt der Clean Architecture entspricht, gilt allgemein, dass die inneren Schichten eine geringe Kopplung zu den äußeren Klassen haben sollten. 
+Somit sollten die Klassen im Domain Code generell eine geringere Kopplung als die Klassen in den Plugins haben. Allerdings können die Klassen in den untern Schichten auch innerhalb einer Schicht viele Abhängigkeiten haben. So haben die Klasse Bild und Schwierigkeit eine geringe Kopplung, wobei Rezept eine hohe Kopplung hat.  
+In der Klasse Rezept koppeln sich die Abhängigkeiten mit den Klassen Kategorie, Zutat, Bild und Schwierigkeit. Für eine zusätzliche stärkere Kopplung sorgt die Instanziierung der Arraylisten
+von Kategorie und Zutat im Konstruktor.
+Auf der anderen Seite sind neben einigen Domain-Code Klassen unsere GUI-Klassen Beispiele für Klassen mit schwacher Kopplung. Diese Klassen besitzen jeweils nur wenige Abhängigkeit (Kopplung) zueinander. 
+Ein weiteres Beispiel für geringe Kopplung ist die Klasse FunktionenStartseite. Die Klasse weist eine Abhängigkeit mit
+der Klasse NeueKategorie auf.

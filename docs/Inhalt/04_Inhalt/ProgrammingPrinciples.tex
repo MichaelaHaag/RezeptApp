@@ -1,0 +1,37 @@
+\chapter{Programming Principles}
+Programming principles (Programmierprinzipien) sind Grundsätze, die beim Entwurf, der Entwicklung und dem Testen von Software angewendet werden können. Sie sind eine Verallgemeinerung wiederkehrender Erkenntnisse in der Softwareentwicklung und liefern Entwicklern Richtlinien für einen bestimmten Programmierstil.
+Im Allgemeinen zielen sie darauf ab, die Qualität und Robustheit von Software zu verbessern. Im folgenden Abschnitt werden drei Programming principles vorgestellt und deren Anwendung in unserem Projekt analysiert. 
+\section{SOLID}
+Die SOLID-Prinzipien sind ein Konzept für objektorientierte Programmierung, das fünf Grundsätze für die Entwicklung von hochwertigem und wartbarem Code definiert. Indem man diese Prinzipien befolgt, kann man sicherstellen, dass der Code besser strukturiert und leichter zu erweitern ist, und dass er weniger fehleranfällig ist und besser gewartet werden kann. Jeder Buchstabe in SOLID steht für einen dieser Grundsätze:
+\subsection{Single Responsibility Principle (SRP)}
+Das Single Responsibility Principle (SRP) besagt, dass ein einzelnes Objekt oder eine Klasse nur für eine einzige Aufgabe oder Verantwortlichkeit zuständig sein  sollte.
+In unserer Anwendung ist beispielsweise eine Klasse, die dieses Prinzip strikt einhält: FunktionenZufallsGenerator. Diese Klasse hat lediglich die Aufgabe, aus einer Liste von Rezepten ein \glqq zufälliges\grqq{} Rezept auszuwählen. 
+Ein Negativbeispiel für eine Klasse, die das Single Responsibility Principle nicht einhält, ist unser EntityManager. Unser EntityManager wird verwendet, um eine Verbindung zwischen den Objekten der Anwendung und der zugrunde liegenden Datenbank herzustellen. Mit dem EntityManager wollten wir die Verwaltung von Objekten und deren Zuständen vereinfachen. Das bedeutet allerdings, dass der EntityManager mehrere Aufgaben (Verantwortungen) hat und somit das Prinzip verletzt. 
+Andere Positivbeispiele für die Einhaltung des Single Responsibility Principle sind beispielsweise die Klassen FunktionenRezeptBearbeiten, FunktionenNeuesRezept, ButtonRenderer und FunktionenListenÜbersicht. Die Klasse FunktionenListenÜbersicht ist beispielsweise nur dafür verantwortlich alle Rezepte zu einer angeklickten Kategorie zurückzugeben. 
+\subsection{Open-Closed-Prinzip}
+Das Open-Closed-Prinzip besagt, dass Software-Entitäten offen für Erweiterungen sein sollte, aber geschlossen bezüglich Veränderungen. Das bedeutet, dass bestehender Code nicht mehr geändert werden sollte, sondern neue Funktionalitäten hinzugefügt werden. Dadurch soll sichergestellt werden, dass die bestehende Funktionalität nicht beeinträchtigt wird und dass die Erweiterung der Software einfacher und sicherer ist. Die Klasse EntityManager, die auch das Single Responsibility Principle verletzt, ist auch ein Negativbeispiel für das Open-Closed-Principle. Da diese Klasse jeweils alle Use-Cases implementiert, die die Entitytäten betreffen, muss bei geänderten oder neuen Anforderungen diese bestehende Klassen verändert werden.
+Ein Beispiele für die Einhaltung des Open-Closed-Principle sind die GUI Funktionen in der Adapterschicht.
+Hier existiert für jeden einzelnen Use-Case eine separate Klasse, sodass bei
+neuen Anforderungen lediglich eine neue Klasse implementiert werden müsste
+und damit der bestehende Code nur erweitert. Die einzige Änderung an bestehendem Code würde in den GUI Klassen stattfinden, da dort neue Events bzw. die zugehörigen Callbacks registriert werden.
+
+\subsection{Liskov substitution principle (LSP)}
+Das Liskov substitution principle besagt, dass es möglich sein muss, Instanzen von Objekten durch ihre Subtypen zu ersetzen, ohne die Korrektheit des Programms zu beeinträchtigen. Kurz gesagt, soll die Ableitungsklasse alle Eigenschaften und Methoden der Basisklasse beibehalten und diese nicht modifizieren oder verletzen. Problematisch kann es sein, wenn Subtypen eine Spezialisierung des Supertypen sind. Ein Beispiel einer Verletzung der Regel: Quadrat wird als Subtyp eines Rechteckes implementiert. Subtypen sind eine Spezialisierung des Supertyps.
+In dem vorliegenden Projekt ist keine Vererbungsbeziehung vorhanden, die auf das Liskov Substitution Principle untersucht werden kann, da in keinem Fall
+von einer eigenen konkreten Klasse geerbt wird, sondern nur von abstrakten Klassen. Es könnte beispielsweise die Klassen Startseite auf das
+Liskov Substitution Principle untersucht werden, jedoch ist es hier trivial, dass das Prinzip eingehalten wird, da die Subtypen keine Funktionalität des Supertypen überschreiben.
+
+\subsection{Interface-Segregation-Principle (ISP)}
+Das Interface-Segregation-Prinzip besagt, dass mehrere spezifische Interfaces besser sind als ein Allround-Interface.
+Die Schnittstellen sollten also schlank und spezifisch sein, damit Clients nur das implementieren müssen, was sie tatsächlich brauchen, anstatt gezwungen zu sein, unnötige Methoden zu implementieren, um Abhängigkeiten und Kopplung zwischen Modulen oder Klassen zu reduzieren und die Wartbarkeit und Flexibilität des Codes zu verbessern.
+
+Gute Beispiele für die Einhaltung des Interface-Segregation-Principles finden sich in den Klassen ICSVPersistierbar und IPersistierbar wieder.
+Beide Interfaces haben jeweils nur eine oder wenige Methode, die nur einen einzigen Nutzen definieren. Das Interface ICSVPersistierbar enthält Methoden die zur Speicherung der Objekte notwendig sind und in den Objekten implementiert werden müssen. IPersistierbar wird verwendet, um die UUID zu lesen, die im EntityManager benötigt wird.  Für dieses Vorhaben definiert dieses Interface die Methode bekommeUUID.
+
+Ein Negativbeispiel für die Einhaltung des Interface-Segregation-Principles findet sich in dem Interfaces IEntityManager. Diese kombiniert jeweils den schreibenden Zugriff, das Löschen und das Suchen von Objekten in einem einzigen Interface. Dieses Interface könnte aufgeteilt werden auf jeweils ein Interface für den schreibenden Zugriff, eins für das Löschen von Objekten und ein weiteres Interface für das Suchen nach Objekten. Dadurch bräuchte ein Klient, welcher nur schreibende Zugriffe benötigt, keine Abhängigkeiten auf ein Interface, welches auch löschenden Zugriff erlaubt. Durch eine solche Aufteilung könnte eine Zugriffsverwaltung wesentlich leichter implementiert werden.
+\subsection{Dependency inversion principle (DIP)}
+Das Dependency-Inversion-Principle besagt, dass Klassen höherer Ebenen nicht von Klassen niederer Ebenen abhängig sein sollen, sondern beide
+von Interfaces. Durch die Verwendung von abstrakten Schnittstellen oder Interfaces können Änderungen an einer konkreten Implementierung vorgenommen werden, ohne dass dies Auswirkungen auf die anderen Module oder Klassen hat, die von dieser Implementierung abhängen. Das Dependency-Inversion-Principle trägt somit zur Flexibilität, Erweiterbarkeit und Wartbarkeit von Software bei.
+Ein Beispiel für das Dependency-Inversion-Principle ist zum beispiel unser Entity Manager. Hier wurde die allgemeine Schnittstelle IEntityManager definiert, welches die Methoden des EntityManager beinhaltet. Der EntityManager selbst wird in die Adapters-Schicht implementiert. Dadurch
+haben die Entitäten im Domain Code keine Abhängigkeit auf die
+konkreten Implementierungen, sondern erhält diese lediglich durch Aufrufe der Methoden.

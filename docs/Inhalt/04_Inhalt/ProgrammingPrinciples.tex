@@ -49,3 +49,32 @@ von Kategorie und Zutat im Konstruktor.
 Auf der anderen Seite sind neben einigen Domain-Code Klassen unsere GUI-Klassen Beispiele für Klassen mit schwacher Kopplung. Diese Klassen besitzen jeweils nur wenige Abhängigkeit (Kopplung) zueinander. 
 Ein weiteres Beispiel für geringe Kopplung ist die Klasse FunktionenStartseite. Die Klasse weist eine Abhängigkeit mit
 der Klasse NeueKategorie auf.
+
+\subsection{High Cohesion}
+High Cohesion  ist ein Maß für den inneren Zusammenhalt einer Klasse, zeigt also wie eng
+die Methoden und Attribute einer Klasse zusammenarbeiten. Mit anderen Worten, eine Klasse sollte eng miteinander verbundene und verwandte Funktionalitäten enthalten, um eine hohe Kohäsion zu erreichen. 
+Die Klasse EntityManager der GUI Funktionen zeugt von geringerer Kohäsion, da hier mehrere Use-Cases in einer Klasse implementiert werden. Der EntityManager dient der Datenhaltung und hat die Aufgaben, Objekte zu speichern/löschen und zu finden. Eine
+verbesserte Implementierung bietet sich folgendermaßen an, indem die einzelnen Operationen separat in Klassen
+eines Moduls implementiert werden.
+
+FunktionenZufallsGenerator zeigt von hoher Kohäsion, da diese lediglich einen Use-Case behandelt. Diese Klasse hat lediglich die Aufgabe, aus einer Liste von Rezepten
+ein „zufälliges“ Rezept auszuwählen. Dafür besitzt diese Klasse
+lediglich die Methode zufälligeRezeptUUID, die diese Logik implementiert.
+
+\section{DRY}
+Das DRY-Prinzip steht für "Don't Repeat Yourself" und besagt, dass man eine bestimmte Information oder Funktionalität in einer Software nur an einer Stelle definieren sollte, um Redundanz zu vermeiden. Jeder Wissensaspekt darf nur eine einzige,
+unzweideutig verbindliche Repräsentation in einem
+System besitzen.
+Das bedeutet, dass man sich bemüht, Code-Duplikationen zu vermeiden und stattdessen wiederverwendbare Komponenten und Funktionen zu schaffen, die an verschiedenen Stellen in der Software verwendet werden können. Auf diese Weise wird der Code einfacher zu warten, zu testen und zu erweitern.
+
+Ein Negativbeispiel für das Nichteinhalten des DRY-Prinzips ist in der Implementierung
+der GUI Klassen. Der generelle Aufbau der GUI wurde in jeder Klasse implementiert und lediglich der Hauptinhalt ausgetauscht. Das führt zu einer Dopplung der Informationen. Würden die Entwickler entscheiden beispielsweise den Footer der GUIs ändern zu wollen und beispielsweise den Button Text Startseite durch HomePage ersetzen zu wollen, müsste diese kleine Änderung in 3 Klassen geändert werden. Diese Verletzung des DRY-Prinzips wurde aus Unerfahrenheit der Entwickler begangen und soll in Zukunft vermieden werden. 
+\todo{Was sind weitere Dopplungen oder eher auslagerungen?}
+
+Ein Beispiel für die Einhaltung des DRY-Prinzips ist in der Verifizierung der Parameter
+eines Callbacks zu sehen. Hier wird zentral in jeder Callback-Klasse durch die Metho28
+Programmentwurf Programming Principles
+de getRequiredParameters definiert, welche Parameter benötigt werden. Das CLI
+Plugin nutzt diese Informationen, um die übergebenen Parameter in der Methode ensureRequiredParameters auf Vollständigkeit für den entsprechenden Callback zu
+prüfen sowie um die Benutzerhilfe in constructOptions zu generieren.
+

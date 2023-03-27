@@ -26,6 +26,15 @@ public class Rezept implements IPersistierbar{
         this.bild = bild;
     }
 
+    public Rezept(String titel, ArrayList<Kategorie> kategorien, ArrayList<Zutat> zutaten, String beschreibung, Schwierigkeit schwierigkeitsgrad) {
+        this.rezeptID = UUID.randomUUID();
+        this.titel = titel;
+        this.kategorien = kategorien;
+        this.zutaten = zutaten;
+        this.beschreibung = beschreibung;
+        this.schwierigkeitsgrad = schwierigkeitsgrad;
+    }
+
     public Rezept(UUID rezeptID, String titel, ArrayList<Kategorie> kategorien, ArrayList<Zutat> zutaten, String beschreibung, Schwierigkeit schwierigkeitsgrad) {
         this.rezeptID = rezeptID;
         this.titel = titel;

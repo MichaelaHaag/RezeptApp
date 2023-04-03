@@ -1,15 +1,11 @@
 package de.rezeptapp.adapter.Datenpersistenz;
 
-import de.rezeptapp.domain.Kategorie.Kategorie;
 import de.rezeptapp.domain.Rezept.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
-import static org.easymock.bytebuddy.matcher.ElementMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CSVZutatTest {
 

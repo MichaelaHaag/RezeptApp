@@ -15,4 +15,7 @@ UUID
 Coupling
 Low
 Use-Case
+Line
+Branch 
+Coverage
 Smell

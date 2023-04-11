@@ -45,7 +45,7 @@ Die Klasse EntityManager der GUI Funktionen zeugt von geringerer Kohäsion, da h
 
 FunktionenZufallsGenerator zeigt von hoher Kohäsion, da diese lediglich einen Use-Case behandelt. Diese Klasse hat lediglich die Aufgabe, aus einer Liste von Rezepten ein „zufälliges“ Rezept auszuwählen. Dafür besitzt diese Klasse lediglich die Methode zufälligeRezeptUUID, die diese Logik implementiert. Auch die Klassen CSVReader und CSVWriter zeigen von hoher Kohäsion. Beide Klassen haben drei Methoden die für das Lesen/Schreiben von den CSV Daten notwendig sind. Einen Konstruktor, eine checkFile und die Lese bzw. Schreibe Funktion. 
 
-\section{DRY}
+\section{DRY}\label{DRY}
 Das DRY-Prinzip steht für \glqq Don't Repeat Yourself \grqq{} und besagt, dass man eine bestimmte Information oder Funktionalität in einer Software nur an einer Stelle definieren sollte, um Redundanz zu vermeiden. Jeder Wissensaspekt darf nur eine einzige, unzweideutig verbindliche Repräsentation in einem
 System besitzen. Das bedeutet, dass man sich bemüht, Code-Duplikationen zu vermeiden und stattdessen wiederverwendbare Komponenten und Funktionen zu schaffen, die an verschiedenen Stellen in der Software verwendet werden können. Auf diese Weise wird der Code einfacher zu warten, zu testen und zu erweitern.
 Ein Beispiel für die Einhaltung ist die Methode findeRezepteZuKategorie in dem Rezept Reposetory. Diese Klasse wurde zentral implementiert und definiert und wird von verschiedenen Klassen aufgerufen, um alle Rezepte zu einer Kategorie zu finden. Durch die zentrale Implementierung wird hier Code-Duplikationen vermieden. 

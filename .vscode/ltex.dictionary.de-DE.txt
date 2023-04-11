@@ -15,3 +15,4 @@ UUID
 Coupling
 Low
 Use-Case
+Smell

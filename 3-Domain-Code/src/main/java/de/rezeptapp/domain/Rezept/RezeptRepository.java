@@ -31,28 +31,20 @@ public class RezeptRepository {
 
     // Methode um die zugehörigen Kategorien zu einem Rezept zu finden
     public String[][] findeRezepteZuKategorie(Kategorie eingabeKategorie, IEntityManager entityManager){
-        List<Rezept> alleRezepte = findeAlleRezepte(entityManager);
         List<String[]> ausgewähltesRezept = new ArrayList<>();
 
-        for (Rezept rezept: alleRezepte){
+        for (Rezept rezept : findeAlleRezepte(entityManager)) {
             ArrayList<Kategorie> rezeptKategorien = rezept.bekommeKategorien();
-            for (Kategorie rezeptKategorie : rezeptKategorien){
-                if (rezeptKategorie.equals(eingabeKategorie)){
-                    String[] rezeptDaten = new String[4];
-                    rezeptDaten[0] = String.valueOf(rezept.bekommeUUID());
-                    rezeptDaten[1] = String.valueOf(rezept.bekommeTitel());
-                    rezeptDaten[2] = String.valueOf(rezept.bekommeSchwierigkeitsgrad());
-                    rezeptDaten[3] = String.valueOf(rezept.bekommeBeschreibung());
-                    ausgewähltesRezept.add(rezeptDaten);
-                }
+            if (rezeptKategorien.stream().anyMatch(k -> k.equals(eingabeKategorie))) {
+                String[] rezeptDaten = new String[4];
+                rezeptDaten[0] = String.valueOf(rezept.bekommeUUID());
+                rezeptDaten[1] = String.valueOf(rezept.bekommeTitel());
+                rezeptDaten[2] = String.valueOf(rezept.bekommeSchwierigkeitsgrad());
+                rezeptDaten[3] = String.valueOf(rezept.bekommeBeschreibung());
+                ausgewähltesRezept.add(rezeptDaten);
             }
-
         }
-        String[][] out = new String[ausgewähltesRezept.size()][ausgewähltesRezept.get(0).length];
-        for (int i = 0; i < out.length; i++){
-            out[i] = ausgewähltesRezept.get(i);
-        }
-        return out;
+        return ausgewähltesRezept.toArray(new String[ausgewähltesRezept.size()][]);
     }
 
     //Methode um alle Rezepte zu finden

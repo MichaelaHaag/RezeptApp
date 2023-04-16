@@ -13,10 +13,8 @@ public class FunktionenZufallsGenerator {
 
     //Erzeugt aus den vorhandenen UUIDs eine zufällige UUID
     public static UUID zufälligeRezeptUUID(DataReader dataReader){
-        List<Rezept> listeAlleRezepte = rezeptRepository.findeAlleRezepte(dataReader.entityManager);
-        Random zufallsGenerator =new Random();
-        int zufallszahl = zufallsGenerator.nextInt(listeAlleRezepte.size());
-        Rezept zufallsRezept = listeAlleRezepte.get(zufallszahl);
-        return zufallsRezept.bekommeUUID();
+        List<Rezept> alleRezepte = rezeptRepository.findeAlleRezepte(dataReader.entityManager);
+        int zufallszahl = new Random().nextInt(alleRezepte.size());
+        return alleRezepte.get(zufallszahl).bekommeUUID();
     }
 }

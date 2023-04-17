@@ -14,7 +14,7 @@ Ein Anwendungsbeispiel in der Java-API ist das Eventhandling von AWT/Swing. In d
 	\label{fig:EntwurfmusterUML}
 \end{figure}
 \autoref{fig:EntwurfmusterUML} ist das UML-Diagramm unseres Observers am Beispiel der \href{https://github.com/MichaelaHaag/RezeptApp/blob/main/0-Plugins/src/main/java/de/rezeptapp/plugins/gui/Startseite.java}{\code{GUI Startseite}}. 
-Auf Grund der Übersichtlichkeit wurden nur die Methoden der Klassen EventListenerList und AbstractButton dargestellt, die für ein besseres Verständnis der Zusammenhänge notwendig sind. 
+Aufgrund der Übersichtlichkeit wurden nur die Methoden der Klassen EventListenerList und AbstractButton dargestellt, die für ein besseres Verständnis der Zusammenhänge notwendig sind. 
 
 Der ActionListener in Java hat einige Limitationen. Eine Limitation ist, dass der ActionListener nur für eine Aktion auf einem bestimmten Komponenten-Objekt registriert werden kann, wie z.B. das Klicken auf eine Schaltfläche. Außerdem kann der ActionListener keine Werte zurückgeben, was bedeutet, dass er keine Möglichkeit hat, Feedback oder Informationen an den Aufrufer zurückzugeben, da die Methode actionPerformed vom Typ void ist. Daher kann der ActionListener auch keine Exceptions werfen.
 Eine weitere Limitation ist, dass der ActionListener asynchron ausgeführt wird. Er blockiert, bis die Aktion abgeschlossen ist.

@@ -120,7 +120,6 @@ public class NeuesRezept {
 
         JLabel labelDokument = new JLabel("Füge ein Dokument oder Bild hinzu ");
         JButton buttonDokument = new JButton("Wähle ein Dokument");
-        //TODO: Muss das auch raus?
         final String[] bildPfad = new String[1];
         buttonDokument.addActionListener(ae -> {
             FileChooser chooser = new FileChooser();

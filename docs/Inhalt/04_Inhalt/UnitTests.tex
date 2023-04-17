@@ -2,7 +2,7 @@
 
 Im vorliegenden Projekt wurden Unit Tests eingesetzt, um die Qualität der Software zu sichern und Fehler frühzeitig zu erkennen. Die implementierten Tests konzentrieren sich hauptsächlich auf die \href{https://github.com/MichaelaHaag/RezeptApp/blob/main/3-Domain-Code/src/test/java/de/rezeptapp/domain/Rezept}{\code{Domain Code Schicht}} und \href{https://github.com/MichaelaHaag/RezeptApp/tree/main/1-Adapter/src/test/java/de/rezeptapp/adapter/Datenpersistenz}{\code{Adapters-Schicht}}, da hier die Funktionalität des Codes von größter Bedeutung ist. Hier wurden allerdings nur exemplarische Klassen getestet. Für die Peripherie der Software in der Plugin-Schicht wurde zunächst auf Unit Tests verzichtet, da dieser Teil des Programms ohnehin leicht und häufig austauschbar sein soll und daher von geringerer Wichtigkeit ist, sodass ihm auch beim Testen eine geringere Priorität zugewiesen wurde.
 
-Um eine möglichst korrekte Implementierung der Software zu erreichen, wird die AAA-Normalform wird angewendet. Die AAA-Normalform strukturiert jeden Unit Test in drei Bereiche: Arrange (Initialisierung der Testumgebung), Act (Ausführung der zu testenden Aktion) und Assert (Überprüfung der Testergebnisse).
+Um eine möglichst korrekte Implementierung der Software zu erreichen, wird die AAA-Normalform angewendet. Die AAA-Normalform strukturiert jeden Unit Test in drei Bereiche: Arrange (Initialisierung der Testumgebung), Act (Ausführung der zu testenden Aktion) und Assert (Überprüfung der Testergebnisse).
 
 \section{ATRIP-Regeln}
 
@@ -27,7 +27,7 @@ Die Unit Tests müssen jederzeit in beliebiger Reihenfolge ausführbar sein. Die
 
 \subsection{Professional}
 
-Die Unit Tests sollen eine einheitliche, leicht verständliche Syntax und übersichtliche Struktur vorweisen, um den Umgang und das Weiterentwickeln im professionellen Bereich zu vereinfachen. Durch gleiche Namenskonventionen, die aus der Ubiquitous Language hervorgehen, und der Aufbau der Tests nach der AAA-Normalform wird das Kriterium an diese Regel erfüllt. Zu dem professionellen Standard gehört zudem, dass die Dateinamen und die Programmcodes der Tests verständlich und nachvollziehbar sind. Hierfür hat die Testklasse denselben Namen wie die zu testende Klasse nur mit dem Suffix \enquote{Test}. Bei den Testmethoden gilt dasselbe nur mit dem Präfix \enquote{test\_}. Dadurch soll die Zuordnung der Methoden zu den jeweiligen Unit Tests vereinfacht werden. 
+Die Unit Tests sollen eine einheitliche, leicht verständliche Syntax und übersichtliche Struktur vorweisen, um den Umgang und das Weiterentwickeln im professionellen Bereich zu vereinfachen. Durch gleiche Namenskonventionen, die aus der Ubiquitous Language hervorgehen, und der Aufbau der Tests nach der AAA-Normalform wird das Kriterium an diese Regel erfüllt. Zu dem professionellen Standard gehört zudem, dass die Dateinamen und die Programmcodes der Tests verständlich und nachvollziehbar sind. Hierfür hat die Testklasse denselben Namen wie die zu testende Klasse nur mit dem Suffix \enquote{Test}. Bei den Testmethoden gilt dasselbe, nur mit dem Präfix \enquote{test\_}. Dadurch soll die Zuordnung der Methoden zu den jeweiligen Unit Tests vereinfacht werden. 
 
 
 \section{Code Coverage}

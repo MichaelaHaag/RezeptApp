@@ -19,3 +19,4 @@ Line
 Branch 
 Coverage
 Smell
+missionskritische
